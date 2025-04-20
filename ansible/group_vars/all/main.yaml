@@ -1,4 +1,1 @@
 virtual_ip: 10.16.50.80
-interface: ens160                 # Replace with your actual interface
-auth_pass: secretpass
-virtual_router_id: 51
