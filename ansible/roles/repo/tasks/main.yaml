@@ -1,0 +1,59 @@
+- name: install nginx
+  apt:
+     name: nginx      
+  notify: restart nginx
+
+- name: copy  static-file-server.conf
+  template: src='static-file-server.conf.j2' dest='/etc/nginx/conf.d/static-file-server.conf'
+  notify: restart nginx
+
+- name: Flush handlers
+  meta: flush_handlers  
+
+- name: create a java dir
+  file:
+     path: /var/data/download     
+     state: directory
+     
+- name : download  hadoop  zip
+  get_url:
+     url: '{{ item }}'
+     dest: /var/data/download
+  loop:
+     - '{{ hadoop_url }}'      
+     - '{{ hadoop_aws_url }}'      
+     - '{{ aws_java_sdk_bundle_url }}'      
+     - '{{ awssdk_bundle_url }}'      
+     - '{{ url_connection_client_url }}'      
+     - '{{ iceberg_spark_runtime_url }}'      
+     - '{{ hive_metastore_url }}'      
+     - '{{ postgresql_connector_url }}'
+     - '{{ minio_url }}'
+     - '{{ spark_file_url }}'
+     - '{{ minio_cli_url }}'
+     - '{{ trino_url }}'  
+     - '{{ trino_cli_url }}'  
+     - '{{ keycloak_url }}'  
+     - '{{ prometheus_url }}'  
+     - '{{ node_exporter_url }}'  
+     - '{{ grafana_url }}'  
+     - '{{ zookeeper_url }}'  
+
+
+- name: Check that the  /usr/local/sbin/mc exists
+  stat:
+      path: '/usr/local/sbin/mc'
+  register: stat_result
+
+- name: set up the minio cli       
+  shell: 'cp /var/data/download/mc /usr/local/sbin/mc; chmod 755 /usr/local/sbin/mc; '
+  when: not stat_result.stat.exists
+
+- name: Check that the /usr/local/sbin/trino exists
+  stat:
+      path: '/usr/local/sbin/trino'
+  register: stat_result
+
+- name: set up the minio cli
+  shell: 'cp {{ trino_cli_file }} /usr/local/sbin/trino; chmod 755 /usr/local/sbin/trino; '
+  when: not stat_result.stat.exists       
