@@ -1,0 +1,45 @@
+- name: create {{ cert_dir }} dir
+  file:
+     path: '{{ cert_dir }}'
+     state: directory
+
+- name: create {{ minio_user }}/.minio
+  file:
+     path:  '/home/{{ minio_user }}/.minio'
+     state: directory
+     owner: '{{ minio_user }}'
+     group: '{{ application_group }}'
+     mode: 0550
+
+- name: create {{ minio_user }}/.minio/certs
+  file:
+     path:  '/home/{{ minio_user }}/.minio/certs'
+     state: directory
+     owner: '{{ minio_user }}'
+     group: '{{ application_group }}'
+     mode: 0550
+
+
+
+- name: copy  cert files
+  template: src='{{ item.src }}' dest='{{ item.dest }}' group='{{ application_group }}'  mode=0640
+  loop:
+     - { src: '{{ server_cert_file_name }}', dest: '{{ cert_dir }}/{{ server_cert_file_name }}'  }
+     - { src: '{{ server_key_file_name }}', dest: '{{ cert_dir }}/{{ server_key_file_name }}'  }
+     - { src: '{{ server_cert_key_file_name }}', dest: '{{ cert_dir }}/{{ server_cert_key_file_name }}'  }
+   
+- name: copy  cert files for minio
+  template: src='{{ item.src }}' dest='{{ item.dest }}' group='{{ application_group }}'  mode=0640       
+  loop:
+     - { src: '{{ server_cert_file_name }}', dest: '{{ minio_home }}/.minio/certs/public.crt'  }
+     - { src: '{{ server_key_file_name }}', dest: '{{ minio_home }}/.minio/certs/private.key'  }
+  when: 's3_protocol== "https"'    
+
+- name: copy  {{ ca_cert_file_name }} to /usr/local/share/ca-certificates/
+  template: src='{{ item.src }}' dest='{{ item.dest }}'
+  loop:
+     - { src: '{{ ca_cert_file_name }}', dest: '/usr/local/share/ca-certificates/{{ ca_cert_file_name }}' }
+   #notify: run certificates
+
+- name:  run /usr/sbin/update-ca-certificates
+  shell: /usr/sbin/update-ca-certificates

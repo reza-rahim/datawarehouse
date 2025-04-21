@@ -1,0 +1,8 @@
+
+basicConstraints       = CA:FALSE
+authorityKeyIdentifier = keyid:always, issuer:always
+keyUsage               = nonRepudiation, digitalSignature, keyEncipherment, dataEncipherment
+subjectAltName         = @alt_names
+[ alt_names ]
+DNS.1 = *.dw.felicity.net.bd
+IP.1 = 127.0.0.1

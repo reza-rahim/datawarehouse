@@ -1,3 +1,5 @@
+
+### library version
 export HADOOP_VERSION=3.4.1
 export SPARK_VERSION=3.5.5
 export HADOOP_AWS_URL=3.4.1
@@ -17,3 +19,7 @@ export PROMETHEUS=3.2.1
 export NODE_EXPORTER=1.9.1
 export GRAFANA=11.6.0
 export ZOOKEEPER=3.9.3
+
+###
+export VIRTUAL_IP=10.16.50.80
+export FQDN=dw.felicity.net.bd
