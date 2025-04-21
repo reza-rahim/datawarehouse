@@ -1,0 +1,5 @@
+hive_user: hive
+hive_group: hive
+hive_db_name: hive
+hive_metastore_home: /opt/apache-hive-metastore
+hive_metastore_port: 9083

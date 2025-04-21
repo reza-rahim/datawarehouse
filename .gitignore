@@ -36,3 +36,5 @@ terraform.rc
 # exclude any cert
 *.key
 *.crt
+
+*.swp

@@ -1,5 +1,8 @@
 
-virtual_ip: {{ lookup('env', 'VIRTUAL_IP') }} 
+
+virtual_ip: keyclock.{{ lookup('env', 'VIRTUAL_IP') }}
+
+########  
 keyclock_server: keyclock.{{ lookup('env', 'FQDN') }}
 postgres_server: postgres.{{ lookup('env', 'FQDN') }}
 hive_metastore_server: metastore.{{ lookup('env', 'FQDN') }}
@@ -9,4 +12,10 @@ jupyterhub_server: jupyterhub.{{ lookup('env', 'FQDN') }}
 trino_server: trino.{{ lookup('env', 'FQDN') }}
 minio_server: minio.{{ lookup('env', 'FQDN') }}  
 
+
+######
+application_group: application
+
+
+airbyte: airbyte
 

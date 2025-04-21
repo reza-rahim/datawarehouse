@@ -1,0 +1,21 @@
+keycloak_user:  keycloak
+keycloak_group:  keycloak
+keycloak_db_name: keycloak
+keycloak_home: /opt/keycloak
+keycloak_http_port: 6080
+keycloak_https_port: 6443
+keycloak_devel_realm: devel
+keycloak_bi_realm: bi
+
+keycloak_admin:  admin                        ## chamge it
+keycloak_admin_psassword:  admin               ## change it
+
+#keycloak_url: https://github.com/keycloak/keycloak/releases/download/21.0.1/keycloak-21.0.1.tar.gz
+#keycloak_url_file_name: keycloak-21.0.1.tar.gz
+keycloak_file_name: keycloak-21.0.1
+kcadm_user: kcadm
+kcadm_group: kcadm
+
+## user uuidgen to generate uuid
+keycloak_realms_devel: devel
+keycloak_realms_bi: bi

@@ -1,0 +1,31 @@
+################## Spark #################
+spark_home: /opt/spark/
+spark_mnaster_conf_dir: /opt/spark/master_conf
+spark_user: spark
+spark_group: spark
+spark_fuse_group: spark-fuse
+spark_webui_port: 8080
+spark_webui_proxy_port: 9900
+spark_webui_haproxy_port: 9943
+spark_rpc_port: 7077
+spark_history_ui_port: 18080
+
+number_of_spark_worker_per_node: 2
+
+#spark_file_url: https://dlcdn.apache.org/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3-scala2.13.tgz
+#spark_file_name: spark-3.4.4-bin-hadoop3-scala2.13
+
+spark_worker_memory: 8gb                     ##  adjust it
+spark_worker_cores: 3                        ##  adjust it
+
+spark_deploy_defaultCores: 2                ##  adjust it
+spark_cores_max: 4                          ##  adjust it
+spark_driver_cores: 1                      ##  adjust it
+spark_driver_memory: 1g
+spark_executor_memory: 2g
+spark_executor_cores: 2
+
+spark_history_location: s3a://spark/logs
+spark_s3_application_bucket: spark-app
+spark_s3_data_bucket: spark-data
+spark_s3_application_dir: /var/data/spark-app

@@ -91,15 +91,6 @@
     name: '{{ grafana_group }}'
     state: present
 
-- name: create group loki
-  group:
-    name: '{{ loki_group }}'
-    state: present
-
-- name: create group promtail
-  group:
-    name: '{{ promtail_group }}'
-    state: present
 
 - name: create group jceks
   group:
@@ -187,15 +178,6 @@
     name: '{{ grafana_user }}'
     groups: '{{ grafana_group }},{{ application_group }}'
 
-- name: Create user {{ loki_user }}
-  user:
-    name: '{{ loki_user }}'
-    groups: '{{ loki_group }},{{ application_group }}'
-
-- name: Create user promtail user
-  user:
-    name: '{{ promtail_user }}'
-    groups: '{{ promtail_group }},{{ application_group }}'
 
 - name: Create user fuse
   user:

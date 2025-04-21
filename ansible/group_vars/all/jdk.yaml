@@ -1,0 +1,7 @@
+java_jdk: openjdk-17-jdk 
+
+#$(jrunscript -e 'java.lang.System.out.println(java.lang.System.getProperty("java.home"));')"
+# There may be better way to find JAVA_HOME
+java_home: /usr/lib/jvm/java-1.17.0-openjdk-amd64
+jceks_provider: jceks://file/usr/lib/java/secret.jceks
+jceks_group: jceks  

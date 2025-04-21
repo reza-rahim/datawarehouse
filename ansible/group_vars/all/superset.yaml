@@ -1,0 +1,5 @@
+superset_user: superset
+superset_group: superset
+superset_db_name: superset
+superset_home: /opt/superset
+superset_port: 8088

@@ -1,0 +1,9 @@
+
+minio_dir: /opt/minio
+minio_user: minio
+minio_group: minio
+minio_home: /home/minio
+
+fs_s3a_endpoint: 127.0.0.1:9000
+metastore_warehouse_dir: s3a://warehouse/
+s3_protocol: http

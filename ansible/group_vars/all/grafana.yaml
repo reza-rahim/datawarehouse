@@ -1,0 +1,3 @@
+grafana_user: grafana
+grafana_group: grafana
+grafana_home: /opt/grafana

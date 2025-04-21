@@ -1,0 +1,3 @@
+fuse_home: /opt/fuse
+fuse_user: fuse
+fuse_group: fuse
