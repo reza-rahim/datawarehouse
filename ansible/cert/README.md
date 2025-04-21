@@ -43,9 +43,16 @@ openssl verify -CAfile CA_cert.crt -verify_ip  127.0.0.1  server.crt
 
 ```
 
+```
+cat server.crt >> server_crt_key.pem
+cat server.key >> server_crt_key.pem
+
+```
+
 ### copy cert file under ansible
 ```
 cp CA_cert.crt ../roles/cert/templates/
 cp server.crt ../roles/cert/templates/
 cp server.key ../roles/cert/templates/
+cp server_crt_key.pem ../roles/cert/templates/
 ```
