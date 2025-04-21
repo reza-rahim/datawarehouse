@@ -1,6 +1,6 @@
 
 
-virtual_ip: keyclock.{{ lookup('env', 'VIRTUAL_IP') }}
+virtual_ip: 10.16.50.80
 
 ########  
 keyclock_server: keyclock.{{ lookup('env', 'FQDN') }}

@@ -21,7 +21,7 @@ export GRAFANA=11.6.0
 export ZOOKEEPER=3.9.3
 
 ###
-export VIRTUAL_IP=10.16.50.80
+#export VIRTUAL_IP=10.16.50.80
 export FQDN=dw.felicity.net.bd
 
 
