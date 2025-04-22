@@ -1,0 +1,34 @@
+---
+
+- name: Create mount point dir
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ minio_group }}"
+  loop: "{{ mount_points }}"
+
+- name: Create a xfs filesystem on /dev/sd*
+  command: mkfs.xfs "{{ item.path }}"  -L "{{ item.label }}"
+  loop: "{{ mount_points_fx }}"
+  ignore_errors: true         
+
+- name: Mount up device by label
+  mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: xfs
+    state: present    
+  loop: "{{ mount_points_label }}"
+  ignore_errors: true         
+
+- name: mount all the disks
+  command: mount -a
+
+- name: Create minio dir for each mount point
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ minio_group }}"
+  loop: "{{ mount_points }}"

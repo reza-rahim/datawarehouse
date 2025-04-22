@@ -7,6 +7,12 @@ group_vars/all/repo.yaml
  sudo systemctl status postgresql@14-main 
 ```
 
+### Minio define how many disk to be mounted group_vars/all/minio.yaml
+```
+disk_range
+mount_points
+```
+
 ### Create CA following cert/README.md file.
 
 ##### pick a FQDB add it 00.evn.sh 
@@ -18,7 +24,7 @@ group_vars/all/repo.yaml
 ```
 
 
-### Rur 
+###  
 source 00.evn.sh 
 
 

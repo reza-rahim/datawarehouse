@@ -1,0 +1,45 @@
+[Unit]
+Description=MinIO
+Documentation=https://min.io/docs/minio/linux/index.html
+Wants=network-online.target
+After=network-online.target  zookeeper.service keycloak.service
+AssertFileIsExecutable=/usr/local/bin/minio
+
+[Service]
+WorkingDirectory={{ minio_home }}
+
+Environment=MINIO_IDENTITY_OPENID_CONFIG_URL_PRIMARY_IAM="https://keyclock.mnbvcxz.com:6443/realms/devel/.well-known/openid-configuration"
+Environment=MINIO_IDENTITY_OPENID_CLIENT_ID_PRIMARY_IAM="minio"
+Environment=MINIO_IDENTITY_OPENID_CLIENT_SECRET_PRIMARY_IAM="cTsjN7SHq3D7dHvPD88eX5z0vq1XyzNM"
+Environment=MINIO_IDENTITY_OPENID_DISPLAY_NAME_PRIMARY_IAM="SSO_IDENTIFIER"
+Environment=MINIO_IDENTITY_OPENID_SCOPES_PRIMARY_IAM="openid,email,preferred_username"
+Environment=MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC_PRIMARY_IAM="on"
+
+User={{ minio_user }}
+Group={{ application_group }}
+ProtectProc=invisible
+
+ExecStartPre={{ lockbox_dir }}/decrypt_lockbox.sh
+EnvironmentFile=-/etc/default/minio
+ExecStartPre=/bin/bash -c "if [ -z \"${MINIO_VOLUMES}\" ]; then echo \"Variable MINIO_VOLUMES not set in /etc/default/minio\"; exit 1; fi"
+ExecStart=/bin/bash -c "source {{ tmpfs_dir }}/{{ lockbox_env }};  /usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }} ; /usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES"
+
+
+# Let systemd restart this service always
+Restart=always
+RestartSec=5
+
+# Specifies the maximum file descriptor number that can be opened by this process
+LimitNOFILE=65536
+
+# Specifies the maximum number of threads this process can create
+TasksMax=infinity
+
+# Disable timeout logic and wait until process is stopped
+TimeoutStopSec=infinity
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+
+# Built for ${project.name}-${project.version} (${project.name})
