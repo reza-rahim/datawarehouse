@@ -3,6 +3,9 @@
 group_vars/all/repo.yaml 
 
 ### set the postgres version group_vars/all/postgresql.yaml 
+```
+ sudo systemctl status postgresql@14-main 
+```
 
 ### Create CA following cert/README.md file.
 
@@ -18,3 +21,5 @@ group_vars/all/repo.yaml
 ### Rur 
 source 00.evn.sh 
 
+
+##
