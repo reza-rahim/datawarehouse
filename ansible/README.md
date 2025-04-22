@@ -2,10 +2,10 @@
 ### Check the software version on 
 group_vars/all/repo.yaml 
 
+### set the postgres version group_vars/all/postgresql.yaml 
+
 ### Create CA following cert/README.md file.
 
-
-#### Add the vitual IP group_vars/all/main.yaml
 ##### pick a FQDB add it 00.evn.sh 
 
 ### check following command
