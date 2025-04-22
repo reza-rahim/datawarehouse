@@ -1,0 +1,11 @@
+- name: Install python3-pip, jre and postgresql-client
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+  loop:
+    #- python3-dev
+    - postgresql-client    
+    - '{{ java_jdk }}'
+    - s3fs
+    - apache2-utils  
+    - ntp

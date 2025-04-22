@@ -1,0 +1,19 @@
+- name: Check that the hadoop home exists
+  stat:
+      path: '{{ hadoop_home }}'
+  register: hadoop_stat_result
+
+- name : extract hadoop  zip
+  unarchive:
+     src: "http://{{ groups['repo'][0] }}/download/{{ hadoop_file_name }}.tar.gz"
+     dest: /opt
+     remote_src: true
+     owner: '{{ hadoop_user }}'
+     group: '{{ hadoop_group }}'
+  when: not hadoop_stat_result.stat.exists
+
+- name: create soft link to /opt/hadoop
+  file:
+    src: '/opt/{{ hadoop_file_name }}'
+    dest: '{{ hadoop_home }}'
+    state: link

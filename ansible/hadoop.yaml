@@ -1,8 +1,8 @@
 ---
-- hosts: repo
+- hosts: all
   become: yes
-  serial: 1
+  #serial: 1
   vars:
     ansible_python_interpreter: /usr/bin/python3
   roles:
-     - repo
+     - hadoop

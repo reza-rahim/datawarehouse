@@ -1,4 +1,7 @@
 
+### Check the software version on 
+group_vars/all/repo.yaml 
+
 ### Create CA following cert/README.md file.
 
 

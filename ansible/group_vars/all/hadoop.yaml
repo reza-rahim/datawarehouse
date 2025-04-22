@@ -3,6 +3,4 @@ hadoop_user: hadoop
 hadoop_group: hadoop
 hadoop_home: /opt/hadoop
 hadoop_version: 3.2.0
-#hadoop_url: https://archive.apache.org/dist/hadoop/core/hadoop-3.2.0/hadoop-3.2.0.tar.gz
-#hadoop_file_name: hadoop-3.2.0
 hadoop_install_dir: /opt/hadoop
