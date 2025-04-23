@@ -6,11 +6,15 @@
     state: directory
     owner: "{{ item.owner }}"
     group: "{{ minio_group }}"
-  loop: "{{ mount_points }}"
+  loop:
+    - { path: '/mnt/disk1', owner: '{{ minio_user }}'}
+    - { path: '/mnt/disk2', owner: '{{ minio_user }}'}
 
 - name: Create a xfs filesystem on /dev/sd*
   command: mkfs.xfs "{{ item.path }}"  -L "{{ item.label }}"
-  loop: "{{ mount_points_fx }}"
+  loop:
+    - { path: '/dev/sdb', label: 'DISK1'}
+    - { path: '/dev/sdc', label: 'DISK2'}
   ignore_errors: true         
 
 - name: Mount up device by label
@@ -19,7 +23,9 @@
     src: "{{ item.src }}"
     fstype: xfs
     state: present    
-  loop: "{{ mount_points_label }}"
+  loop:
+    - { path: '/mnt/disk1', src: 'LABEL=DISK1'}
+    - { path: '/mnt/disk2', src: 'LABEL=DISK2'}
   ignore_errors: true         
 
 - name: mount all the disks
@@ -31,4 +37,8 @@
     state: directory
     owner: "{{ item.owner }}"
     group: "{{ minio_group }}"
-  loop: "{{ mount_points }}"
+  loop:
+    - { path: '/mnt/disk1/minio', owner: '{{ minio_user }}'}
+    - { path: '/mnt/disk2/minio', owner: '{{ minio_user }}'}
+
+

@@ -1,18 +1,6 @@
 
 
 
-virtual_ip: 10.16.50.80
-
-########  
-keyclock_server: keyclock.{{ lookup('env', 'FQDN') }}
-postgres_server: postgres.{{ lookup('env', 'FQDN') }}
-hive_metastore_server: metastore.{{ lookup('env', 'FQDN') }}
-superset_server: superset.{{ lookup('env', 'FQDN') }}
-airflow_server: airflow.{{ lookup('env', 'FQDN') }}
-jupyterhub_server: jupyterhub.{{ lookup('env', 'FQDN') }}
-trino_server: trino.{{ lookup('env', 'FQDN') }}
-minio_server: minio.{{ lookup('env', 'FQDN') }}  
-
 
 ######
 application_group: application

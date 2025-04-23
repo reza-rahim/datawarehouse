@@ -1,3 +1,8 @@
+### adjust entry for /etc/hosts files
+
+```
+group_vars/all/host.yaml
+```
 
 ### Check the software version on 
 group_vars/all/repo.yaml 

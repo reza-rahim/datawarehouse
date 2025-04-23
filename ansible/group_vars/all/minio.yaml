@@ -9,17 +9,3 @@ fs_s3a_endpoint: 127.0.0.1:9000
 metastore_warehouse_dir: s3a://warehouse/
 s3_protocol: http
 
-disk_range: 1..2  
-
-mount_points:
-    - { path: '/mnt/disk1', owner: '{{ minio_user }}' }
-    - { path: '/mnt/disk2', owner: '{{ minio_user }}' }  
-  
-mount_points_fx:
-    - { path: '/dev/sdb', label: 'DISK1'}
-    - { path: '/dev/sdc', label: 'DISK2'}      
-
-      
-mount_points_label:
-    - { path: '/mnt/disk1', src: 'LABEL=DISK1'}
-    - { path: '/mnt/disk2', src: 'LABEL=DISK2'}  
