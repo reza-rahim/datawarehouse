@@ -1,0 +1,23 @@
+---
+- name: Stop MinIO, remove service, unmount and wipe disks (all in one shell)
+  hosts:  all
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        systemctl stop minio
+        rm -f /etc/systemd/system/minio.service
+
+        umount /mnt/disk1 || true
+        umount /mnt/disk2 || true
+
+        wipefs -a /dev/sdb
+        wipefs -a /dev/sdc
+
+        dd if=/dev/zero of=/dev/sdb bs=1M count=100
+        dd if=/dev/zero of=/dev/sdc bs=1M count=100
+
+        systemctl daemon-reload
