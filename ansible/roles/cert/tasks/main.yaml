@@ -9,13 +9,21 @@
      - { src: '{{ server_cert_file_name }}', dest: '{{ cert_dir }}/{{ server_cert_file_name }}'  }
      - { src: '{{ server_key_file_name }}', dest: '{{ cert_dir }}/{{ server_key_file_name }}'  }
      - { src: '{{ server_cert_key_file_name }}', dest: '{{ cert_dir }}/{{ server_cert_key_file_name }}'  }
-   
+
+- name: Create {{ cert_dir }} directory
+  file:
+    path: "{{ minio_home_cert }}"
+    state: directory
+    mode: '0750'
+    owner: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+       
+       
 - name: copy  cert files for minio
   template: src='{{ item.src }}' dest='{{ item.dest }}' group='{{ application_group }}'  mode=0640       
   loop:
-     - { src: '{{ server_cert_file_name }}', dest: '{{ minio_home }}/.minio/certs/public.crt'  }
-     - { src: '{{ server_key_file_name }}', dest: '{{ minio_home }}/.minio/certs/private.key'  }
-  when: 's3_protocol== "https"'    
+     - { src: '{{ server_cert_file_name }}', dest: '{{ minio_home_cert }}/public.crt'  }
+     - { src: '{{ server_key_file_name }}', dest: '{{ minio_home_cert}}/private.key'  }
 
 - name: copy  {{ ca_cert_file_name }} to /usr/local/share/ca-certificates/
   template: src='{{ item.src }}' dest='{{ item.dest }}'
