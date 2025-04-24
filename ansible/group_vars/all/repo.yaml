@@ -1,7 +1,7 @@
 hadoop_url: https://archive.apache.org/dist/hadoop/core/hadoop-3.4.1/hadoop-{{ lookup('env', 'HADOOP_VERSION') }}.tar.gz
 hadoop_file_name: hadoop-{{ lookup('env', 'HADOOP_VERSION') }}
 
-spark_file_url: https://dlcdn.apache.org/spark/spark-{{ lookup('env', 'SPARK_VERSION') }}/spark-3.5.5-bin-hadoop3-scala2.13.tgz
+spark_file_url: https://dlcdn.apache.org/spark/spark-{{ lookup('env', 'SPARK_VERSION') }}/spark-{{ lookup('env', 'SPARK_VERSION') }}-bin-hadoop3-scala2.13.tgz
 spark_file_name: spark-{{ lookup('env', 'SPARK_VERSION') }}-bin-hadoop3-scala2.13
 
 hadoop_aws_url: https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/{{ lookup('env', 'HADOOP_AWS_URL') }}/hadoop-aws-{{ lookup('env', 'HADOOP_AWS_URL') }}.jar
@@ -14,7 +14,7 @@ iceberg_spark_runtime_url: https://repo1.maven.org/maven2/org/apache/iceberg/ice
 iceberg_spark_runtime_file_name: iceberg-spark-runtime-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MAJOR') }}-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MINOR') }}.jar
 
 awssdk_bundle_url: https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/{{ lookup('env', 'AWSSDK_BUNDLE') }}/bundle-{{ lookup('env', 'AWSSDK_BUNDLE') }}.jar
-awssdk_bundle_filename: bundle-{{ lookup('env', 'AWSSDK_BUNDLE') }}/.jar
+awssdk_bundle_filename: bundle-{{ lookup('env', 'AWSSDK_BUNDLE') }}.jar
 
 url_connection_client_url: https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/{{ lookup('env', 'URL_CONNECTION_CLIENT') }}/url-connection-client-{{ lookup('env', 'URL_CONNECTION_CLIENT') }}.jar 
 url_connection_client_filename: url-connection-client-{{ lookup('env', 'URL_CONNECTION_CLIENT') }}.jar

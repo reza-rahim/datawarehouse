@@ -1,0 +1,5 @@
+https://keyclock.dw.felicity.net.bd:6443/realms/devel/protocol/openid-connect/auth?response_type=code&client_id=357495cf78&redirect_uri=https://minio.dw.felicity.net.bd:9001/oauth_callback&scope=openid profile email
+
+https://keyclock.dw.felicity.net.bd:6443/realms/devel/protocol/openid-connect/auth?response_type=code&client_id=minio&redirect_uri=https://minio.dw.felicity.net.bd:9001/oauth_callback&scope=openid profile email
+
+

@@ -1,0 +1,12 @@
+{
+  "name": "minio-policy-mapper",
+  "protocol": "openid-connect",
+  "protocolMapper": "oidc-hardcoded-claim-mapper",
+  "config": {
+    "claim.name": "policy",
+    "claim.value": "readwrite",
+    "claim.include.in.id.token": "true",
+    "claim.include.in.access.token": "true",
+    "claim.include.in.userinfo": "true"
+  }
+}

@@ -34,3 +34,13 @@ source 00.evn.sh
 
 
 ##
+
+
+## Minio
+## Keycloak
+https://www.youtube.com/watch?v=mv8I1wvTCrE
+https://min.io/docs/minio/macos/operations/external-iam/configure-keycloak-identity-management.html
+
+
+## Spark: adjust number of spark worker per node
+number_of_spark_worker_per_node
