@@ -51,7 +51,7 @@ grafana_url:  https://dl.grafana.com/oss/release/grafana-{{ lookup('env', 'GRAFA
 grafana_file_url_name: grafana-{{ lookup('env', 'GRAFANA') }}.linux-amd64.tar.gz
 grafana_file_name: grafana-{{ lookup('env', 'GRAFANA') }}
 
-zookeeper_url: https://dlcdn.apache.org/zookeeper/zookeeper-{{ lookup('env', 'ZOOKEEPER') }}/apache-zookeeper-{{ lookup('env', 'ZOOKEEPER') }}.tar.gz
-zookeeper_url_file_name: apache-zookeeper-{{ lookup('env', 'ZOOKEEPER') }}.tar.gz
-zookeeper_file_name:  apache-zookeeper-{{ lookup('env', 'ZOOKEEPER') }}
+zookeeper_url: https://dlcdn.apache.org/zookeeper/zookeeper-{{ lookup('env', 'ZOOKEEPER') }}/apache-zookeeper-{{ lookup('env', 'ZOOKEEPER') }}-bin.tar.gz
+zookeeper_url_file_name: apache-zookeeper-{{ lookup('env', 'ZOOKEEPER') }}-bin.tar.gz
+zookeeper_file_name:  apache-zookeeper-{{ lookup('env', 'ZOOKEEPER') }}-bin
 

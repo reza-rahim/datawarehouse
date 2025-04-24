@@ -17,26 +17,89 @@
      
 - name : download  hadoop  zip
   get_url:
-     url: '{{ item }}'
+     url: '{{ hadoop_url }}'
      dest: /var/data/download
-  loop:
-     - '{{ hadoop_url }}'      
-     - '{{ hadoop_aws_url }}'      
-     - '{{ aws_java_sdk_bundle_url }}'      
-     - '{{ awssdk_bundle_url }}'      
-     - '{{ url_connection_client_url }}'      
-     - '{{ iceberg_spark_runtime_url }}'      
-     - '{{ hive_metastore_url }}'      
-     - '{{ postgresql_connector_url }}'
-     - '{{ minio_url }}'
-     - '{{ minio_cli_url }}'
-     - '{{ trino_url }}'  
-     - '{{ trino_cli_url }}'  
-     - '{{ keycloak_url }}'  
-     - '{{ prometheus_url }}'  
-     - '{{ node_exporter_url }}'  
-     - '{{ grafana_url }}'  
-     - '{{ zookeeper_url }}'  
+
+- name : download  hadoop aws  zip
+  get_url:
+     url: '{{ hadoop_aws_url }}'    
+     dest: /var/data/download
+
+- name : download  aws_java_sdk_bundle_url  zip
+  get_url:
+     url: '{{ aws_java_sdk_bundle_url }}' 
+     dest: /var/data/download
+
+- name : download  awssdk_bundle zip
+  get_url:
+     url: '{{ awssdk_bundle_url }}' 
+     dest: /var/data/download
+
+- name : download  url_connection_client  zip
+  get_url:
+     url:  '{{ url_connection_client_url }}'
+     dest: /var/data/download
+
+- name : download  iceberg_spark_runtime  zip
+  get_url:
+     url:  '{{ iceberg_spark_runtime_url }}'   
+     dest: /var/data/download
+
+- name : download  hive_metastore : zip
+  get_url:
+     url:  '{{ hive_metastore_url }}' 
+     dest: /var/data/download
+
+- name : download  postgresql_connector  zip
+  get_url:
+     url:   '{{ postgresql_connector_url }}' 
+     dest: /var/data/download
+
+- name : download  monio zip
+  get_url:
+     url:  '{{ minio_url }}'
+     dest: /var/data/download
+
+- name : download  minio cli  zip
+  get_url:
+     url:  '{{ minio_cli_url }}'
+     dest: /var/data/download
+
+- name : download  trino zip
+  get_url:
+     url: '{{ trino_url }}' 
+     dest: /var/data/download
+
+- name : download  keycloak zip
+  get_url:
+     url: '{{ keycloak_url }}' 
+     dest: /var/data/download
+
+- name : download zookeeper zip
+  get_url:
+     url: '{{ zookeeper_url }}' 
+     dest: /var/data/download
+
+- name : download  trino cli zip
+  get_url:
+     url: '{{ trino_cli_url }}' 
+     dest: /var/data/download
+
+- name : download  prome  zip
+  get_url:
+     url:  '{{ prometheus_url }}'
+     dest: /var/data/download
+
+- name : download  node_exporter_url zip
+  get_url:
+     url: '{{ node_exporter_url }}'  
+     dest: /var/data/download
+
+- name : download  grafana  zip
+  get_url:
+     url:  '{{ grafana_url }}'  
+     dest: /var/data/download
+
 
 
 - name: Check that the  /usr/local/sbin/mc exists

@@ -1,5 +1,6 @@
 source 00.evn.sh
 ansible-playbook -i inventory.ini \
+-e fqdn=$FQDN \
 -e virtual_ip=$VIRTUAL_IP \
 -e keycloak_minio_id=$KEYCLOAK_MINIO_ID \
 -e keycloak_minio_client_id=$KEYCLOAK_MINIO_CLIENT_ID \

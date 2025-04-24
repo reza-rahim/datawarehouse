@@ -7,7 +7,7 @@
  
 - name : extract {{ zookeeper_url_file_name }}
   unarchive:
-     src: "http://{{ groups['repo'][0] }}/download/{{ zookeeper_url_file_name }}"
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ zookeeper_url_file_name }}"
      dest: /opt
      remote_src: true
      owner: '{{ zookeeper_user }}'
