@@ -20,6 +20,6 @@ source  {{ tmpfs_dir }}/lockbox.env
 
 group="$(/usr/bin/getent group {{ fuse_group }}  | /usr/bin/cut -d: -f3)"
 
-/usr/bin/s3fs {{ airflow_s3_bucket }} {{ airflow_dag_dir }} -o passwd_file=/mnt/tmpfs/s3cred,umask=002,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://{{ fs_s3a_endpoint }}
+/usr/bin/s3fs {{ airflow_s3_bucket }} {{ airflow_dag_dir }} -o passwd_file=/mnt/tmpfs/s3cred,umask=002,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
 
 /usr/bin/rm -f {{ tmpfs_dir }}/s3cred

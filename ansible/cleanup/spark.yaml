@@ -1,0 +1,18 @@
+---
+- name: clean spark
+  hosts: spark*
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        systemctl stop spark-master
+        systemctl stop  spark-worker-1
+        systemctl stop  spark-worker-2
+        systemctl stop  spark-worker-3
+        systemctl stop  spark-worker-4
+        rm -fr /opt/spark*
+        rm -fr /etc/systemd/system/spark*
+        systemctl daemon-reload

@@ -1,7 +1,7 @@
 
 ### library version
 export HADOOP_VERSION=3.4.1
-export SPARK_VERSION=3.5.5
+export SPARK_VERSION=3.4.4
 export HADOOP_AWS_URL=3.4.1
 
 export AWS_JAVA_SDK_BUNDLE=1.12.779
