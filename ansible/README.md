@@ -1,3 +1,12 @@
+
+##
+Open a VPN tunnel
+
+```
+pip install sshuttle
+sshuttle --ssh-cmd "ssh -p 2322" -r one@103.168.140.118 10.16.50.0/24
+```
+
 ### adjust entry for /etc/hosts files
 
 ```
@@ -43,4 +52,5 @@ https://min.io/docs/minio/macos/operations/external-iam/configure-keycloak-ident
 
 
 ## Spark: adjust number of spark worker per node
+
 number_of_spark_worker_per_node
