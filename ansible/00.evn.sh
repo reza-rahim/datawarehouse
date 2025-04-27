@@ -1,14 +1,26 @@
 
 ### library version
-export HADOOP_VERSION=3.3.6
-export SPARK_VERSION=3.5.5
-export HADOOP_AWS_URL=3.4.1
+export HADOOP_VERSION=3.2.0
+export SPARK_VERSION=3.4.4
 
-export AWS_JAVA_SDK_BUNDLE=1.12.779
+#hadoop_aws
+export HADOOP_AWS=3.3.2
+
+#aws_java_sdk_bundle
+export AWS_JAVA_SDK_BUNDLE=1.12.99
+
+export AWS_BUNDLE=2.31.8
+
+#iceberge
 export ICEBERG_SPARK_RUNTIME_MAJOR=3.5_2.13
 export ICEBERG_SPARK_RUNTIME_MINOR=1.8.0
-export AWSSDK_BUNDLE=2.31.8
-export URL_CONNECTION_CLIENT=2.31.9
+
+#awssdk_bundle
+export AWSSDK_BUNDLE=2.20.8
+
+#url-connection-client
+export URL_CONNECTION_CLIENT=2.20.38
+
 export HIVE_METASTOR=3.0.0
 export MINIO=20250408154124.0.0
 export POSTGRESQL_CONNECTOR=42.7.5
