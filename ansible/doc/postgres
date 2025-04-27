@@ -1,0 +1,7 @@
+
+```
+systemctl status postgresql@14-main.service 
+
+#/lib/systemd/system/postgresql@.service
+
+```
