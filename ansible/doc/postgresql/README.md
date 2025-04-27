@@ -7,6 +7,6 @@ systemctl status postgresql@14-main.service
 ```
 
 ```
-sudo su - postgres 
+sudo su - postgres -s /bin/bash
 
 ```
