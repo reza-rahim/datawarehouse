@@ -1,0 +1,61 @@
+---
+- name: Check that the hive home exists
+  stat:
+      path: '{{ hive_metastore_home }}'
+  register: hive_metastore_stat_result
+
+
+- name : extract hive-metastore  zip
+  unarchive:
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ hive_metastore_url_file_name }}"
+     dest: /opt
+     remote_src: true
+     owner: '{{ hive_user}}'
+     group: '{{ application_group }}'
+  when: not hive_metastore_stat_result.stat.exists
+
+               
+- name :  get postgresql connector
+  get_url:
+     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}"
+     dest: '/opt/{{ hive_metastore_file_name }}/lib'
+     owner: '{{ hive_user}}'
+     group: '{{ application_group }}'
+  when: not hive_metastore_stat_result.stat.exists
+
+- name: create soft link to /opt/hive
+  file:
+    src: '/opt/{{ hive_metastore_file_name }}'
+    dest: '{{ hive_metastore_home }}'
+    state: link
+    owner: '{{ hive_user}}'
+    group: '{{ application_group }}'
+  when: not hive_metastore_stat_result.stat.exists
+
+- name: copy hive metastore config files
+  template: src='{{ item.src }}' dest='{{ item.dest }}'  mode='{{ item.mode }}' owner='{{ hive_user }}' group='{{ application_group }}'
+  loop:
+     - { src: 'metastore-site.xml.j2', dest: '{{ hive_metastore_home }}/conf/metastore-site.xml', mode: '0644'  }
+     - { src: 'init-hive-metastore.sh.j2', dest: '{{ hive_metastore_home }}/bin/init-hive-metastore.sh', mode: '0755'  }
+  notify: restart hive_metastore
+
+- name: linking hadoop-aws* 
+  shell: 'ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/'
+
+  ignore_errors: yes
+
+- name: linking aws-java-sdk*
+  shell: 'ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/'
+  ignore_errors: yes
+
+- name: initialize the hive-metastore
+  shell: 'export HADOOP_HOME={{ hadoop_home }}; export JAVA_HOME={{ java_home }};{{ hive_metastore_home }}/bin/schematool -initSchema -dbType postgres'
+  ignore_errors: yes
+
+- name: copy hive metstore service files
+  template: src='{{ item.src }}' dest='{{ item.dest }}'  
+  loop:
+     - { src: 'hive-metastore.service.j2', dest: '/etc/systemd/system/hive-metastore.service' }
+  notify: restart hive_metastore
+  
+

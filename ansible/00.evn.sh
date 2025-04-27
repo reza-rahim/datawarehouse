@@ -20,6 +20,22 @@ export NODE_EXPORTER=1.9.1
 export GRAFANA=11.6.0
 export ZOOKEEPER=3.9.3
 
+
+export JUPYTERHUB=5.1
+export JUPYTERLAB=4.1
+export NOTEBOOK=v7.2.1
+export SQLALCHEMY=2.0.40
+export STATSMODELS=0.14.4
+export SCIKIT_LEARN=1.6.1
+export SCIKIT_IMAGE=0.25.2
+export PANDAS=2.2.3
+export NUMPY=2.2.5
+export MATPLOTLIB=3.5.3
+export SEABORN=0.13.2
+export PLOTLY=6.0.1
+export TORCH=2.5.0
+export OAUTHENTICATOR=17.3.0
+
 ###
 export VIRTUAL_IP=10.16.50.80
 export FQDN=dw.felicity.net.bd

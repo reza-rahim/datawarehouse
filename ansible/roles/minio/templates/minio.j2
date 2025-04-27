@@ -15,6 +15,7 @@ MINIO_VOLUMES="{{ s3_protocol }}://node{1...3}.{{ lookup('env', 'FQDN') }}:9000/
 # port 9001 on all network interfaces. The default behavior is dynamic
 # port selection.
 
+#MINIO_BROWSER_REDIRECT_URL="https://minio.{{ fqdn }}"
 MINIO_OPTS="--console-address :9001"
 
 # Set the root username. This user has unrestricted permissions to

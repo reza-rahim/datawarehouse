@@ -1,6 +1,8 @@
 source 00.evn.sh
 ansible-playbook -i inventory.ini \
 -e fqdn=$FQDN \
+-e virtual_ip=$VIRTUAL_IP \
+-e db_user=$DB_USER \
 -e keycloak_minio_id=$KEYCLOAK_MINIO_ID \
 -e keycloak_minio_client_id=$KEYCLOAK_MINIO_CLIENT_ID \
 -e keycloak_minio_client_secret=$KEYCLOAK_MINIO_CLIENT_SECRET \
@@ -22,4 +24,4 @@ ansible-playbook -i inventory.ini \
 -e keycloak_devel_password=$KEYCLOAK_DEVEL_PASSWORD \
 -e keycloak_bi_user=$KEYCLOAK_BI_USER \
 -e keycloak_bi_password=$KEYCLOAK_BI_PASSWORD \
-minio.yaml;	
+hive-mestastore.yaml;	
