@@ -29,6 +29,10 @@ mount_points
 
 ### Create CA following cert/README.md file.
 
+cp cert/pki/server/server.crt roles/cert/templates/server.crt 
+cp cert/pki/server/server.key roles/cert/templates/server.key
+
+
 ##### pick a FQDB add it 00.evn.sh 
 
 ### check following command

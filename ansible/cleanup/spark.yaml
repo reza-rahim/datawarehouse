@@ -8,7 +8,9 @@
   tasks:
     - name: Full cleanup in one shell block
       shell: |
+        umount -f /var/data/spark-app
         systemctl stop spark-master
+        systemctl disable spark-master
         systemctl stop  spark-worker-1
         systemctl stop  spark-worker-2
         systemctl stop  spark-worker-3
@@ -16,3 +18,4 @@
         rm -fr /opt/spark*
         rm -fr /etc/systemd/system/spark*
         systemctl daemon-reload
+        systemctl reset-failed

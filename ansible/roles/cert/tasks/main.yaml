@@ -30,6 +30,7 @@
   loop:
      - { src: '{{ ca_cert_file_name }}', dest: '/usr/local/share/ca-certificates/{{ ca_cert_file_name }}' }
    #notify: run certificates
+  
 
 - name:  run /usr/sbin/update-ca-certificates
   shell: /usr/sbin/update-ca-certificates
@@ -42,8 +43,8 @@
 
 - name: Add the cert to Java truststore if not present
   shell: |
-    yes | keytool -import -trustcacerts -alias CA_Cert \
-    -file /usr/local/share/ca-certificates/CA_cert.crt \
+    yes | keytool -import -trustcacerts -alias rootCA \
+    -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }} \
     -keystore /etc/ssl/certs/java/cacerts \
     -storepass changeit
   when: keycloak_cert_check.rc != 0
