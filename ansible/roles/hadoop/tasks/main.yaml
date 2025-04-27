@@ -5,7 +5,7 @@
 
 - name : extract hadoop  zip
   unarchive:
-     src: "http://{{ groups['repo'][0] }}/download/{{ hadoop_file_name }}.tar.gz"
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ hadoop_file_name }}.tar.gz"
      dest: /opt
      remote_src: true
      owner: '{{ hadoop_user }}'

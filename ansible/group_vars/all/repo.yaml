@@ -1,5 +1,6 @@
-hadoop_url: https://archive.apache.org/dist/hadoop/core/hadoop-3.4.1/hadoop-{{ lookup('env', 'HADOOP_VERSION') }}.tar.gz
+hadoop_url: https://archive.apache.org/dist/hadoop/core/hadoop-{{ lookup('env', 'HADOOP_VERSION') }}/hadoop-{{ lookup('env', 'HADOOP_VERSION') }}.tar.gz
 hadoop_file_name: hadoop-{{ lookup('env', 'HADOOP_VERSION') }}
+
 
 spark_file_url: https://dlcdn.apache.org/spark/spark-{{ lookup('env', 'SPARK_VERSION') }}/spark-{{ lookup('env', 'SPARK_VERSION') }}-bin-hadoop3-scala2.13.tgz
 spark_file_name: spark-{{ lookup('env', 'SPARK_VERSION') }}-bin-hadoop3-scala2.13
