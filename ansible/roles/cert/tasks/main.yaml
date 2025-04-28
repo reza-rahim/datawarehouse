@@ -42,13 +42,11 @@
   ignore_errors: yes
   changed_when: false
 
-- name: Add the cert to Java truststore if not present
+- name: Add the {{ ca_cert_file_name }} to Java truststore if not present as rootCA
   shell: |
     yes | keytool -import -trustcacerts -alias rootCA \
     -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }} \
     -keystore /etc/ssl/certs/java/cacerts \
     -storepass changeit
-  when: keycloak_cert_check.rc != 0
-  args:
-    executable: /bin/bash
+  ignore_errors: yes
 
