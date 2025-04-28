@@ -5,3 +5,7 @@ ansible-playbook -i  ../inventory.ini keycloak.yaml
 ansible-playbook -i  ../inventory.ini hadoop.yaml 
 ansible-playbook -i  ../inventory.ini spark.yaml 
 ansible-playbook -i  ../inventory.ini cert.yaml 
+
+##zoo cleanup
+pip install kazoo;
+python zookeep_clean.py spark
