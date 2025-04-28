@@ -19,3 +19,7 @@ cat pki/server/server.crt > ../roles/cert/templates/server_crt_key.pem
 cat pki/server/server.key >> ../roles/cert/templates/server_crt_key.pem
 
 ```
+
+##
+yes | keytool -import -trustcacerts -alias rootCA -file /usr/local/share/ca-certificates/rootCA.crt -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+keytool -delete -alias rootCA -keystore /etc/ssl/certs/java/cacerts -storepass changeit

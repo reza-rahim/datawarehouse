@@ -2,6 +2,7 @@
   file:
      path: '{{ cert_dir }}'
      state: directory
+     group: '{{ application_group }}'
 
 - name: copy  cert files
   template: src='{{ item.src }}' dest='{{ item.dest }}' group='{{ application_group }}'  mode=0640

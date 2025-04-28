@@ -2,6 +2,7 @@
   apt:
     name:
       - postgresql-{{ postgresql_version }}
+      - postgresql-client-{{ postgresql_version }}
       - python3-psycopg2
     update_cache: yes
 
