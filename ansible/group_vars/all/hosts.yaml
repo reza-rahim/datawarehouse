@@ -7,6 +7,7 @@ hosts_list:
     - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "jupyterhub.{{ lookup('env', 'FQDN') }}" }
     - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "trino.{{ lookup('env', 'FQDN') }}" }
     - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "minio.{{ lookup('env', 'FQDN') }}" }
+    - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "spark.minio.{{ lookup('env', 'FQDN') }}" }
     - { ip: "10.16.50.81", host: "node1 node1.{{ lookup('env', 'FQDN') }}" }
     - { ip: "10.16.50.82", host: "node2 node2.{{ lookup('env', 'FQDN') }}" }
     - { ip: "10.16.50.83", host: "node3 node3.{{ lookup('env', 'FQDN') }}" }
