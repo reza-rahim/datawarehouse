@@ -72,3 +72,9 @@ https://min.io/docs/minio/macos/operations/external-iam/configure-keycloak-ident
 ## Spark: adjust number of spark worker per node
 
 number_of_spark_worker_per_node
+
+
+
+Jupyter :
+
+sudo usermod -a -G application demo 

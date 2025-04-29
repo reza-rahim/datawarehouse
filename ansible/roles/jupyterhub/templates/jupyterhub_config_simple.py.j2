@@ -25,6 +25,12 @@ c.GenericOAuthenticator.username_key = 'preferred_username'
 c.GenericOAuthenticator.login_service = 'Keycloak'
 c.GenericOAuthenticator.scope = ['openid', 'profile']
 
+
+# Optional: shutdown idle notebooks automatically (if using culling)
+c.MappingKernelManager.cull_idle_timeout = 1800 # Seconds of idle time before shutdown
+c.MappingKernelManager.cull_interval = 300       # Check every 10 minutes
+
+
 c.Spawner.environment = {
         'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID'),
         'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY'),
@@ -34,4 +40,4 @@ c.Spawner.environment = {
         'PYTHONPATH': '{{ spark_home }}/python'
 }
 
-c.Spawner.notebook_dir='{{ jupyterhub_notebook_dir }}'
+#c.Spawner.notebook_dir='{{ jupyterhub_notebook_dir }}'
