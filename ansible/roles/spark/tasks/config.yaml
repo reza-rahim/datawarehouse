@@ -31,6 +31,7 @@
     owner: '{{ spark_user }}'
     group: '{{ application_group }}'
     
+
 - name: get extra jar files 
   get_url:
      url: '{{ item }}'
@@ -42,6 +43,5 @@
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ aws_java_sdk_bundle_file_name }}"      
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ iceberg_spark_runtime_file_name }}" 
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}" 
-     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ awssdk_bundle_filename }}" 
-     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ url_connection_client_filename }}" 
-
+     #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ awssdk_bundle_filename }}" 
+     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ url_connection_client_filename }}"       

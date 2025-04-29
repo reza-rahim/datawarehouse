@@ -5,6 +5,11 @@ After=network.target
 [Service]
 User={{ spark_user }}
 Group={{ application_group }}
+
+Environment=JAVA_HOME={{ java_home }}
+Environment=HADOOP_HOME={{ hadoop_home }}
+Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
+
 ExecStart=/opt/spark/sbin/start-history-server.sh
 ExecStop=/opt/spark/sbin/stop-history-server.sh
 Restart=on-failure

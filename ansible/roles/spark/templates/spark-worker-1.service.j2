@@ -6,6 +6,10 @@ After=network.target spark-master.service
 User={{ spark_user }}
 Group={{ application_group }}
 
+Environment=JAVA_HOME={{ java_home }}
+Environment=HADOOP_HOME={{ hadoop_home }}
+Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
+
 ExecStartPre={{ lockbox_dir }}/decrypt_lockbox.sh
 ExecStartPre={{ fuse_home }}/spark_fuse.sh
 
