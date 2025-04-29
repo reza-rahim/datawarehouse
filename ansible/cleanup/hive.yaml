@@ -1,0 +1,14 @@
+---
+- name: clean spark
+  hosts: hive_metastore
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        rm -fr /opt/apache-hive*
+        rm -fr /etc/systemd/system/apache-hive*
+        systemctl daemon-reload
+        systemctl reset-failed

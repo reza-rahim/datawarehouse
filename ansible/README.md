@@ -1,4 +1,18 @@
 
+export HADOOP_HOME=/opt/hadoop-3.2.0
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+export HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
+export HIVE_HOME=/opt/apache-hive
+export HIVE_CONF_DIR=$HIVE_HOME/conf
+
+
+
+sudo -u postgres psql
+
+# Inside psql shell:
+DROP DATABASE hive;
+CREATE DATABASE hive;
+
 ##
 Open a VPN tunnel
 

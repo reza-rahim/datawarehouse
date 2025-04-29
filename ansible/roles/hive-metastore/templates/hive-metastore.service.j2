@@ -1,14 +1,20 @@
 [Unit]
 Description=Apache Hive Metastore 
-After=network.target patroni.service   keycloak.service
+After=network.target postgresql@14-main.service  
 
 [Service]
 User={{ hive_user }}
 Group={{ application_group }}
+
 Environment=JAVA_HOME={{ java_home }}
 Environment=HADOOP_HOME={{ hadoop_home }}
+Environment=HIVE_HOME={{ hive_metastore_home }}
+Environment=HIVE_CONF_DIR={{ hive_metastore_home }}/conf
+Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
-ExecStart=/opt/apache-hive-metastore/bin/start-metastore
+ExecStartPre={{ lockbox_dir }}/decrypt_lockbox.sh
+
+ExecStart=bash -c "source {{ tmpfs_dir }}/{{ lockbox_env }};  /usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }} ;{{ hive_metastore_home }}/bin/hive --service metastore"
 Restart=on-failure
 
 [Install]

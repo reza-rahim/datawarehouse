@@ -1,0 +1,86 @@
+<configuration>
+
+  <!-- PostgreSQL Metastore connection -->
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:postgresql://postgres.{{ fqdn }}:{{ postgresql_port }}/{{ hive_db_name }}</value> <!-- Added port 5432 (default Postgres port) -->
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>org.postgresql.Driver</value>
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>postgres</value>
+  </property>
+
+  <!-- Hibernate won't auto-create DB tables -->
+  <property>
+    <name>datanucleus.autoCreateSchema</name>
+    <value>false</value>
+  </property>
+
+  <!-- Strict schema verification -->
+  <property>
+    <name>hive.metastore.schema.verification</name>
+    <value>true</value>
+  </property>
+
+  <!-- Metastore port -->
+  <property>
+    <name>hive.metastore.port</name>
+    <value>9083</value>
+  </property>
+
+  <!-- S3A Configuration -->
+  <property>
+    <name>fs.s3a.access.key</name>
+    <value>${env.AWS_ACCESS_KEY_ID}</value> <!-- Correct reference to env var -->
+  </property>
+
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <value>${env.AWS_SECRET_ACCESS_KEY}</value> <!-- Correct reference to env var -->
+  </property>
+
+  <property>
+    <name>fs.s3a.endpoint</name>
+    <value>https://minio.{{ fqdn }}:9000</value> <!-- Your endpoint -->
+  </property>
+
+  <property>
+    <name>fs.s3a.path.style.access</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.ssl.enabled</name>
+    <value>true</value>
+  </property>
+
+  <!-- Hive warehouse location on S3 -->
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>{{ metastore_warehouse_dir }}</value> <!-- Fixed small typo: warehous ➔ warehouse -->
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>{{ db_user }}</value>
+    <description>the username for the DB instance</description>
+  </property> 
+  <!-- Secrets Manager (optional, only if you really use it) -->
+  <property>
+    <name>hadoop.security.credential.provider.path</name>
+    <value>jceks://file/usr/lib/java/secret.jceks</value>
+  </property>
+
+</configuration>
+

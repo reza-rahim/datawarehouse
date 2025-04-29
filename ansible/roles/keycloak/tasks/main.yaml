@@ -2,3 +2,7 @@
 - include: install.yaml
 - include: config.yaml
 - include:  realm.yaml 
+
+- name: Reload service files
+  systemd:
+    daemon_reload: true  

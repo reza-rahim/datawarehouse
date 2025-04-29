@@ -24,9 +24,9 @@ awssdk_bundle_filename: bundle-{{ lookup('env', 'AWSSDK_BUNDLE') }}.jar
 url_connection_client_url: https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/{{ lookup('env', 'URL_CONNECTION_CLIENT') }}/url-connection-client-{{ lookup('env', 'URL_CONNECTION_CLIENT') }}.jar 
 url_connection_client_filename: url-connection-client-{{ lookup('env', 'URL_CONNECTION_CLIENT') }}.jar
 
-hive_metastore_url: https://archive.apache.org/dist/hive/hive-standalone-metastore-{{ lookup('env', 'HIVE_METASTOR') }}/hive-standalone-metastore-{{ lookup('env', 'HIVE_METASTOR') }}-bin.tar.gz
-hive_metastore_url_file_name: hive-standalone-metastore-{{ lookup('env', 'HIVE_METASTOR') }}-bin.tar.gz
-hive_metastore_file_name: apache-hive-metastore-{{ lookup('env', 'HIVE_METASTOR') }}-bin
+hive_metastore_url: https://archive.apache.org/dist/hive/hive-{{ lookup('env', 'HIVE_METASTOR') }}/apache-hive-{{ lookup('env', 'HIVE_METASTOR') }}-bin.tar.gz  
+hive_metastore_url_file_name: apache-hive-{{ lookup('env', 'HIVE_METASTOR') }}-bin.tar.gz
+hive_metastore_file_name:  apache-hive-{{ lookup('env', 'HIVE_METASTOR') }}-bin
 
 postgresql_connector_url: https://repo1.maven.org/maven2/org/postgresql/postgresql/{{ lookup('env', 'POSTGRESQL_CONNECTOR') }}/postgresql-{{ lookup('env', 'POSTGRESQL_CONNECTOR') }}.jar
 postgresql_connector_file_name: postgresql-{{ lookup('env', 'POSTGRESQL_CONNECTOR') }}.jar
