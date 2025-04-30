@@ -1,3 +1,7 @@
+
+java_url: https://download.oracle.com/java/24/latest/jdk-24_linux-x64_bin.deb
+jave_file_name:  jdk-24_linux-x64_bin.deb
+
 hadoop_url: https://archive.apache.org/dist/hadoop/core/hadoop-{{ lookup('env', 'HADOOP_VERSION') }}/hadoop-{{ lookup('env', 'HADOOP_VERSION') }}.tar.gz
 hadoop_file_name: hadoop-{{ lookup('env', 'HADOOP_VERSION') }}
 
@@ -35,8 +39,8 @@ minio_url: https://dl.min.io/server/minio/release/linux-amd64/archive/minio_{{ l
 minio_url_file: minio_{{ lookup('env', 'MINIO') }}_amd64.deb  
 minio_cli_url: https://dl.min.io/client/mc/release/linux-amd64/mc
 
-trino_url: https://repo1.maven.org/maven2/io/trino/trino-server/{{ lookup('env', 'TRINO') }}/trino-server-{{ lookup('env', 'TRINO') }}.jar
-itrino_file_name: trino-server-{{ lookup('env', 'TRINO') }}.jar
+trino_url: https://repo1.maven.org/maven2/io/trino/trino-server/{{ lookup('env', 'TRINO') }}/trino-server-{{ lookup('env', 'TRINO') }}.tar.gz  
+trino_file_name: trino-server-{{ lookup('env', 'TRINO') }}
 
 trino_cli_url: https://repo1.maven.org/maven2/io/trino/trino-cli/{{ lookup('env', 'TRINO_CLI') }}/trino-cli-{{ lookup('env', 'TRINO_CLI') }}.jar
 trino_cli_file: trino-cli-{{ lookup('env', 'TRINO_CLI') }}.jar
