@@ -5,7 +5,19 @@
   loop:
     #- python3-dev
     - postgresql-client    
-    - '{{ java_jdk }}'
+    #- '{{ java_jdk }}'
     - s3fs
     - apache2-utils  
     - ntp
+
+
+
+- name: download the java binary
+  get_url:
+     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ jave_file_name }}"
+     dest: /opt
+
+- name: Install the java  package
+  become: yes
+  command: "dpkg -i /opt/{{ jave_file_name }}"
+
