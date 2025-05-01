@@ -1,15 +1,16 @@
 
 ### library version
-export HADOOP_VERSION=3.2.0
-export SPARK_VERSION=3.4.4
-
+export HADOOP_VERSION=3.3.4
 #hadoop_aws
-export HADOOP_AWS=3.3.2
+export HADOOP_AWS=3.3.4
 #aws_java_sdk_bundle
-export AWS_JAVA_SDK_BUNDLE=1.12.783
+export AWS_JAVA_SDK_BUNDLE=1.12.262
+
+#####
 
 export AWS_BUNDLE=2.31.8
 
+export SPARK_VERSION=3.5.5
 #iceberge
 export ICEBERG_SPARK_RUNTIME_MAJOR=3.5_2.13
 export ICEBERG_SPARK_RUNTIME_MINOR=1.8.0

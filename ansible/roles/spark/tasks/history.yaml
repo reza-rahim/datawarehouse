@@ -8,3 +8,11 @@
     inventory_hostname in groups['spark_master'] and
     (groups['spark_history'].index(inventory_hostname) == 0 or groups['spark_history'].index(inventory_hostname) == 1)
   notify: restart start_history
+
+- name: Reload service files
+  systemd:
+    daemon_reload: true
+
+
+
+

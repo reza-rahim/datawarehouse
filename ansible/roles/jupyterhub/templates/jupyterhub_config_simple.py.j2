@@ -34,9 +34,8 @@ c.MappingKernelManager.cull_interval = 300       # Check every 10 minutes
 c.Spawner.environment = {
         'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID'),
         'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY'),
-        'PGUSER': os.environ.get('PGUSER'),
-        'PGPASSWORD': os.environ.get('PGPASSWORD'),
         'SPARK_HOME': os.environ.get('SPARK_HOME'),
+        'JAVA_HOME': '{{ java_home_17 }}',
         'PYTHONPATH': '{{ spark_home }}/python'
 }
 

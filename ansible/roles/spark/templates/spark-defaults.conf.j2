@@ -69,3 +69,5 @@ spark.scheduler.mode                                            FAIR
 spark.history.ui.port						{{ spark_history_ui_port }}
 spark.history.fs.cleaner.enabled                                true
 
+#spark.executor.extraJavaOptions                                 -Daws.java.v1.disableDeprecationAnnouncement=true
+#spark.driver.extraJavaOptions                                   -Daws.java.v1.disableDeprecationAnnouncement=true

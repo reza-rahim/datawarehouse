@@ -7,7 +7,7 @@
  
 - name : extract spark zip
   unarchive:
-     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ spark_file_name }}.tgz"
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ spark_url_file_name }}"
      dest: /opt
      remote_src: true
      owner: '{{ spark_user }}'
@@ -42,6 +42,6 @@
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ hadoop_aws_file_name }}" 
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ aws_java_sdk_bundle_file_name }}"      
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ iceberg_spark_runtime_file_name }}" 
-     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}" 
+     #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}" 
      #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ awssdk_bundle_filename }}" 
-     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ url_connection_client_filename }}"       
+     #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ url_connection_client_filename }}"       
