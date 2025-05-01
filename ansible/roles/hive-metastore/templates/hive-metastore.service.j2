@@ -6,7 +6,7 @@ After=network.target postgresql@14-main.service
 User={{ hive_user }}
 Group={{ application_group }}
 
-Environment=JAVA_HOME={{ java_home }}
+Environment=JAVA_HOME={{ java_home_17 }}
 Environment=HADOOP_HOME={{ hadoop_home }}
 Environment=HIVE_HOME={{ hive_metastore_home }}
 Environment=HIVE_CONF_DIR={{ hive_metastore_home }}/conf

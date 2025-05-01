@@ -1,4 +1,4 @@
-#java_jdk: openjdk-17-jdk 
+java_jdk_17: openjdk-17-jdk 
 
 #$(jrunscript -e 'java.lang.System.out.println(java.lang.System.getProperty("java.home"));')"
 # There may be better way to find JAVA_HOME

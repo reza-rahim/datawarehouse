@@ -5,14 +5,14 @@
   loop:
     #- python3-dev
     - postgresql-client    
-    #- '{{ java_jdk }}'
+    - '{{ java_jdk_17 }}'
     - s3fs
     - apache2-utils  
     - ntp
 
 
 
-- name: download the java binary
+- name: download the java 24 binary
   get_url:
      url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ jave_file_name }}"
      dest: /opt

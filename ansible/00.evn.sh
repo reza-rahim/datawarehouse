@@ -4,7 +4,7 @@ export HADOOP_VERSION=3.2.0
 export SPARK_VERSION=3.4.4
 
 #hadoop_aws
-export HADOOP_AWS=3.2.0
+export HADOOP_AWS=3.3.2
 #aws_java_sdk_bundle
 export AWS_JAVA_SDK_BUNDLE=1.12.783
 

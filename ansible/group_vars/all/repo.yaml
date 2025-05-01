@@ -17,7 +17,12 @@ hadoop_aws_file_name : hadoop-aws-{{ lookup('env', 'HADOOP_AWS') }}.jar
 
 aws_java_sdk_bundle_url: https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/{{ lookup('env', 'AWS_JAVA_SDK_BUNDLE') }}/aws-java-sdk-bundle-{{ lookup('env', 'AWS_JAVA_SDK_BUNDLE') }}.jar
 aws_java_sdk_bundle_file_name: aws-java-sdk-bundle-{{ lookup('env', 'AWS_JAVA_SDK_BUNDLE') }}.jar
+
+url_connection_client_url: https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/{{ lookup('env', 'URL_CONNECTION_CLIENT') }}/url-connection-client-{{ lookup('env', 'URL_CONNECTION_CLIENT') }}.jar 
+url_connection_client_filename: url-connection-client-{{ lookup('env', 'URL_CONNECTION_CLIENT') }}.jar
+  
 ###  
+#
 
 iceberg_spark_runtime_url: https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MAJOR') }}/{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MINOR') }}/iceberg-spark-runtime-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MAJOR') }}-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MINOR') }}.jar
 iceberg_spark_runtime_file_name: iceberg-spark-runtime-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MAJOR') }}-{{ lookup('env', 'ICEBERG_SPARK_RUNTIME_MINOR') }}.jar

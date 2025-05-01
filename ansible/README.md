@@ -5,7 +5,10 @@ export HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 export HIVE_HOME=/opt/apache-hive
 export HIVE_CONF_DIR=$HIVE_HOME/conf
 
- update-alternatives --config java
+
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+
+update-alternatives --config java
 
 
 sudo -u postgres psql
