@@ -4,10 +4,9 @@ export HADOOP_VERSION=3.2.0
 export SPARK_VERSION=3.4.4
 
 #hadoop_aws
-export HADOOP_AWS=3.3.2
-
+export HADOOP_AWS=3.2.0
 #aws_java_sdk_bundle
-export AWS_JAVA_SDK_BUNDLE=1.12.99
+export AWS_JAVA_SDK_BUNDLE=1.12.783
 
 export AWS_BUNDLE=2.31.8
 
@@ -24,7 +23,7 @@ export URL_CONNECTION_CLIENT=2.20.38
 export HIVE_METASTOR=3.1.2
 export MINIO=20250408154124.0.0
 export POSTGRESQL_CONNECTOR=42.7.5
-export TRINO=474
+export TRINO=442
 export TRINO_CLI=474
 export KEYCLOAK=26.2.0
 export PROMETHEUS=3.2.1

@@ -21,6 +21,11 @@
   command: "dpkg -i /opt/{{ minio_url_file }}"
   when: minio_download.changed    
 
+- name: Delete a  /opt/{{ minio_url_file }} on the remote host
+  ansible.builtin.file:
+    path: /opt/{{ minio_url_file }}
+    state: absent    
+
 - name: copy  minio env files
   template: src='{{ item.src }}' dest='{{ item.dest }}' mode='{{ item.mode }}' owner='{{ minio_user }}' group='{{ application_group }}'
   loop:

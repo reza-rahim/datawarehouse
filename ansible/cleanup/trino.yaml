@@ -1,0 +1,16 @@
+---
+- name: clean spark
+  hosts: trino
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        systemctl stop trino
+        systemctl disable spark-master
+        rm -fr /opt/trino*
+        rm -fr /etc/systemd/system/trino*
+        systemctl daemon-reload
+        systemctl reset-failed

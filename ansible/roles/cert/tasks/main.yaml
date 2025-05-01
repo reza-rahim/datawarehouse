@@ -36,11 +36,16 @@
 - name:  run /usr/sbin/update-ca-certificates
   shell: /usr/sbin/update-ca-certificates
 
-- name: Check if 'CA cert' cert already exists
-  command: keytool -list -keystore /etc/ssl/certs/java/cacerts -storepass changeit -alias CA_Cert
-  register: keycloak_cert_check
+
+- name: Add the {{ ca_cert_file_name }} to Java truststore if not present as rootCA
+  shell: |
+    yes | keytool -importcert -trustcacerts \
+    -alias rootCA \
+    -file /usr/local/share/ca-certificates/rootCA.crt  \
+    -keystore {{ java_home }}/lib/security/cacerts \
+    -storepass changeit
   ignore_errors: yes
-  changed_when: false
+
 
 - name: Add the {{ ca_cert_file_name }} to Java truststore if not present as rootCA
   shell: |
@@ -48,5 +53,4 @@
     -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }} \
     -keystore /etc/ssl/certs/java/cacerts \
     -storepass changeit
-  ignore_errors: yes
-
+  ignore_errors: yes    

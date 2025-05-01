@@ -9,6 +9,5 @@
     - name: Full cleanup in one shell block
       shell: |
         systemctl stop  zookeeper
-        unlink -fr /opt/zookeeper/
-        rm -fr /opt/apache-zookeeper-3.9.3*
+        rm -fr /opt/*zookeeper*
         systemctl daemon-reload

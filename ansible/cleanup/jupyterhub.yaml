@@ -8,10 +8,10 @@
   tasks:
     - name: Full cleanup in one shell block
       shell: |
-        systemctl stop keycloak
-        systemctl disable keycloak
-        rm -f /etc/systemd/system/keycloak.service
-        rm -rf /opt/keycloak*
+        systemctl stop jupyterhub.service 
+        systemctl disable jupyterhub.service 
+        rm -f /etc/systemd/system/jupyterhub.service 
+        rm -rf /opt/jupyterhub*
         systemctl daemon-reload
         systemctl reset-failed
 

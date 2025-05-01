@@ -21,5 +21,9 @@ cat pki/server/server.key >> ../roles/cert/templates/server_crt_key.pem
 ```
 
 ##
-yes | keytool -import -trustcacerts -alias rootCA -file /usr/local/share/ca-certificates/rootCA.crt -keystore /etc/ssl/certs/java/cacerts -storepass changeit
-keytool -delete -alias rootCA -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+
+keytool -importcert -trustcacerts \
+    -alias rootCA \
+    -file /usr/local/share/ca-certificates/rootCA.crt  \
+    -keystore /usr/lib/jvm/jdk-24.0.1-oracle-x64/lib/security/cacerts \
+    -storepass changeit

@@ -21,3 +21,7 @@
   become: yes
   command: "dpkg -i /opt/{{ jave_file_name }}"
 
+- name: Delete a  /opt/{{ jave_file_name }} on the remote host
+  ansible.builtin.file:
+    path: /opt/{{ jave_file_name }}
+    state: absent    

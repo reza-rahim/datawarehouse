@@ -10,6 +10,7 @@
       shell: |
         systemctl stop minio
         systemctl disable minio
+        rm -rf /opt/minio*
         rm -f /etc/systemd/system/minio.service
 
         umount /mnt/disk1 || true

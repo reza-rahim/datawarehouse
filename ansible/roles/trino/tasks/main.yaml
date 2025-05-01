@@ -7,7 +7,7 @@
 
 - name : extract trino
   unarchive:
-     src: "http://{{ groups['repo'][0] }}/download/{{ trino_file_name }}.tar.gz"
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_file_name }}.tar.gz"
      dest: /opt
      remote_src: true
      owner: '{{ trino_user }}'
@@ -57,7 +57,7 @@
 
 - name: get trino cli files
   get_url:
-     url: "http://{{ groups['repo'][0] }}/download/{{ trino_cli_file }}"
+     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_cli_file }}"
      dest: '/usr/bin/trino'
      #owner: '{{ trino_user }}'
      #group: '{{ application_group }}'

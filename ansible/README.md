@@ -1,10 +1,11 @@
 
-export HADOOP_HOME=/opt/hadoop-3.2.0
-export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+export HADOOP_HOME=/opt/hadoo
+export JAVA_HOME=/usr/lib/jvm/jdk-24.0.1-oracle-x64
 export HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 export HIVE_HOME=/opt/apache-hive
 export HIVE_CONF_DIR=$HIVE_HOME/conf
 
+ update-alternatives --config java
 
 
 sudo -u postgres psql

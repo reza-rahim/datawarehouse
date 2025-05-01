@@ -73,13 +73,13 @@
 
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
-    <value>{{ db_user }}</value>
+    <value>${env.PGUSER}</value>
     <description>the username for the DB instance</description>
   </property> 
-  <!-- Secrets Manager (optional, only if you really use it) -->
+  
   <property>
-    <name>hadoop.security.credential.provider.path</name>
-    <value>jceks://file/usr/lib/java/secret.jceks</value>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>${env.PGPASSWORD}</value>
   </property>
 
 </configuration>

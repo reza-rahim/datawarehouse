@@ -1,6 +1,6 @@
 server {
     listen       80;
-    server_name  {{ groups['repo'][0] }}; # Change to your domain name
+    server_name  {{ hostvars[groups['repo'][0]]['ansible_host'] }}; # Change to your domain name 
 
     root /var/data; # Change to your static file directory
 

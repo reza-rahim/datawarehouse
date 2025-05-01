@@ -6,7 +6,7 @@ After=network.target
 User={{ spark_user }}
 Group={{ application_group }}
 
-Environment=JAVA_HOME={{ java_home }}
+Environment=JAVA_HOME={{ java_home_17 }}
 Environment=HADOOP_HOME={{ hadoop_home }}
 Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
