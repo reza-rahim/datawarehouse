@@ -1,3 +1,5 @@
+#
+export ZOOKEEPER=3.9.3
 
 ### library version
 export HADOOP_VERSION=3.3.4
@@ -7,9 +9,8 @@ export HADOOP_AWS=3.3.4
 export AWS_JAVA_SDK_BUNDLE=1.12.262
 
 #####
-
 export AWS_BUNDLE=2.31.8
-
+#
 export SPARK_VERSION=3.5.5
 #iceberge
 export ICEBERG_SPARK_RUNTIME_MAJOR=3.5_2.13
@@ -24,13 +25,15 @@ export URL_CONNECTION_CLIENT=2.20.38
 export HIVE_METASTOR=3.1.2
 export MINIO=20250408154124.0.0
 export POSTGRESQL_CONNECTOR=42.7.5
-export TRINO=442
-export TRINO_CLI=442
+
+export TRINO=475
+export TRINO_CLI=475
+
 export KEYCLOAK=26.2.0
+
 export PROMETHEUS=3.2.1
 export NODE_EXPORTER=1.9.1
 export GRAFANA=11.6.0
-export ZOOKEEPER=3.9.3
 
 
 export JUPYTERHUB=5.1

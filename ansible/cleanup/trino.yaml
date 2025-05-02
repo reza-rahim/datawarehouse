@@ -12,5 +12,6 @@
         systemctl disable spark-master
         rm -fr /opt/trino*
         rm -fr /etc/systemd/system/trino*
+        rm -f /usr/bin/trino
         systemctl daemon-reload
         systemctl reset-failed
