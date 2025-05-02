@@ -1,68 +1,77 @@
 ---
-
-- name: Check that the  exists
+# Check if Trino is already installed by verifying if the target directory exists
+- name: Check if Trino is already installed
   stat:
-      path: '{{ trino_home }}'
+    path: '{{ trino_home }}'
   register: stat_result
 
-- name : extract trino
+# Download and extract the Trino archive only if it's not already present
+- name: Download and extract Trino
   unarchive:
-     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_file_name }}.tar.gz"
-     dest: /opt
-     remote_src: true
-     owner: '{{ trino_user }}'
-     group: '{{ application_group }}'
+    src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_file_name }}.tar.gz"
+    dest: /opt
+    remote_src: true  # Indicates the file is already present on the remote host (via HTTP)
+    owner: '{{ trino_user }}'
+    group: '{{ application_group }}'
   when: not stat_result.stat.exists
 
-- name: create soft link to {{ trino_home }}
+# Create a symbolic link from the extracted folder to the desired Trino home directory
+- name: Create symbolic link to Trino installation
   file:
-     src: '/opt/{{ trino_file_name }}'
-     dest: '{{ trino_home }}'
-     state: link
-     owner: '{{ trino_user }}'
-     group: '{{ application_group }}'
+    src: '/opt/{{ trino_file_name }}'
+    dest: '{{ trino_home }}'
+    state: link
+    owner: '{{ trino_user }}'
+    group: '{{ application_group }}'
   when: not stat_result.stat.exists
 
-- name: Create {{ trino_home}}/etc
-  file: 
-     path: '{{ trino_home}}/etc'  
-     state: directory
-     owner: '{{ trino_user }}'
-     group: '{{ application_group }}'
+# Create the main configuration directory
+- name: Create Trino config directory
+  file:
+    path: '{{ trino_home }}/etc'
+    state: directory
+    owner: '{{ trino_user }}'
+    group: '{{ application_group }}'
 
-- name: Create {{ trino_home}}/etc/catalog
-  file: 
-     path: '{{ trino_home}}/etc/catalog'  
-     state: directory
-     owner: '{{ trino_user }}'
-     group: '{{ application_group }}'
-     
-- name: Create  (( trino_data_dir }}
-  file: 
-     path: '{{ trino_data_dir }}'  
-     state: directory
-     owner: '{{ trino_user }}'
-     group: '{{ application_group }}'
+# Create the catalog directory for plugin and connector configurations
+- name: Create Trino catalog directory
+  file:
+    path: '{{ trino_home }}/etc/catalog'
+    state: directory
+    owner: '{{ trino_user }}'
+    group: '{{ application_group }}'
 
-- name: copy trino config file 
-  template: src='{{ item.src }}' dest='{{ item.dest }}'
+# Create the data directory used by Trino for logs and runtime files
+- name: Create Trino data directory
+  file:
+    path: '{{ trino_data_dir }}'
+    state: directory
+    owner: '{{ trino_user }}'
+    group: '{{ application_group }}'
+
+# Copy templated configuration files (systemd service, properties, and catalog definitions)
+- name: Deploy Trino configuration files
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
   loop:
-     - { src: 'trino.service.j2', dest: '/etc/systemd/system/trino.service'  }
-     - { src: 'config.properties.j2', dest: '{{ trino_home }}/etc/config.properties'  }
-     - { src: 'jvm.config.j2', dest: '{{ trino_home }}/etc/jvm.config'  }
-     - { src: 'node.properties.j2', dest: '{{ trino_home }}/etc/node.properties'  }
-     - { src: 'iceberg.properties.j2', dest: '{{ trino_home }}/etc/catalog/iceberg.properties'  }
-     - { src: 'password-authenticator.properties.j2', dest: '{{ trino_home }}/etc/password-authenticator.properties'  }
-  notify: restart start_trino    
+    - { src: 'trino.service.j2', dest: '/etc/systemd/system/trino.service' }
+    - { src: 'config.properties.j2', dest: '{{ trino_home }}/etc/config.properties' }
+    - { src: 'jvm.config.j2', dest: '{{ trino_home }}/etc/jvm.config' }
+    - { src: 'node.properties.j2', dest: '{{ trino_home }}/etc/node.properties' }
+    - { src: 'iceberg.properties.j2', dest: '{{ trino_home }}/etc/catalog/iceberg.properties' }
+    - { src: 'password-authenticator.properties.j2', dest: '{{ trino_home }}/etc/password-authenticator.properties' }
+  notify: restart start_trino  # This triggers a handler to restart Trino if any of the files change
 
-- name: get trino cli files
+# Download the Trino CLI to /usr/bin and make it executable
+- name: Download Trino CLI
   get_url:
-     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_cli_file }}"
-     dest: '/usr/bin/trino'
-     #owner: '{{ trino_user }}'
-     #group: '{{ application_group }}'
-     mode: 755
+    url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_cli_file }}"
+    dest: '/usr/bin/trino'
+    mode: '0755'
 
-- name: Reload service files
+# Reload systemd to recognize the new Trino service definition
+- name: Reload systemd daemon
   systemd:
-    daemon_reload: true       
+    daemon_reload: true
+
