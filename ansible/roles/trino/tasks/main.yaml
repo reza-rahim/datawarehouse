@@ -65,4 +65,4 @@
 
 - name: Reload service files
   systemd:
-    daemon_reload: true     
+    daemon_reload: true       

@@ -7,7 +7,7 @@ ansible-playbook -i  ../inventory.ini spark.yaml
 ansible-playbook -i  ../inventory.ini cert.yaml 
 ansible-playbook -i  ../inventory.ini hive.yaml 
 
-ansible-playbook -i  ../inventory.ini jupyterhub
+ansible-playbook -i  ../inventory.ini jupyterhub.yaml
 ansible-playbook -i  ../inventory.ini trino.yaml 
 
 ##zoo cleanup

@@ -5,5 +5,5 @@ ansible-playbook -i inventory.ini \
 -e trino_shared_secret=$TRINO_SHARED_SECRET  \
 -e keycloak_trino_client_id=$KEYCLOAK_TRINO_CLIENT_ID \
 -e keycloak_bi_realm=$KEYCLOAK_BI_REALM \
--e keycloak_minio_client_secret=$KEYCLOAK_MINIO_CLIENT_SECRET \
+-e keycloak_trino_client_secret=$KEYCLOAK_TRINO_CLIENT_SECRET \
 trino.yaml
