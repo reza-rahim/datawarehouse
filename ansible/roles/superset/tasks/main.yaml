@@ -1,0 +1,93 @@
+---
+
+- name: install libs
+  apt: 
+    name: [python3-virtualenv ,libldap2-dev,libffi-dev , libssl-dev , libsasl2-dev, libpq-dev ]
+   
+
+- name: create  {{ superset_home }} 
+  file: 
+     path: '{{  superset_home }}' 
+     state: directory
+     owner: '{{ superset_user }}'
+     group: '{{ superset_group }}'
+
+- name: create  {{ superset_home }}/pythonpath 
+  file: 
+     path: '{{  superset_home }}/pythonpath' 
+     state: directory
+     owner: '{{ superset_user }}'
+     group: '{{ superset_group }}'
+
+- name: copy  superset service files
+  template: src='{{ item.src }}' dest='{{ item.dest }}'
+  loop:
+     - { src: 'superset.service.j2', dest: '/etc/systemd/system/superset.service' }
+  notify: restart superset
+
+- name: copy  superset files
+  template: src='{{ item.src }}' dest='{{ item.dest }}'
+  loop:
+     - { src: 'requirements.txt.j2', dest: '{{  superset_home }}/requirements.txt' }
+     - { src: 'superset_config.py.j2', dest: '{{  superset_home }}/pythonpath/superset_config.py' }
+     - { src: 'superset.txt.j2', dest: '{{  superset_home }}/superset.txt'  }
+     - { src: 'create_database.py.j2', dest: '{{  superset_home }}/create_database.py'  }
+  become: True
+  become_user: "{{ superset_user }}"
+  notify: restart superset
+
+- name: install requirement lib
+  pip:
+     virtualenv:  '{{ superset_home }}/venv'   
+     requirements: '{{ superset_home }}/requirements.txt' 
+  become: True
+  become_user: "{{ superset_user }}"
+
+- name: install superset
+  pip:
+     virtualenv:  '{{ superset_home }}/venv'   
+     requirements: '{{ superset_home }}/superset.txt' 
+  become: True
+  become_user: "{{ superset_user }}"
+
+- name: superset db upgrade
+  shell: '. {{ superset_home }}/venv/bin/activate; export SUPERSET_SECRET_KEY={{ superset_secret_key }}; export PGUSER={{ db_user }}; export PGPASSWORD={{ db_password }};  export FLASK_APP=superset;  export PYTHONPATH=/opt/superset/pythonpath;  {{ superset_home }}/venv/bin/superset db upgrade;'
+  become: True
+  become_user: "{{ superset_user }}"
+  when: >
+      groups['superset'].index(inventory_hostname) == 0
+
+- name: set superset admin user
+  shell: '. {{ superset_home }}/venv/bin/activate; export SUPERSET_SECRET_KEY={{ superset_secret_key }}; export PGUSER={{ db_user }}; export PGPASSWORD={{ db_password }};  export FLASK_APP=superset; export PYTHONPATH=/opt/superset/pythonpath; {{ superset_home }}/venv/bin/superset fab create-admin --username {{ superset_admin_user }} --firstname Superset --lastname Admin --email {{ superset_admin_email }} --password {{ superset_admin_password }};' 
+  become: True
+  become_user: "{{ superset_user }}"
+  when: >
+      groups['superset'].index(inventory_hostname) == 0
+
+
+- name: superset init
+  shell: '. {{ superset_home }}/venv/bin/activate; export SUPERSET_SECRET_KEY={{ superset_secret_key }}; export PGUSER={{ db_user }}; export PGPASSWORD={{ db_password }}; export FLASK_APP=superset; export PYTHONPATH=/opt/superset/pythonpath ; {{ superset_home }}/venv/bin/superset init'
+  become: True
+  become_user: "{{ superset_user }}"
+  when: >
+      groups['superset'].index(inventory_hostname) == 0
+
+#- name: superset init
+#  shell: '. {{ superset_home }}/venv/bin/activate; export FLASK_APP=superset; export PYTHONPATH=/opt/superset/pythonpath ; {{ superset_home }}/venv/bin/superset set_database_uri -d Trino -u trino://{{ trino_user }}:{{ trino_password }}@127.0.0.1:7443/iceberg?verify=false'
+#  become: True
+#  become_user: "{{ superset_user }}"
+
+- name: Reload service files
+  systemd:
+    daemon_reload: true
+
+- name: Flush handlers
+  meta: flush_handlers
+
+
+- name: add the trino database connection   
+  shell: "export REQUESTS_CA_BUNDLE=/usr/local/share/ca-certificates/CA_cert.crt; export SUPERSET_USER={{ superset_admin_user }}; export SUPERSET_PASSWORD={{ superset_admin_password }}; python  {{ superset_home }}/create_database.py"
+  when: >
+      groups['superset'].index(inventory_hostname) == 0
+  
+    
