@@ -7,20 +7,21 @@ eval "$(/etc/lockbox/decrypt_lockbox_eval.sh)"
 #/opt/superset/superset-venv/bin/superset
 ```
 
-### Create Trino Connection
-<br>
+### Create Trino Connectiobr
 ![alt conn1](images/conn1.png)
-<br>
+
 ```
 trino://demo:demo@trino.dw.felicity.net.bd:7443/iceberg/default
 ```
+
 ![alt conn2](images/conn3.png)
 
-<br>
+
 ```
 {"connect_args":{"http_scheme":"https","verify":"/usr/local/share/ca-certificates/rootCA.crt"}}
 # OR
 {"connect_args":{"http_scheme":"https","verify":"False"}}
 ```
+
 ![alt conn3](images/conn3.png)
 
