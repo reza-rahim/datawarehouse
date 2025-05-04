@@ -1,1 +1,4 @@
-eval $(/usr/bin/gpg --passphrase "$(/usr/sbin/blkid | /usr/bin/grep UUID | /usr/bin/grep sda | /usr/bin/head -n 1 | /usr/bin/awk -F' ' '{print $2}' | /usr/bin/awk -F'=' '{print $2}' | /usr/bin/sed 's/.$//' | /usr/bin/sed 's/^.//')" --batch --quiet --yes -d /etc/lockbox/lockbox.env.gpg)
+
+```eval $(/usr/bin/gpg --passphrase "$(/usr/sbin/blkid | /usr/bin/grep UUID | /usr/bin/grep sda | /usr/bin/head -n 1 | /usr/bin/awk -F' ' '{print $2}' | /usr/bin/awk -F'=' '{print $2}' | /usr/bin/sed 's/.$//' | /usr/bin/sed 's/^.//')" --batch --quiet --yes -d /etc/lockbox/lockbox.env.gpg)
+```
+
