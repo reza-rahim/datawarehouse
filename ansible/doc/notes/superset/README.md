@@ -6,3 +6,8 @@ eval "$(/etc/lockbox/decrypt_lockbox_eval.sh)"
 
 #/opt/superset/superset-venv/bin/superset
 ```
+
+### Create Trino Connection
+
+[conn1](images/conn1.png)
+
