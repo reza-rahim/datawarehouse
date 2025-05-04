@@ -1,22 +1,16 @@
 [Unit]
-Description=Apache  superset
-After=network.target trino.service
+Description=Apache Superset
+After=network.target postgresql@14-main.service
 
 [Service]
 User={{ superset_user }}
 Group={{ application_group }}
 WorkingDirectory={{ superset_home }}
 Environment=FLASK_APP=superset
-Environment=SUPERSET_SECRET_KEY={{ superset_secret_key }}
 Environment=PYTHONPATH={{ superset_home }}/pythonpath
-
-ExecStartPre={{ lockbox_dir }}/decrypt_lockbox.sh
-
-ExecStart=/bin/bash -c "source {{ tmpfs_dir }}/{{ lockbox_env }}; \
-                       /usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }} ; \
-                       /opt/superset/venv/bin/gunicorn -w 8 -k gevent --timeout 120  --certfile={{ cert_dir }}/{{ server_cert_file_name }} --keyfile={{ cert_dir }}/{{ server_key_file_name }}  -b 0.0.0.0:8088 --limit-request-line 0 --limit-request-field_size 0 'superset.app:create_app()' "
-Restart=on-failure
-RestartSec=5s
+EnvironmentFile=SUPERSET_CONFIG_PATH={{ superset_home }}/superset.py
+ExecStart=bash -c "eval $({{ lockbox_dir }}/decrypt_lockbox_eval.sh); {{ superset_venv_path }}/bin/superset run -p {{ superset_port }} --with-threads --reload --debugger"
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

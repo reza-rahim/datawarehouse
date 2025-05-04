@@ -1,0 +1,143 @@
+# Install all system-level dependencies required to build Python packages
+- name: Install required libraries
+  apt:
+    name:
+      - python3-virtualenv       # For creating Python virtual environments
+      - libldap2-dev             # Required by python-ldap
+      - libffi-dev               # Required for cryptography libraries
+      - libssl-dev               # Required for OpenSSL support
+      - libsasl2-dev             # For SASL authentication support
+      - libpq-dev                # PostgreSQL client library
+
+# Create the main Superset installation directory
+- name: Create superset home directory
+  file:
+    path: "{{ superset_home }}"
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+
+# Create a subdirectory for custom Superset Python modules/configs
+- name: Create pythonpath directory
+  file:
+    path: "{{ superset_home }}/pythonpath"
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+
+# Copy the Superset systemd service unit file to enable systemd control
+- name: Copy Superset service file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: "superset.service.j2", dest: "/etc/systemd/system/superset.service" }
+  notify: restart superset
+
+# Copy all necessary Superset configuration and setup files
+- name: Copy Superset configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: "requirements.txt.j2", dest: "{{ superset_home }}/requirements.txt" }              # Python package requirements
+    - { src: "superset_config.py.j2", dest: "{{ superset_home }}/pythonpath/superset_config.py" } # Custom Superset config
+    - { src: "superset.txt.j2", dest: "{{ superset_home }}/superset.txt" }                      # Superset Python packages
+    - { src: "create_database.py.j2", dest: "{{ superset_home }}/create_database.py" }          # Script to add Trino DB
+  become: true
+  become_user: "{{ superset_user }}"
+  notify: restart superset
+
+# Install Python packages from requirements.txt in a virtual environment
+- name: Install Python requirements
+  pip:
+    virtualenv: "{{ superset_home }}/venv"
+    requirements: "{{ superset_home }}/requirements.txt"
+  become: true
+  become_user: "{{ superset_user }}"
+
+# Install Superset and related Python packages
+- name: Install Superset
+  pip:
+    virtualenv: "{{ superset_home }}/venv"
+    requirements: "{{ superset_home }}/superset.txt"
+  become: true
+  become_user: "{{ superset_user }}"
+
+# Upgrade the Superset database (only run on the first host in the superset group)
+- name: Run Superset DB upgrade
+  shell: |
+    . {{ superset_home }}/venv/bin/activate
+    export SUPERSET_SECRET_KEY={{ superset_secret_key }}
+    export PGUSER={{ db_user }}
+    export PGPASSWORD={{ db_password }}
+    export FLASK_APP=superset
+    export PYTHONPATH=/opt/superset/pythonpath
+    {{ superset_home }}/venv/bin/superset db upgrade
+  become: true
+  become_user: "{{ superset_user }}"
+  when: groups['superset'].index(inventory_hostname) == 0
+
+# Create an admin user for Superset (only on the primary node)
+- name: Create Superset admin user
+  shell: |
+    . {{ superset_home }}/venv/bin/activate
+    export SUPERSET_SECRET_KEY={{ superset_secret_key }}
+    export PGUSER={{ db_user }}
+    export PGPASSWORD={{ db_password }}
+    export FLASK_APP=superset
+    export PYTHONPATH=/opt/superset/pythonpath
+    {{ superset_home }}/venv/bin/superset fab create-admin \
+      --username {{ superset_admin_user }} \
+      --firstname Superset \
+      --lastname Admin \
+      --email {{ superset_admin_email }} \
+      --password {{ superset_admin_password }}
+  become: true
+  become_user: "{{ superset_user }}"
+  when: groups['superset'].index(inventory_hostname) == 0
+
+# Initialize Superset (create default roles, permissions, etc.)
+- name: Initialize Superset
+  shell: |
+    . {{ superset_home }}/venv/bin/activate
+    export SUPERSET_SECRET_KEY={{ superset_secret_key }}
+    export PGUSER={{ db_user }}
+    export PGPASSWORD={{ db_password }}
+    export FLASK_APP=superset
+    export PYTHONPATH=/opt/superset/pythonpath
+    {{ superset_home }}/venv/bin/superset init
+  become: true
+  become_user: "{{ superset_user }}"
+  when: groups['superset'].index(inventory_hostname) == 0
+
+# Optional: Set Trino DB URI directly (commented out as alternative method)
+# - name: Set Trino database URI
+#   shell: |
+#     . {{ superset_home }}/venv/bin/activate
+#     export FLASK_APP=superset
+#     export PYTHONPATH=/opt/superset/pythonpath
+#     {{ superset_home }}/venv/bin/superset set_database_uri \
+#       -d Trino \
+#       -u trino://{{ trino_user }}:{{ trino_password }}@127.0.0.1:7443/iceberg?verify=false
+#   become: true
+#   become_user: "{{ superset_user }}"
+
+# Reload systemd to recognize the new Superset service unit
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: true
+
+# Ensure all notified handlers (e.g., restart superset) run immediately
+- name: Apply notified handlers
+  meta: flush_handlers
+
+# Run a Python script to register Trino as a database in Superset
+- name: Add Trino database connection
+  shell: |
+    export REQUESTS_CA_BUNDLE=/usr/local/share/ca-certificates/CA_cert.crt
+    export SUPERSET_USER={{ superset_admin_user }}
+    export SUPERSET_PASSWORD={{ superset_admin_password }}
+    python {{ superset_home }}/create_database.py
+  when: groups['superset'].index(inventory_hostname) == 0
+

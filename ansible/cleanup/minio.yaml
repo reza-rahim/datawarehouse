@@ -13,16 +13,17 @@
         rm -rf /opt/minio*
         rm -f /etc/systemd/system/minio.service
 
-        umount /mnt/disk1 || true
-        umount /mnt/disk2 || true
+        rm -rf mnt/disk1/minio/
+        rm -rf mnt/disk2/minio/
+        #umount /mnt/disk1 || true
+        #umount /mnt/disk2 || true
 
-        wipefs -a /dev/sdb
-        wipefs -a /dev/sdc
+        #wipefs -a /dev/sdb
+        #wipefs -a /dev/sdc
 
-        dd if=/dev/zero of=/dev/sdb bs=1M count=100
-        dd if=/dev/zero of=/dev/sdc bs=1M count=100
+        #dd if=/dev/zero of=/dev/sdb bs=1M count=100
+        #dd if=/dev/zero of=/dev/sdc bs=1M count=100
 
         systemctl daemon-reload
         systemctl reset-failed
-
 
