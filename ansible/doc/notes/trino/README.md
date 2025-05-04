@@ -37,5 +37,25 @@ rows = cur.fetchall()
 print(rows)
 ```
 
+
+```
+rom sqlalchemy import create_engine
+
+engine = create_engine(
+    "trino://demo:demo@trino.dw.felicity.net.bd:7443/iceberg/default",
+    connect_args={
+        "http_scheme": "https",
+        "verify": "/usr/local/share/ca-certificates/rootCA.crt",
+    }
+)
+
+try:
+    with engine.connect() as conn:
+        result = conn.execute("SELECT * from table1")
+        print("Connection successful, result:", result.fetchone())
+except Exception as e:
+    print("Connection failed:", e)
+```
+
 https://github.com/trinodb/trino-python-client/blob/master/README.md
 
