@@ -39,7 +39,7 @@ print(rows)
 
 
 ```
-rom sqlalchemy import create_engine
+from sqlalchemy import create_engine
 
 engine = create_engine(
     "trino://demo:demo@trino.dw.felicity.net.bd:7443/iceberg/default",
