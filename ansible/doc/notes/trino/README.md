@@ -18,7 +18,7 @@ select * from table1;
 pip install sqlalchemy sqlalchemy-trino
 ```
 ```
-rom trino.dbapi import connect
+from trino.dbapi import connect
 from trino.auth import BasicAuthentication
 
 conn = connect(
