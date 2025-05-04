@@ -14,3 +14,26 @@ select * from table1;
 
 ```
 
+```
+pip install sqlalchemy sqlalchemy-trino
+```
+```
+rom trino.dbapi import connect
+from trino.auth import BasicAuthentication
+
+conn = connect(
+    host="trino.dw.felicity.net.bd",
+    port=7443,
+    auth=BasicAuthentication("demo", "demo"),
+    catalog="iceberg",  # fixed typo: 'ceberg' → 'iceberg'
+    schema="default",
+    http_scheme="https",  # fixed typo: 'ttp_scheme' → 'http_scheme'
+    verify="/usr/local/share/ca-certificates/rootCA.crt"
+)
+
+cur = conn.cursor()
+cur.execute("SELECT * from table1")
+rows = cur.fetchall()
+print(rows)
+```
+
