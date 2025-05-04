@@ -9,5 +9,5 @@ eval "$(/etc/lockbox/decrypt_lockbox_eval.sh)"
 
 ### Create Trino Connection
 
-[conn1](images/conn1.png)
+![alt conn1](images/conn1.png)
 
