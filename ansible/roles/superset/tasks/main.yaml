@@ -20,13 +20,20 @@
     - { src: "superset_config.py.j2", dest: "{{ superset_home }}/superset_config.py" }
     - { src: "requirements.txt.j2", dest: "{{ superset_home }}/requirements.txt" }
     - { src: "superset.service.j2", dest: "/etc/systemd/system/superset.service" }       
-  #notify: restart superset     
+  notify: restart superset     
 
 - name: Create Python virtual environment
   become_user: "{{ superset_user }}"
   command: "python3 -m venv {{ superset_venv_path }}"
   args:
       creates: "{{ superset_venv_path }}/bin/activate"
+
+- name: install requirement lib
+  pip:
+     virtualenv:  '{{ superset_venv_path }}'   
+     requirements: '{{ superset_home }}/requirements.txt' 
+  become: True
+  become_user: "{{ superset_user }}"        
 
 
 - name: Initialize Superset database
@@ -42,7 +49,7 @@
      groups['superset'].index(inventory_hostname) == 0
   ignore_errors: true
 
-# Reload systemd to recognize the new Trino service definition
+# Reload systemd to recognize the new service definition
 - name: Reload systemd daemon
   systemd:
     daemon_reload: true       
