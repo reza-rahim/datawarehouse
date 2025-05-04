@@ -37,3 +37,5 @@ rows = cur.fetchall()
 print(rows)
 ```
 
+https://github.com/trinodb/trino-python-client/blob/master/README.md
+
