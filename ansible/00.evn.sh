@@ -68,7 +68,7 @@ export PGPASSWORD=postgres
 
 #keycloak
 export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PSASSWORD=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
 
 # use uuidgen  command
 export KEYCLOAK_MINIO_ID=d90e6f09-33a2-4344-af98-c9357495cf78

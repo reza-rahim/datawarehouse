@@ -1,0 +1,33 @@
+- name: Copy Superset template files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ superset_user }}"
+    mode: "{{ item.mode | default(omit) }}"  
+  loop:
+    - { src: "superset_config.py.j2", dest: "{{ superset_home }}/superset_config.py" }
+    - { src: "run_superset.sh.j2", dest: "{{ superset_home }}/run_superset.sh",  mode: "0755" }       
+    - { src: "client_secret.json.j2", dest: "{{ superset_home }}/client_secret.json"}       
+    - { src: "keycloak_security_manager.py.j2", dest: "{{ superset_home }}/pythonpath/keycloak_security_manager.py"}       
+    - { src: "superset.service.j2", dest: "/etc/systemd/system/superset.service" }       
+  notify: restart superset     
+
+
+- name: Initialize Superset database
+  shell: |
+        source {{ superset_venv_path }}/bin/activate
+        export SUPERSET_CONFIG_PATH={{ superset_home }}/superset_config.py
+        export FLASK_APP=superset
+        export PYTHONPATH={{ superset_home }}/pythonpath
+        eval "$({{ lockbox_dir }}/decrypt_lockbox_eval.sh)"
+        {{ superset_venv_path }}/bin/superset db upgrade
+        {{ superset_venv_path }}/bin/superset fab create-admin --username $SUPERSET_ADMIN_USER --firstname Superset --lastname Admin --email admin@superset.com --password $SUPERSET_ADMIN_PASSWORD
+        {{ superset_venv_path }}/bin/superset init
+  when: >      
+     groups['superset'].index(inventory_hostname) == 0
+  ignore_errors: true
+
+# Reload systemd to recognize the new service definition
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: true       

@@ -1,4 +1,6 @@
 
+eval "$(/etc/lockbox/decrypt_lockbox_eval.sh)"
+
 export HADOOP_HOME=/opt/hadoo
 export JAVA_HOME=/usr/lib/jvm/jdk-24.0.1-oracle-x64
 export HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)

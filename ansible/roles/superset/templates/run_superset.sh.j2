@@ -1,0 +1,4 @@
+#!/bin/bash
+eval "$({{ lockbox_dir }}/decrypt_lockbox_eval.sh)"; 
+{{ superset_venv_path }}/bin/gunicorn -w 8 -k gevent --timeout 120  --certfile={{ cert_dir }}/{{ server_cert_file_name }} --keyfile={{ cert_dir }}/{{ server_key_file_name }}  -b 0.0.0.0:8088 --limit-request-line 0 --limit-request-field_size 0 'superset.app:create_app()' 
+

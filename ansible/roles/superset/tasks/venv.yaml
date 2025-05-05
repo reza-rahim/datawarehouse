@@ -1,0 +1,66 @@
+- name: Create {{ superset_home }} directory
+  file: 
+    path: "{{ superset_home }}" 
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+
+- name: Create {{ superset_home }}/pythonpath directory
+  file: 
+    path: "{{ superset_home }}/pythonpath" 
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+
+- name: Copy Superset template files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ superset_user }}"
+    mode: "{{ item.mode | default(omit) }}"
+  loop:
+    - { src: "requirements.txt.j2", dest: "{{ superset_home }}/requirements.txt" }
+  notify: restart superset
+
+
+- name: Create Python virtual environment
+  become: true
+  become_user: "{{ superset_user }}"
+  command: "python3 -m venv {{ superset_venv_path }}"
+  args:
+    creates: "{{ superset_venv_path }}/bin/activate"
+
+- name: install requirement lib
+  pip:
+     virtualenv:  '{{ superset_venv_path }}'
+     requirements: '{{ superset_home }}/requirements.txt'
+  become: True
+  become_user: "{{ superset_user }}"
+
+- name: Get path to certifi CA bundle
+  command: "{{ superset_venv_path }}/bin/python -m certifi"
+  register: certifi_ca_path
+  changed_when: false
+
+- name: Read existing certifi CA bundle
+  slurp:
+    src: "{{ certifi_ca_path.stdout }}"
+  register: certifi_bundle
+
+- name: Read custom CA cert
+  slurp:
+    src: "/usr/local/share/ca-certificates/{{ ca_cert_file_name }}"
+  register: custom_ca_cert
+
+- name: Check if custom cert is already present
+  set_fact:
+    cert_present: "{{ custom_ca_cert.content | b64decode in certifi_bundle.content | b64decode }}"
+
+- name: Append custom CA cert to certifi CA bundle (if not present)
+  become: true
+  blockinfile:
+    path: "{{ certifi_ca_path.stdout }}"
+    block: "{{ custom_ca_cert.content | b64decode }}"
+    marker: "# {mark} CUSTOM-CA"
+  when: not cert_present
+
