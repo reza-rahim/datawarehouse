@@ -3,4 +3,4 @@
 - include: users.yaml
 - include: hosts.yaml
 - include: temfs.yaml
-- include: java22.yaml 
+- include: journald.yaml  

@@ -1,0 +1,4 @@
+SystemMaxUse: 500M
+SystemKeepFree: 500M
+SystemMaxFileSize: 50M  
+MaxRetentionSec: 1week

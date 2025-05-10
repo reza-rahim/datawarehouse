@@ -51,7 +51,10 @@ export PLOTLY=6.0.1
 export TORCH=2.5.0
 export OAUTHENTICATOR=17.3.0
 
-###
+export APACHE_AIRFLOW=2.10.4
+
+
+###########################
 export VIRTUAL_IP=10.16.50.80
 export FQDN=dw.felicity.net.bd
 

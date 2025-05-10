@@ -1,11 +1,10 @@
-airflow_version: 2.5.2
+airflow_version: 2.10.5
 airflow_user: airflow
 airflow_group: airflow
 airflow_fuse_group: airflow-fuse
 airflow_db_name: airflow
 airflow_home: /opt/airflow
-#airflow_admin_username: demo                     # change it 
-#airflow_admin_password: demo                     # chamge it
+airflow_venv_path: /opt/airflow/airflow-venv  
 airflow_port: 5080
 airflow_dag_dir: /var/data/airflow
 airflow_s3_bucket: airflow

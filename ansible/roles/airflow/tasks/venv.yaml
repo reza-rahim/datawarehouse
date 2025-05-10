@@ -1,0 +1,55 @@
+- name: Create {{ airflow_home }} directory
+  file: 
+    path: "{{ airflow_home }}" 
+    state: directory
+    owner: "{{ airflow_user }}"
+    group: "{{ airflow_group }}"
+
+- name: Create {{ airflow_home }}/pythonpath directory
+  file: 
+    path: "{{ airflow_home }}/pythonpath" 
+    state: directory
+    owner: "{{ airflow_user }}"
+    group: "{{ airflow_group }}"
+
+
+- name: Create Python virtual environment
+  become: true
+  become_user: "{{ airflow_user }}"
+  command: "python3 -m venv {{ airflow_venv_path }}"
+  args:
+    creates: "{{ airflow_venv_path }}/bin/activate"
+
+- name: Install Airflow via pip
+  pip:
+    virtualenv: "{{ airflow_venv_path }}" 
+    name: apache-airflow[celery,postgres,redis]=={{ airflow_version }}
+    extra_args: --constraint https://raw.githubusercontent.com/apache/airflow/constraints-{{ airflow_version }}/constraints-3.10.txt
+
+
+- name: Get path to certifi CA bundle
+  command: "{{ airflow_venv_path }}/bin/python -m certifi"
+  register: certifi_ca_path
+  changed_when: false
+
+- name: Read existing certifi CA bundle
+  slurp:
+    src: "{{ certifi_ca_path.stdout }}"
+  register: certifi_bundle
+
+- name: Read custom CA cert
+  slurp:
+    src: "/usr/local/share/ca-certificates/{{ ca_cert_file_name }}"
+  register: custom_ca_cert
+
+- name: Check if custom cert is already present
+  set_fact:
+    cert_present: "{{ custom_ca_cert.content | b64decode in certifi_bundle.content | b64decode }}"
+
+- name: Append custom CA cert to certifi CA bundle (if not present)
+  become: true
+  blockinfile:
+    path: "{{ certifi_ca_path.stdout }}"
+    block: "{{ custom_ca_cert.content | b64decode }}"
+    marker: "# {mark} CUSTOM-CA"
+  when: not cert_present

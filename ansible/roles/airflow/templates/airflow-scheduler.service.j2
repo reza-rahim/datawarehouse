@@ -1,0 +1,18 @@
+[Unit]
+Description=Apache Airflow Scheduler
+After=network.target  postgresql@{{ postgresql_version }}-main.service
+
+[Service]
+Environment=SPARK_HOME={{ spark_home }}
+Environment=AIRFLOW_HOME={{ airflow_home }}
+
+User={{ airflow_user }}
+Group={{ application_group }}
+Environment="PATH=$PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin;$SPARK_HOME/bin"
+
+ExecStart={{ airflow_home }}/run-airflow-scheduler.sh
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
