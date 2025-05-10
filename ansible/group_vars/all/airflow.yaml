@@ -8,3 +8,4 @@ airflow_venv_path: /opt/airflow/airflow-venv
 airflow_port: 5080
 airflow_dag_dir: /var/data/airflow
 airflow_s3_bucket: airflow
+log_retention_days: 30
