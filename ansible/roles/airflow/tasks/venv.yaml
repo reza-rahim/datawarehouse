@@ -21,9 +21,11 @@
     creates: "{{ airflow_venv_path }}/bin/activate"
 
 - name: Install Airflow via pip
+  become: yes
+  become_user: '{{ airflow_user }}'
   pip:
     virtualenv: "{{ airflow_venv_path }}" 
-    name: apache-airflow[celery,postgres,redis]=={{ airflow_version }}
+    name: apache-airflow[celery,postgres,redis,auth]=={{ airflow_version }}
     extra_args: --constraint https://raw.githubusercontent.com/apache/airflow/constraints-{{ airflow_version }}/constraints-3.10.txt
 
 

@@ -9,6 +9,7 @@ ansible-playbook -i  ../inventory.ini hive.yaml
 ansible-playbook -i  ../inventory.ini jupyterhub.yaml
 ansible-playbook -i  ../inventory.ini trino.yaml 
 ansible-playbook -i  ../inventory.ini superset.yaml 
+ansible-playbook -i  ../inventory.ini airflow.yaml 
 
 ##zoo cleanup
 #pip install kazoo;

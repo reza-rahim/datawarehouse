@@ -1,0 +1,21 @@
+---
+- name: Stop airflow, remove service, unmount and wipe disks (all in one shell)
+  hosts:  airflow
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        systemctl stop airflow-scheduler
+        systemctl stop airflow-webserver
+        systemctl disable airflow-scheduler
+        systemctl disable airflow-webserver
+        rm -f /etc/systemd/system/airflow-*.service
+        rm -rf /opt/airflow/
+        rm -rf /var/data/airflow/*
+        systemctl daemon-reload
+        systemctl reset-failed
+
+

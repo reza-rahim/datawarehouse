@@ -6,19 +6,25 @@
      - { src: 'run-airflow-webserver.sh.j2', dest: '{{ airflow_home }}/run-airflow-webserver.sh'  }
      - { src: 'airflow-scheduler.service.j2', dest: '/etc/systemd/system/airflow-scheduler.service'  }
      - { src: 'airflow-webserver.service.j2', dest: '/etc/systemd/system/airflow-webserver.service'  }
-     - { src: 'log_cleanup.py.j2', dest: '{{ airflow_dag_dir }}/log_cleanup.py'  }
-     - { src: 'hello_world_dag.py.j2', dest: '{{ airflow_dag_dir }}/hello_world_dag.py'  }
   notify:
     - restart airflow_scheduler
     - restart airflow_webserver
      
 - name: Initialize airflow
+  become: yes
+  become_user: '{{ airflow_user }}'
   shell: |
      #source {{ airflow_venv_path }}/bin/activate
      export AIRFLOW_HOME={{ airflow_home }}
      eval "$({{ lockbox_dir }}/decrypt_lockbox_eval.sh)"
      {{ airflow_venv_path }}/bin/airflow db migrate
      {{ airflow_venv_path }}/bin/airflow users  create --role Admin --username $AIRFLOW_ADMIN_USERNAME --email admin --firstname admin --lastname admin --password $AIRFLOW_ADMIN_PASSWORD
+
+- name: copy  airflowfi dag iles
+  template: src='{{ item.src }}' dest='{{ item.dest }}' owner='{{ airflow_user }}'  group='{{ application_group }}' mode=0755
+  loop:
+     - { src: 'log_cleanup.py.j2', dest: '{{ airflow_dag_dir }}/log_cleanup.py'  }
+     - { src: 'hello_world_dag.py.j2', dest: '{{ airflow_dag_dir }}/hello_world_dag.py'  }
 
 # Reload systemd to recognize the new service definition
 - name: Reload systemd daemon

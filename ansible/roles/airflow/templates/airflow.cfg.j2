@@ -18,7 +18,7 @@ base_url = https://airflow.{{ fqdn }}:{{ airflow_port }}
 web_server_port = {{ airflow_port }}
 web_server_ssl_cert = {{ cert_dir }}/{{ server_cert_file_name }}
 web_server_ssl_key = {{ cert_dir }}/{{ server_key_file_name }}
+web_server_timeout = 300
 
 [database]
 sql_alchemy_conn = postgresql+psycopg2://$PGUSER:$PGPASSWORD@postgres.{{ fqdn }}:{{ postgresql_port }}/{{ airflow_db_name }}
-
