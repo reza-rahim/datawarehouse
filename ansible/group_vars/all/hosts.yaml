@@ -11,4 +11,5 @@ hosts_list:
     - { ip: "10.16.50.81", host: "node1 node1.{{ lookup('env', 'FQDN') }}" }
     - { ip: "10.16.50.82", host: "node2 node2.{{ lookup('env', 'FQDN') }}" }
     - { ip: "10.16.50.83", host: "node3 node3.{{ lookup('env', 'FQDN') }}" }
+    - { ip: "10.16.50.84", host: "node4 node4.{{ lookup('env', 'FQDN') }}" }
 

@@ -1,7 +1,0 @@
-[Journal]
-SystemMaxUse={{ SystemMaxUse }}       # Max total disk space used
-SystemKeepFree=100M     # Keep at least this much disk space free
-SystemMaxFileSize=50M   # Max size of individual journal files
-MaxRetentionSec=2week   # Max time to retain logs (optional)
-
-

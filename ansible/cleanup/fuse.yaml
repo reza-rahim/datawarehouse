@@ -1,0 +1,11 @@
+---
+- name: clean fuse
+  hosts: fuse
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        rm -fr /opt/hadoop*

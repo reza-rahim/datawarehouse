@@ -1,0 +1,7 @@
+# Add entries to /etc/hosts for hostname-to-IP mapping
+- name: create  /etc/hosts entry
+  lineinfile:
+     dest: /etc/hosts
+     line: '{{ item.ip }} {{ item.host }}'
+  loop: "{{ hosts_list }}"
+

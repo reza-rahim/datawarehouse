@@ -1,38 +1,43 @@
+# Install Nginx if it's not already present
 - name: Install nginx
   apt:
     name: nginx
     state: present
   notify: restart nginx
 
+# Deploy a custom Nginx configuration for serving static files
 - name: Copy Nginx static file server config
   template:
     src: static-file-server.conf.j2
     dest: /etc/nginx/conf.d/static-file-server.conf
   notify: restart nginx
 
+# Immediately apply any pending handler actions (e.g., restart nginx)
 - name: Flush handlers
   meta: flush_handlers
 
+# Ensure the download directory exists
 - name: Create download directory
   file:
     path: /var/data/download
     state: directory
 
-- name: Download required packages
-  get_url:
+# Download a list of required packages only if not already present
+- name: Download required packages to /var/data/download
+  ansible.builtin.get_url:
     url: "{{ item.url }}"
-    dest: /var/data/download
+    dest: "/var/data/download/{{ item.url | basename }}"
+    mode: '0644'
+    force: no  # Skip download if the file already exists
   loop:
-    #- { url: "{{ hadoop_url }}" }
-    #- { url: "{{ spark_file_url }}" }
+    - { url: "{{ hadoop_url }}" }
+    - { url: "{{ spark_file_url }}" }
     - { url: "{{ hadoop_aws_url }}" }
     - { url: "{{ aws_java_sdk_bundle_url }}" }
-    - { url: "{{ awssdk_bundle_url }}" }
-    - { url: "{{ url_connection_client_url }}" }
     - { url: "{{ iceberg_spark_runtime_url }}" }
     - { url: "{{ hive_metastore_url }}" }
     - { url: "{{ postgresql_connector_url }}" }
-    #- { url: "{{ minio_url }}" }
+    - { url: "{{ minio_url }}" }
     - { url: "{{ minio_cli_url }}" }
     - { url: "{{ trino_url }}" }
     - { url: "{{ keycloak_url }}" }
@@ -42,20 +47,24 @@
     - { url: "{{ node_exporter_url }}" }
     - { url: "{{ grafana_url }}" }
 
+# Check if MinIO CLI binary already exists
 - name: Check if MinIO CLI exists
   stat:
     path: /usr/local/sbin/mc
   register: minio_cli_check
 
+# Install MinIO CLI if not already installed
 - name: Set up MinIO CLI
   shell: cp /var/data/download/mc /usr/local/sbin/mc && chmod 755 /usr/local/sbin/mc
   when: not minio_cli_check.stat.exists
 
+# Check if Trino CLI binary already exists
 - name: Check if Trino CLI exists
   stat:
     path: /usr/local/sbin/trino
   register: trino_cli_check
 
+# Install Trino CLI if not already installed
 - name: Set up Trino CLI
   shell: cp {{ trino_cli_file }} /usr/local/sbin/trino && chmod 755 /usr/local/sbin/trino
   when: not trino_cli_check.stat.exists
