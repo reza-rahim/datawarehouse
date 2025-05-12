@@ -1,6 +1,0 @@
----
-
-- include: users.yaml
-- include: hosts.yaml
-- include: temfs.yaml
-- include: journald.yaml  

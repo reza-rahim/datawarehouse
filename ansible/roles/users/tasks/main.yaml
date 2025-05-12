@@ -20,11 +20,6 @@
     name: '{{ minio_group }}'
     state: present
 
-- name: create group db_group
-  group:
-    name: '{{ db_user }}'
-    state: present
-
 - name: create group keycloak_group
   group:
     name: '{{  keycloak_group }}'
@@ -119,10 +114,6 @@
     name: '{{ minio_user }}'
     groups: '{{ application_group }},{{ minio_group }}'
 
-- name: Create user {{ db_user }}
-  user:
-    name: '{{ db_user }}'
-    groups: '{{ db_user }},{{ application_group }}'
 
 - name: Create user {{ keycloak_user }}
   user:
