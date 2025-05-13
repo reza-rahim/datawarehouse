@@ -5,10 +5,6 @@ export DB_PASSWORD=postgres
 export PGUSER=postgres
 export PGPASSWORD=postgres
 
-#patroni
-#export PATRONI_REPLICATION_USERNAME=replicator
-#export PATRONI_REPLICATION_PASSWORD=password
-
 #keycloak
 export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
