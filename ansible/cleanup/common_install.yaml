@@ -8,7 +8,22 @@
   tasks:
     - name: Full cleanup in one shell block
       shell: |
-         rm -rf /usr/lib/jvm/jdk-24.0.1-oracle-x64
-         apt remove --purge -y openjdk-17-jdk  python3-dev postgresql-client s3fs \
-              apache2-utils ntp python3-pip python3-venv libldap2-dev libffi-dev libssl-dev \
-              libsasl2-dev libpq-dev libcurl4-openssl-dev libssl-dev build-essential 
+         sudo apt remove --purge -y openjdk-17-jdk
+         apt remove --purge -y openjdk-17-jre
+         sudo apt remove --purge -y jdk-24
+         sudo apt remove --purge -y python3-dev
+         sudo apt remove --purge -y postgresql-client
+         sudo apt remove --purge -y s3fs
+         sudo apt remove --purge -y apache2-utils
+         sudo apt remove --purge -y ntp
+         sudo apt remove --purge -y python3-pip
+         sudo apt remove --purge -y python3-venv
+         sudo apt remove --purge -y libldap2-dev
+         sudo apt remove --purge -y libffi-dev
+         sudo apt remove --purge -y libssl-dev
+         sudo apt remove --purge -y libsasl2-dev
+         sudo apt remove --purge -y libpq-dev
+         sudo apt remove --purge -y libcurl4-openssl-dev
+         sudo apt remove --purge -y build-essential
+
+         apt autoremove -y
