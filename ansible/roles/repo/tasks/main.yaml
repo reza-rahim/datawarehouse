@@ -30,6 +30,7 @@
     mode: '0644'
     force: no  # Skip download if the file already exists
   loop:
+    - { url: "{{ java_url }}" }
     - { url: "{{ hadoop_url }}" }
     - { url: "{{ spark_file_url }}" }
     - { url: "{{ hadoop_aws_url }}" }

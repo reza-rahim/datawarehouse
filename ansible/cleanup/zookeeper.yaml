@@ -9,5 +9,7 @@
     - name: Full cleanup in one shell block
       shell: |
         systemctl stop  zookeeper
+        systemctl disable  zookeeper
         rm -fr /opt/*zookeeper*
+        rm /etc/systemd/system/zookeeper*
         systemctl daemon-reload

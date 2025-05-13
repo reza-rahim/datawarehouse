@@ -1,0 +1,62 @@
+# Copy the journald configuration template to the target system
+- name: Copy journal template files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: "journald.conf.j2", dest: "/etc/systemd/journald.conf" }
+  notify:
+    - restart journald
+
+# Check if Java 24 is already installed by checking the expected binary path
+- name: Check if Java 24 is installed
+  shell: |
+    ls /usr/lib/jvm/jdk-24.0.1-oracle-x64/bin/java
+  register: java_check
+  ignore_errors: yes    
+
+# Download the Java 24 installer binary if it's not already installed
+- name: Download Java 24 binary if not installed
+  ansible.builtin.get_url:
+    url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ java_file_name }}"
+    dest: "/opt/{{ java_file_name }}"
+    mode: '0644'
+  when: 
+    - java_check.rc != 0
+
+# Install Java from the downloaded .deb package
+- name: Install the Java package
+  become: yes
+  command: "dpkg -i /opt/{{ java_file_name }}"
+  when:
+    - java_check.rc != 0
+
+# Remove the downloaded Java binary after installation to save space
+- name: Delete /opt/{{ java_file_name }} on the remote host
+  ansible.builtin.file:
+    path: /opt/{{ java_file_name }}
+    state: absent       
+
+# Install required packages such as pip, JRE, PostgreSQL client, and development libraries
+- name: Install python3-pip, JRE, and PostgreSQL client
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+  loop:
+    - python3-dev
+    - postgresql-client    
+    - '{{ java_jdk_17 }}'
+    - s3fs
+    - apache2-utils  
+    - ntp
+    - python3-pip
+    - python3-venv  
+    - libldap2-dev
+    - libffi-dev 
+    - libssl-dev 
+    - libsasl2-dev
+    - libpq-dev
+    - libcurl4-openssl-dev
+    - libssl-dev
+    - build-essential
+

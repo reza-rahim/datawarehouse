@@ -15,6 +15,12 @@
         systemctl stop  spark-worker-2
         systemctl stop  spark-worker-3
         systemctl stop  spark-worker-4
+        systemctl stop  spark-history
+        systemctl disable spark-worker-1
+        systemctl disable spark-worker-2
+        systemctl disable spark-worker-3
+        systemctl disable spark-worker-4
+        systemctl disable spark-history
         rm -fr /opt/spark*
         rm -fr /etc/systemd/system/spark*
         systemctl daemon-reload
