@@ -108,9 +108,9 @@ cat server.key >> server_crt_key.pem
 Copy the generated certificates and key to your Ansible role's templates directory:
 
 ```bash
-cp CA_cert.crt ../roles/cert/templates/
-cp server.crt ../roles/cert/templates/
-cp server.key ../roles/cert/templates/
-cp server_crt_key.pem ../roles/cert/templates/
+cp CA_cert.crt ../../roles/cert/templates/
+cp server.crt ../../roles/cert/templates/
+cp server.key ../../roles/cert/templates/
+cp server_crt_key.pem ../../roles/cert/templates/
 ```
 
