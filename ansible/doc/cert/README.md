@@ -78,6 +78,7 @@ openssl x509 -req \
   -days 730 \
   -sha256 \
   -extfile ssl-ext.cnf
+```
 ---
 
 ## Step 4: Verify the Certificate
