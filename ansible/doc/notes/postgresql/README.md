@@ -1,4 +1,6 @@
 
+### https://www.cherryservers.com/blog/how-to-set-up-postgresql-database-replication
+
 ```
 systemctl status postgresql@14-main.service 
 
