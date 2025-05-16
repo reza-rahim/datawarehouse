@@ -44,7 +44,7 @@
     update_cache: yes
   loop:
     - python3-dev
-    - postgresql-client    
+    #- postgresql-client    
     - '{{ java_jdk_17 }}'
     - s3fs
     - apache2-utils  
@@ -59,4 +59,10 @@
     - libcurl4-openssl-dev
     - libssl-dev
     - build-essential
+    - gnupg2 
+    - lsb-release  
 
+- name: Install psycopg2 using pip
+  pip:
+    name: psycopg2-binary
+    state: present      

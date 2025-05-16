@@ -50,3 +50,20 @@
   become: yes
   become_user: postgres
 
+- name: Allow remote access - postgresql.conf
+  template:
+      src: postgresql.conf.j2
+      dest: "{{ pg_conf_path }}/postgresql.conf"
+      owner: postgres
+      group: postgres
+      mode: '0644'
+  notify: Restart PostgreSQL
+
+- name: Allow remote access - pg_hba.conf
+  template:
+     src: pg_hba.conf.j2
+     dest: "{{ pg_conf_path }}/pg_hba.conf"
+     owner: postgres
+     group: postgres
+     mode: '0640'
+  notify: Restart PostgreSQL    

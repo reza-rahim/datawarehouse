@@ -1,3 +1,4 @@
+export ANSIBLE_CONFIG=./ansible.cfg
 #
 export ZOOKEEPER=3.9.3
 

@@ -1,2 +1,3 @@
-- name: restart postgresql.service
-  service: name=postgresql.service  state=restarted enabled=yes
+- name: Restart PostgreSQL
+  service: name=postgresql@{{ pg_version }}-main.service  state=restarted enabled=yes
+

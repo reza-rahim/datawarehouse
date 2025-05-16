@@ -2,8 +2,6 @@
 #Postgred
 #export DB_USER=postgres
 #export DB_PASSWORD=postgres
-export ANSIBLE_CONFIG=./ansible.cfg
-
 export PGUSER=postgres
 export PGPASSWORD=postgres
 
