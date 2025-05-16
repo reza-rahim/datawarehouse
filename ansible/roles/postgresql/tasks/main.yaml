@@ -50,3 +50,49 @@
   become: yes
   become_user: postgres
 
+- name: Allow remote access - postgresql.conf
+  template:
+      src: postgresql.conf.j2
+      dest: "{{ pg_conf_path }}/postgresql.conf"
+      owner: postgres
+      group: postgres
+      mode: '0644'
+  notify: Restart PostgreSQL
+
+- name: Allow remote access - pg_hba.conf
+  template:
+     src: pg_hba.conf.j2
+     dest: "{{ pg_conf_path }}/pg_hba.conf"
+     owner: postgres
+     group: postgres
+     mode: '0640'
+  notify: Restart PostgreSQL    
+
+
+- name: Enable publication for all tables in each database
+  become_user: postgres
+  postgresql_query:
+    db: "{{ item }}"
+    query: "CREATE PUBLICATION mypub FOR ALL TABLES;"
+  loop:
+    - myapp_db
+    - myother_db
+    - another_db
+  when: inventory_hostname == 'node1'
+
+
+- name: Subscribe to replication from node1 for each database
+  become_user: postgres
+  postgresql_query:
+    db: "{{ item }}"
+    query: >
+      CREATE SUBSCRIPTION mysub
+      CONNECTION 'host={{ hostvars["node1"]["ansible_host"] }} port=5432 dbname={{ item }} user=replicator password=replicator_password'
+      PUBLICATION mypub
+      WITH (copy_data = true);
+  loop:
+    - myapp_db
+    - myother_db
+    - another_db
+  when: inventory_hostname == 'node2'
+
