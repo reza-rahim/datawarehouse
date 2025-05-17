@@ -77,27 +77,27 @@
   become: yes
   become_user: postgres    
 
-- name: Create keycloak database
-  postgresql_db:
-    name: "{{ keycloak_db_name }}"
-    state: present
-  become: yes
+- name: Enable publication for all tables in each database
   become_user: postgres
+  postgresql_query:
+    db: "{{ item }}"
+    query: "CREATE PUBLICATION mypub FOR ALL TABLES;"
+  loop:
+    - "{{ hive_db_name }}"
+  when: inventory_hostname == 'node1'
 
-- name: Create airflow database
-  postgresql_db:
-    name: "{{ airflow_db_name }}"
-    state: present
-  become: yes
-  become_user: postgres    
 
-- name: disabled (Grant db user access to app db)
-  postgresql_privs:
-    type: database
-    database: "{{ hive_db_name }}"
-    roles: "{{ db_user }}"
-    grant_option: no
-    privs: all
-  become: yes
-  become_user: "{{ db_user }}"
-  when: false  #  disables the task    
+- name: Subscribe to replication from node1 for each database
+  become_user: postgres
+  postgresql_query:
+    db: "{{ item }}"
+    autocommit: yes
+    query: >
+      CREATE SUBSCRIPTION mysub
+      CONNECTION 'host={{ hostvars["node1"]["ansible_host"] }} port=5432 dbname={{ item }} user=postgres password=postgres'
+      PUBLICATION mypub
+      WITH (copy_data = true);
+  loop: 
+    - "{{ hive_db_name }}"
+  when: inventory_hostname == 'node2'
+

@@ -11,7 +11,8 @@ db=postgres
 #db-password=
 
 # The full database JDBC URL. If not provided, a default URL is set based on the selected database vendor.
-db-url=jdbc:postgresql://postgres.{{ lookup('env', 'FQDN') }}:{{ postgresql_port }}/keycloak
+#db-url=jdbc:postgresql://postgres.{{ lookup('env', 'FQDN') }}:{{ postgresql_port }}/keycloak
+db-url=jdbc:postgresql://{{ hostvars["node1"]["ansible_host"] }}:{{ postgresql_port }}/keycloak
 #
 
 # Observability
