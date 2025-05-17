@@ -90,7 +90,7 @@ CREATE TABLE mytable_u (
 ---
 
 ## 🔄 Pub/Sub Cleanup Before Setup
-
+#### Create all the pub first
 ### On Node 1
 
 ```sql
