@@ -1,8 +1,9 @@
 
 ### zoo.cfg
+#### (ZooKeeper 4-letter-word command](https://docs.tibco.com/pub/msgmx/1.1.0/doc/html/GUID-0C192D17-E589-490C-893B-CDCBD2C045D0.html)
 ```
 4lw.commands.whitelist=stat, ruok, conf, isro
-4lw.commands.whitelist=*
+#4lw.commands.whitelist=*
 ```
 ```
 echo stat | openssl s_client -connect localhost:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
