@@ -1,0 +1,7 @@
+---
+- hosts: keycloak_2
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+     - keycloak_2

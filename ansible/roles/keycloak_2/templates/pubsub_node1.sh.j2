@@ -1,0 +1,12 @@
+CREATE PUBLICATION pub_keycloak_1 FOR ALL TABLES;
+
+CREATE PUBLICATION pub_keycloak_2 FOR ALL TABLES;
+
+
+CREATE SUBSCRIPTION sub_keycloak_1
+CONNECTION 'host=10.16.50.82 port=5432 user=postgres password=postgres dbname=keycloak'
+PUBLICATION pub_keycloak_2 WITH (copy_data = false, origin = 'none');
+
+CREATE SUBSCRIPTION sub_keycloak_2
+CONNECTION 'host=10.16.50.81 port=5432 user=postgres password=postgres dbname=keycloak'
+PUBLICATION pub_keycloak_1 WITH (copy_data = false, origin = 'none');

@@ -1,0 +1,5 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})"; 
+export KC_DB_USERNAME=${PGUSER}
+export KC_DB_PASSWORD=${PGPASSWORD}
+{{ keycloak_home }}/bin/kc.sh start --http-port={{ keycloak_http_port }} --https-port={{ keycloak_https_port }}

@@ -1,0 +1,39 @@
+- name: Check if any tables exist in the database keycloak
+  community.postgresql.postgresql_query:
+     db: keycloak
+     login_user: "{{ db_user }}"
+     query: "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';"
+  register: table_check
+  become: yes
+  become_user: "{{ db_user }}"
+
+- name: Direct copy from source to target PostgreSQL database
+  shell: >
+    PGPASSWORD={{ db_password }} pg_dump -U {{ db_user }} -h {{ hostvars['node1']['ansible_host'] }} -d keycloak |
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node2']['ansible_host'] }} -d  keycloak
+  delegate_to: localhost
+  when: table_check.query_result[0].count | int == 0   
+
+
+- name:  create PUBLICATION
+  shell: >
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node1']['ansible_host'] }} -d keycloak -c "CREATE PUBLICATION pub_keycloak_1 FOR ALL TABLES;" ;
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node2']['ansible_host'] }} -d keycloak -c "CREATE PUBLICATION pub_keycloak_2 FOR ALL TABLES;" ;
+  delegate_to: localhost
+  ignore_errors: yes  
+
+
+- name: Create SUBSCRIPTION sub_keycloak_1 and sub_keycloak_2
+  shell: |
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node1']['ansible_host'] }} -d keycloak -c \
+    "CREATE SUBSCRIPTION sub_keycloak_1 \
+    CONNECTION 'host={{ hostvars['node2']['ansible_host'] }} user={{ db_user }} password={{ db_password }} dbname=keycloak' \
+    PUBLICATION pub_keycloak_2 WITH (copy_data = false, origin = 'none');"
+
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node2']['ansible_host'] }} -d keycloak -c \
+    "CREATE SUBSCRIPTION sub_keycloak_2 \
+    CONNECTION 'host={{ hostvars['node1']['ansible_host'] }} user={{ db_user }} password={{ db_password }} dbname=keycloak' \
+    PUBLICATION pub_keycloak_1 WITH (copy_data = false, origin = 'none');"
+  delegate_to: localhost
+  ignore_errors: yes
+    

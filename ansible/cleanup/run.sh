@@ -11,6 +11,7 @@ ansible-playbook -i  ../inventory.ini zookeeper.yaml
 ansible-playbook -i  ../inventory.ini secret.yaml 
 ansible-playbook -i  ../inventory.ini cert.yaml 
 ansible-playbook -i  ../inventory.ini common_install.yaml 
+#ansible-playbook -i  ../inventory.ini postgresql.yaml 
 
 ##zoo cleanup
 #pip install kazoo;

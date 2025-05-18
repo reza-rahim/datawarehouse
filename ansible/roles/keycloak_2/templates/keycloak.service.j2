@@ -1,0 +1,13 @@
+[Unit]
+Description=keycloak
+After=network.target postgresql@14-main.service
+
+[Service]
+
+User={{ keycloak_user }}
+Group={{ application_group }}
+ExecStart={{ keycloak_home }}/run-keycloak.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
