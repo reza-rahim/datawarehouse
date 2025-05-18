@@ -2,7 +2,7 @@
 ### zoo.cfg
 #### [ZooKeeper 4-letter-word command](https://docs.tibco.com/pub/msgmx/1.1.0/doc/html/GUID-0C192D17-E589-490C-893B-CDCBD2C045D0.html)
 ```
-4lw.commands.whitelist=stat, ruok, conf, isro
+4lw.commands.whitelist=mntr,stat,conf,cons
 #4lw.commands.whitelist=*
 ```
 ```
