@@ -78,7 +78,7 @@ openssl x509 -req \
   -out server.crt \
   -days 730 \
   -sha256 \
-  -extfile ssl-ext.cnf
+  -extfile openssl.cnf
 ```
 ---
 
