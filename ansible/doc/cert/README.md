@@ -56,12 +56,8 @@ openssl x509 -in CA_cert.crt -text -noout
 
 ## Step 3: Generate and Sign a Server Certificate
 
-### print the cert
-```
-openssl x509 -in server.crt  -text -noout
-```
 
-### Generate a Private Key and Certificate Signing Request (CSR) ( need to check :) )
+### Generate a Private Key and Certificate Signing Request (CSR)
 
 ```bash
 # Generate a private key for the server
@@ -86,7 +82,12 @@ openssl x509 -req \
 ```
 ---
 
-## Step 4: Verify the Certificate
+## Step 4: Print and Verify the Certificate
+
+### print the cert
+```
+openssl x509 -in server.crt  -text -noout
+```
 
 ```bash
 # Verify using domain name
