@@ -23,6 +23,13 @@ SELECT current_database();
 \dt
 ```
 
+### How to dump a keycloak schema
+```
+#as postgres user
+pg_dump -U postgres --schema-only -d keycloak > keycloak.sql
+
+```
+
 ### https://severalnines.com/blog/postgresql-bi-directional-logical-replication-deep-dive/
 
 # PostgreSQL Bidirectional Logical Replication Setup with Custom Sequences
@@ -44,6 +51,7 @@ CREATE TABLE mytable (
     column1 VARCHAR(255)
 );
 ```
+
 
 ---
 
