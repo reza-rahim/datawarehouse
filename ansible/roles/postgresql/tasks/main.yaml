@@ -102,30 +102,3 @@
   become_user: "{{ db_user }}"
   when: false  #  disables the task    
 
-########    Start building schema  ######
-- name: copy keycloak.sql file
-  template:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-    mode: '{{ item.mode }}'
-  loop:
-    - { src: 'keycloak.sql.j2', dest: '/home/postgres/keycloak.sql', mode: '0644' }
-  when: false  #  disables the task    
-
-- name: Check if any tables exist in the database keycloak
-  community.postgresql.postgresql_query:
-     db: keycloak
-     login_user: "{{ db_user }}"
-     query: "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';"
-  register: table_check
-  become: yes
-  become_user: "{{ db_user }}"
-  when: false  #  disables the task    
-
-- name: Import schema into PostgreSQL for keycloak
-  ansible.builtin.command:
-        cmd: "psql -U {{ db_user }} -d keycloak -f /home/postgres/keycloak.sql"
-  become: yes
-  become_user: "{{ db_user }}"
-  #when: table_check.query_result[0].count | int == 0  
-  when: false  #  disables the task    
