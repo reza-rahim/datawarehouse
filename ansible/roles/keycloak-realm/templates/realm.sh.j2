@@ -3,7 +3,7 @@
 /opt/keycloak/bin/kcadm.sh config credentials  --server https://keyclock.{{ lookup('env', 'FQDN') }}:6443/ --realm master --user {{ Keycloak_admin }} --password $KEYCLOAK_ADMIN_PASSWORD
 
 ## create realms
-/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_devel }} -s enabled=true
+/opt/keycloak/bin/kcadm.sh  create realms -s realm= -s enabled=true
 /opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_bi }} -s enabled=true
 
 #### users
