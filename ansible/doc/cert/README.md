@@ -122,9 +122,7 @@ cp server_crt_key.pem ../../roles/cert/templates/
 ```
 
 
-## Step 7: java trust store
-openssl pkcs12 -export -in server.crt -inkey server.key   -out javacert.p12 -name javacert  -CAfile CA_cert.crt -caname root   -password pass:changeit
-keytool -importkeystore -destkeystore javacert.keystore.jks   -srckeystore javacert.p12 -srcstoretype PKCS12   -alias javacert -deststorepass changeit -srcstorepass changeit
+
 
 
 
