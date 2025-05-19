@@ -40,7 +40,8 @@ EOF
 openssl genrsa -out CA_cert.key 2048
 
 # Generate a root certificate valid for 10 years
-openssl req -x509 -new -nodes -key CA_cert.key -sha256 -days 9125 -out CA_cert.crt
+openssl req -x509 -new -nodes -key CA_cert.key -sha256 -days 9125 -out CA_cert.crt \
+ -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
 
 # Optional: Inspect the certificate details
 openssl x509 -in CA_cert.crt -text -noout
