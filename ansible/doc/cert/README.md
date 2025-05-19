@@ -4,18 +4,35 @@ This guide describes how to create a self-signed SSL certificate using OpenSSL, 
 
 ---
 
-## Step 1: Generate `openssl.cnf` with Subject Alternative Names
+## Step 1: Become Your Own Certificate Authority (CA)
+
+### Generate a Root CA Key and Certificate
+
+```bash
+# Generate a 2048-bit RSA private key
+openssl genrsa -out CA_cert.key 2048
+
+# Generate a root certificate valid for 10 years
+openssl req -x509 -new -nodes -key CA_cert.key -sha256 -days 9125 -out CA_cert.crt \
+ -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
+
+# Optional: Inspect the certificate details
+openssl x509 -in CA_cert.crt -text -noout
+```
+
+---
+
+## Step 2: Generate `openssl.cnf` with Subject Alternative Names
 
 Create a script to generate an OpenSSL config file that includes SANs. The domain is dynamically loaded from an environment variable.
 
-```bash
+**Tip:** To override the default domain, export the `DOMAIN_ENV` variable:
+```
+DOMAIN="dw.opensource.bd"
+```
+
+```
 #!/bin/bash
-
-# Set the domain using an environment variable or default to 'dw.opensource.bd'
-DOMAIN="${DOMAIN_ENV:-dw.opensource.bd}"
-```
-
-```
 # Generate OpenSSL extension config
 cat <<EOF > openssl.cnf
 basicConstraints       = CA:FALSE
@@ -28,33 +45,14 @@ DNS.1 = *.$DOMAIN
 IP.1  = 127.0.0.1
 EOF
 
-echo "Generated ssl-ext.cnf for domain: $DOMAIN"
+cat openssl.cnf
 ```
 
->  **Tip:** To override the default domain, export the `DOMAIN_ENV` variable:
->
-> ```bash
-> export DOMAIN_ENV="dw.opensource.bd"
-> ```
+
 
 ---
 
-## Step 2: Become Your Own Certificate Authority (CA)
 
-### Generate a Root CA Key and Certificate
-
-```bash
-# Generate a 2048-bit RSA private key
-openssl genrsa -out CA_cert.key 2048
-
-# Generate a root certificate valid for 10 years
-openssl req -x509 -new -nodes -key CA_cert.key -sha256 -days 3650 -out CA_cert.crt
-
-# Optional: Inspect the certificate details
-openssl x509 -in CA_cert.crt -text -noout
-```
-
----
 
 ## Step 3: Generate and Sign a Server Certificate
 
@@ -66,7 +64,8 @@ openssl x509 -in CA_cert.crt -text -noout
 openssl genrsa -out server.key 2048
 
 # Create a certificate signing request (CSR)
-openssl req -new -key server.key -out server.csr
+openssl req -new -key server.key -out server.csr \
+ -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
 ```
 
 ### Sign the CSR with Your Custom Root CA
@@ -93,8 +92,11 @@ openssl x509 -in server.crt  -text -noout
 
 ```bash
 # Verify using domain name
+echo Verifing $DOMAIN
 openssl verify -CAfile CA_cert.crt -verify_hostname api.$DOMAIN server.crt
 
+```
+```
 # Verify using IP address
 openssl verify -CAfile CA_cert.crt -verify_ip 127.0.0.1 server.crt
 ```
