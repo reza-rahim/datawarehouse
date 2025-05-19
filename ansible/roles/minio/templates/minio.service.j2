@@ -2,7 +2,7 @@
 Description=MinIO
 Documentation=https://min.io/docs/minio/linux/index.html
 Wants=network-online.target
-After=network-online.target  zookeeper.service keycloak.service
+After=network-online.target  keycloak.service
 AssertFileIsExecutable=/usr/local/bin/minio
 
 [Service]
@@ -19,11 +19,9 @@ User={{ minio_user }}
 Group={{ application_group }}
 ProtectProc=invisible
 
-ExecStartPre={{ lockbox_dir }}/decrypt_lockbox.sh
 EnvironmentFile=-/etc/default/minio
 ExecStartPre=/bin/bash -c "if [ -z \"${MINIO_VOLUMES}\" ]; then echo \"Variable MINIO_VOLUMES not set in /etc/default/minio\"; exit 1; fi"
-#ExecStart=/bin/bash -c "source {{ tmpfs_dir }}/{{ lockbox_env }};  /usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }} ; export MINIO_IDENTITY_OPENID_CLIENT_SECRET_PRIMARY_IAM=$KEYCLOAK_MINIO_CLIENT_SECRET ; /usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES"
-ExecStart=/bin/bash -c "source {{ tmpfs_dir }}/{{ lockbox_env }};  /usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }} ; /usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES"
+ExecStart=/opt/minio/run-minio.sh
 
 
 # Let systemd restart this service always

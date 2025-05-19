@@ -3,3 +3,4 @@ zookeeper_group: zookeeper
 zookeeper_home: /opt/zookeeper
 zookeeper_data_dir: /var/zookeeper/data/
 zookeeper_clientPort: 2181 
+zookeeper_secureClientPort: 2281

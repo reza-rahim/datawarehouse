@@ -1,4 +1,7 @@
-source 00.evn.sh
+source 00.vip_fqdn.sh
+source 00.repo_version.sh
+source  00.secrets.sh
+
 #mc  alias set s3   https://minio.mnbvcxz.com:9000  $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
 mc  alias set s3   https://minio.$FQDN:9000  $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
 mc mb s3/spark

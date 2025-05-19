@@ -5,6 +5,7 @@ After=network.target
 [Service]
 User={{ zookeeper_user  }}
 Group={{ application_group }}
+Environment=JAVA_HOME={{ java_home_17 }}
 ExecStart=/opt/zookeeper/bin/zkServer.sh start-foreground 
 Restart=on-failure
 RestartSec=10

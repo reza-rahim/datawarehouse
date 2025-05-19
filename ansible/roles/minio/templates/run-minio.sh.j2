@@ -1,0 +1,3 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})"; 
+/usr/local/bin/minio server $MINIO_OPTS  $MINIO_VOLUMES

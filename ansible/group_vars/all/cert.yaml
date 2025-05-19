@@ -1,6 +1,6 @@
 ####################  
 cert_dir: /etc/cert.d/
-ca_cert_file_name: rootCA.crt
+ca_cert_file_name: CA_cert.crt
 server_cert_file_name: server.crt
 server_key_file_name: server.key
 server_cert_key_file_name: server_crt_key.pem

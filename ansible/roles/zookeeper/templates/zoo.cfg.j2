@@ -1,6 +1,8 @@
 tickTime=2000
 dataDir={{ zookeeper_data_dir }}
-clientPort={{ zookeeper_clientPort }}
+#clientPort={{ zookeeper_clientPort }}
+serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+secureClientPort={{ zookeeper_secureClientPort }}
 admin.enableServer=false
 maxClientCnxns=60
 initLimit=10
@@ -8,7 +10,27 @@ syncLimit=5
 autopurge.purgeInterval=24 
 autopurge.snapRetainCount=3 
 
+#ssl.clientAuth=none
+
+4lw.commands.whitelist=mntr,stat,conf,cons
+admin.enableServer=true
+
+# Server certificate and key
+ssl.keyStore.location={{ cert_dir }}/javacert.keystore.jks
+ssl.keyStore.password=changeit
+# Truststore to validate clients
+ssl.trustStore.location={{ cert_dir }}/javacert.truststore.jks
+ssl.trustStore.password=changeit
+
+# Enable TLS for quorum peer communication (optional but recommended)
+quorum.listenOnAllIPs=true
+sslQuorum=true
+ssl.quorum.keyStore.location={{ cert_dir }}/javacert.keystore.jks
+ssl.quorum.keyStore.password=changeit
+ssl.quorum.trustStore.location={{ cert_dir }}/javacert.truststore.jks
+ssl.quorum.trustStore.password=changeit
 
 {% for host in groups['zookeeper'] %}
-server.{{ loop.index }}={{ host }}:2888:3888
+server.{{ loop.index }}={{ host }}.{{ lookup('env', 'FQDN') }}:2888:3888
 {% endfor %}
+

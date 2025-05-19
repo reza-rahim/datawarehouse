@@ -1,6 +1,6 @@
 ---
-- include: disk.yaml
-- include: install.yaml
+- import_tasks: disk.yaml
+- import_tasks: install.yaml
 
 - name: Reload service files
   systemd:

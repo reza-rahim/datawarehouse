@@ -38,14 +38,15 @@
   
 # Task 6: Update the system's CA certificates by running the update-ca-certificates command.
 - name:  run /usr/sbin/update-ca-certificates
-  shell: /usr/sbin/update-ca-certificates
+  shell: /usr/sbin/update-ca-certificates --fresh
 
 # Task 7: Add the CA certificate to the Java 17 truststore if not already present as rootCA.
 - name: Add the {{ ca_cert_file_name }} to Java 17 truststore if not present as rootCA
   shell: |
+    yes | {{ java_home_17 }}/bin/keytool  -delete  -alias rootCA  -cacerts  -storepass changeit
     yes | {{ java_home_17 }}/bin/keytool -importcert -trustcacerts \
       -alias rootCA \
-      -file /usr/local/share/ca-certificates/rootCA.crt \
+      -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }}\
       -keystore {{ java_home_17 }}/lib/security/cacerts \
       -storepass changeit
   ignore_errors: yes
@@ -53,10 +54,32 @@
 # Task 8: Import the root CA certificate to the Java 24 truststore.    
 - name: Import rootCA to Java 24 truststore
   shell: |
+    yes | {{ java_home }}/bin/keytool  -delete  -alias rootCA  -cacerts  -storepass changeit
     yes | {{ java_home }}/bin/keytool -importcert -trustcacerts \
     -alias rootCA \
-    -file /usr/local/share/ca-certificates/rootCA.crt \
+    -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }} \
     -keystore {{ java_home }}/lib/security/cacerts \
     -storepass changeit \
     -noprompt
   ignore_errors: yes
+    
+# create java trust streo
+- name: create java trust store
+  shell: |
+     rm -rf /etc/cert.d/javacert.*
+     openssl pkcs12 -export -in {{ cert_dir }}/server.crt -inkey {{ cert_dir }}/server.key   -out {{ cert_dir }}/javacert.p12 -name javacert  -CAfile CA_cert.crt -caname root   -password pass:changeit
+     {{ java_home_17 }}/bin/keytool -importkeystore -destkeystore {{ cert_dir }}/javacert.keystore.jks   -srckeystore {{ cert_dir }}/javacert.p12 -srcstoretype PKCS12   -alias javacert -deststorepass changeit -srcstorepass changeit
+     {{ java_home_17 }}/bin/keytool -importcert -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }}   -alias rootCA -keystore {{ cert_dir }}/javacert.truststore.jks -storepass changeit -noprompt
+     chmod 640 {{ cert_dir }}/javacert.*
+     chgrp application /etc/cert.d/javacert.*
+  ignore_errors: yes
+
+- name: Restart Keycloak service
+  systemd:
+     name: "{{ item }}" 
+     state: restarted
+     enabled: true
+  loop:
+     - keycloak.service
+     - zookeeper.service    
+  ignore_errors: true
