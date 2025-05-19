@@ -92,7 +92,7 @@ openssl x509 -in server.crt  -text -noout
 
 ```bash
 # Verify using domain name
-echo $DOMAIN
+echo Verifing $DOMAIN
 openssl verify -CAfile CA_cert.crt -verify_hostname api.$DOMAIN server.crt
 
 ```
