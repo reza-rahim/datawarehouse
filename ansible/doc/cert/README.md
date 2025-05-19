@@ -28,7 +28,7 @@ Create a script to generate an OpenSSL config file that includes SANs. The domai
 
 **Tip:** To override the default domain, export the `DOMAIN_ENV` variable:
 ```
-DOMAIN="${DOMAIN_ENV:-dw.opensource.bd}"
+DOMAIN="dw.opensource.bd"
 ```
 
 ```
