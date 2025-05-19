@@ -64,7 +64,8 @@ cat openssl.cnf
 openssl genrsa -out server.key 2048
 
 # Create a certificate signing request (CSR)
-openssl req -new -key server.key -out server.csr
+openssl req -new -key server.key -out server.csr \
+ -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
 ```
 
 ### Sign the CSR with Your Custom Root CA
