@@ -8,7 +8,7 @@ This guide describes how to create a self-signed SSL certificate using OpenSSL, 
 
 Create a script to generate an OpenSSL config file that includes SANs. The domain is dynamically loaded from an environment variable.
 
-#### Set the domain using an environment variable or default to 'dw.opensource.bd'
+**Tip:** To override the default domain, export the `DOMAIN_ENV` variable:
 ```
 DOMAIN="${DOMAIN_ENV:-dw.opensource.bd}"
 ```
@@ -28,12 +28,6 @@ IP.1  = 127.0.0.1
 EOF
 
 ```
-
->  **Tip:** To override the default domain, export the `DOMAIN_ENV` variable:
->
-> ```bash
-> export DOMAIN_ENV="dw.opensource.bd"
-> ```
 
 ---
 
