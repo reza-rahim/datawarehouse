@@ -45,7 +45,10 @@ DNS.1 = *.$DOMAIN
 IP.1  = 127.0.0.1
 EOF
 
+cat openssl.cnf
 ```
+
+
 
 ---
 
