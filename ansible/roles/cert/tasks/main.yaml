@@ -34,6 +34,7 @@
   template: src='{{ item.src }}' dest='{{ item.dest }}'
   loop:
      - { src: '{{ ca_cert_file_name }}', dest: '/usr/local/share/ca-certificates/{{ ca_cert_file_name }}' }
+     - { src: '{{ ca_cert_file_name }}', dest: '{{ cert_dir }}/{{ ca_cert_file_name }}' }
    #notify: run certificates
   
 # Task 6: Update the system's CA certificates by running the update-ca-certificates command.
@@ -46,7 +47,7 @@
     yes | {{ java_home_17 }}/bin/keytool  -delete  -alias rootCA  -cacerts  -storepass changeit
     yes | {{ java_home_17 }}/bin/keytool -importcert -trustcacerts \
       -alias rootCA \
-      -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }}\
+      -file {{ cert_dir }}/{{ ca_cert_file_name }}\
       -keystore {{ java_home_17 }}/lib/security/cacerts \
       -storepass changeit
   ignore_errors: yes
@@ -57,7 +58,7 @@
     yes | {{ java_home }}/bin/keytool  -delete  -alias rootCA  -cacerts  -storepass changeit
     yes | {{ java_home }}/bin/keytool -importcert -trustcacerts \
     -alias rootCA \
-    -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }} \
+    -file {{ cert_dir }}/{{ ca_cert_file_name }} \
     -keystore {{ java_home }}/lib/security/cacerts \
     -storepass changeit \
     -noprompt
@@ -69,7 +70,7 @@
      rm -rf /etc/cert.d/javacert.*
      openssl pkcs12 -export -in {{ cert_dir }}/server.crt -inkey {{ cert_dir }}/server.key   -out {{ cert_dir }}/javacert.p12 -name javacert  -CAfile CA_cert.crt -caname root   -password pass:changeit
      {{ java_home_17 }}/bin/keytool -importkeystore -destkeystore {{ cert_dir }}/javacert.keystore.jks   -srckeystore {{ cert_dir }}/javacert.p12 -srcstoretype PKCS12   -alias javacert -deststorepass changeit -srcstorepass changeit
-     {{ java_home_17 }}/bin/keytool -importcert -file /usr/local/share/ca-certificates/{{ ca_cert_file_name }}   -alias rootCA -keystore {{ cert_dir }}/javacert.truststore.jks -storepass changeit -noprompt
+     {{ java_home_17 }}/bin/keytool -importcert -file {{ cert_dir }}/{{ ca_cert_file_name }}   -alias rootCA -keystore {{ cert_dir }}/javacert.truststore.jks -storepass changeit -noprompt
      chmod 640 {{ cert_dir }}/javacert.*
      chgrp application /etc/cert.d/javacert.*
   ignore_errors: yes
@@ -82,4 +83,5 @@
   loop:
      - keycloak.service
      - zookeeper.service    
+     - minio.service
   ignore_errors: true
