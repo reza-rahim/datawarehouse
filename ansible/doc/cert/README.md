@@ -27,7 +27,6 @@ DNS.1 = *.$DOMAIN
 IP.1  = 127.0.0.1
 EOF
 
-echo "Generated ssl-ext.cnf for domain: $DOMAIN"
 ```
 
 >  **Tip:** To override the default domain, export the `DOMAIN_ENV` variable:
