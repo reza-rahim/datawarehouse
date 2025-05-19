@@ -94,6 +94,8 @@ openssl x509 -in server.crt  -text -noout
 # Verify using domain name
 openssl verify -CAfile CA_cert.crt -verify_hostname api.$DOMAIN server.crt
 
+```
+```
 # Verify using IP address
 openssl verify -CAfile CA_cert.crt -verify_ip 127.0.0.1 server.crt
 ```
