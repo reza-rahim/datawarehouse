@@ -4,7 +4,25 @@ This guide describes how to create a self-signed SSL certificate using OpenSSL, 
 
 ---
 
-## Step 1: Generate `openssl.cnf` with Subject Alternative Names
+## Step 1: Become Your Own Certificate Authority (CA)
+
+### Generate a Root CA Key and Certificate
+
+```bash
+# Generate a 2048-bit RSA private key
+openssl genrsa -out CA_cert.key 2048
+
+# Generate a root certificate valid for 10 years
+openssl req -x509 -new -nodes -key CA_cert.key -sha256 -days 9125 -out CA_cert.crt \
+ -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
+
+# Optional: Inspect the certificate details
+openssl x509 -in CA_cert.crt -text -noout
+```
+
+---
+
+## Step 2: Generate `openssl.cnf` with Subject Alternative Names
 
 Create a script to generate an OpenSSL config file that includes SANs. The domain is dynamically loaded from an environment variable.
 
@@ -31,23 +49,7 @@ EOF
 
 ---
 
-## Step 2: Become Your Own Certificate Authority (CA)
 
-### Generate a Root CA Key and Certificate
-
-```bash
-# Generate a 2048-bit RSA private key
-openssl genrsa -out CA_cert.key 2048
-
-# Generate a root certificate valid for 10 years
-openssl req -x509 -new -nodes -key CA_cert.key -sha256 -days 9125 -out CA_cert.crt \
- -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
-
-# Optional: Inspect the certificate details
-openssl x509 -in CA_cert.crt -text -noout
-```
-
----
 
 ## Step 3: Generate and Sign a Server Certificate
 
