@@ -6,7 +6,7 @@
 #4lw.commands.whitelist=*
 ```
 ```
-echo stat | openssl s_client -connect localhost:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+echo stat | openssl s_client -connect 127.0.0.1:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
 ```
 
 ```
