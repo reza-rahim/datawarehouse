@@ -8,14 +8,13 @@ This guide describes how to create a self-signed SSL certificate using OpenSSL, 
 
 Create a script to generate an OpenSSL config file that includes SANs. The domain is dynamically loaded from an environment variable.
 
-```bash
-#!/bin/bash
-
-# Set the domain using an environment variable or default to 'dw.opensource.bd'
+#### Set the domain using an environment variable or default to 'dw.opensource.bd'
+```
 DOMAIN="${DOMAIN_ENV:-dw.opensource.bd}"
 ```
 
 ```
+#!/bin/bash
 # Generate OpenSSL extension config
 cat <<EOF > openssl.cnf
 basicConstraints       = CA:FALSE
