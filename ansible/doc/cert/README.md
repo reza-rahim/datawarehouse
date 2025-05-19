@@ -13,7 +13,9 @@ Create a script to generate an OpenSSL config file that includes SANs. The domai
 
 # Set the domain using an environment variable or default to 'dw.opensource.bd'
 DOMAIN="${DOMAIN_ENV:-dw.opensource.bd}"
+```
 
+```
 # Generate OpenSSL extension config
 cat <<EOF > openssl.cnf
 basicConstraints       = CA:FALSE
