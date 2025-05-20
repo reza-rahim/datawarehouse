@@ -1,6 +1,6 @@
 export ANSIBLE_CONFIG=./ansible.cfg
 #
-export ZOOKEEPER=3.9.3
+export ZOOKEEPER=3.8.4
 
 ### library version
 export HADOOP_VERSION=3.3.4

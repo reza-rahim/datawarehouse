@@ -8,8 +8,9 @@ hosts_list:
     - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "trino.{{ lookup('env', 'FQDN') }}" }
     - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "minio.{{ lookup('env', 'FQDN') }}" }
     - { ip: "{{ lookup('env', 'VIRTUAL_IP') }}", host: "spark.minio.{{ lookup('env', 'FQDN') }}" }
-    - { ip: "10.16.50.81", host: "node1 node1.{{ lookup('env', 'FQDN') }}" }
-    - { ip: "10.16.50.82", host: "node2 node2.{{ lookup('env', 'FQDN') }}" }
-    - { ip: "10.16.50.83", host: "node3 node3.{{ lookup('env', 'FQDN') }}" }
-    - { ip: "10.16.50.84", host: "node4 node4.{{ lookup('env', 'FQDN') }}" }
+    - { ip: "10.16.50.81", host: "node1.{{ lookup('env', 'FQDN') }} node1" }
+    - { ip: "10.16.50.82", host: "node2.{{ lookup('env', 'FQDN') }} node2 " }
+    - { ip: "10.16.50.83", host: "node3.{{ lookup('env', 'FQDN') }} node3" }
+    - { ip: "10.16.50.84", host: "node4.{{ lookup('env', 'FQDN') }} node4" }
+    - { ip: "10.16.50.85", host: "node5.{{ lookup('env', 'FQDN') }} node5" }
 

@@ -1,5 +1,5 @@
 ---
-- include: config.yaml
-- include: master.yaml
-- include: worker.yaml
-- include: history.yaml
+- import_tasks:  config.yaml
+- import_tasks:  master.yaml
+- import_tasks: worker.yaml
+#- import_tasks:  history.yaml

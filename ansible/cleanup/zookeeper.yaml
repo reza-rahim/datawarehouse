@@ -13,3 +13,4 @@
         rm -fr /opt/*zookeeper*
         rm /etc/systemd/system/zookeeper*
         systemctl daemon-reload
+        systemctl reset-failed

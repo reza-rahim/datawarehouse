@@ -1,0 +1,13 @@
+spark.deploy.recoveryMode=ZOOKEEPER
+spark.deploy.zookeeper.url={% for host in groups['zookeeper'] -%} {{ host }}.{{ fqdn }}:{{ zookeeper_clientPort }}{% if not loop.last %},{% endif %} {%- endfor %}
+
+spark.deploy.zookeeper.dir=/spark
+
+# Enable SSL/TLS for ZooKeeper client
+#spark.zookeeper.client.ssl=true
+
+# Required SSL configuration
+#spark.zookeeper.client.keyStore={{ cert_dir }}/javacert.keystore.jks
+#spark.zookeeper.client.keyStorePassword=changeit
+#@spark.zookeeper.client.trustStore={{ cert_dir }}/javacert.truststore.jks
+#spark.zookeeper.client.trustStorePassword=changeit
