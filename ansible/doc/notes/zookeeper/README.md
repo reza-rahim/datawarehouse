@@ -22,3 +22,16 @@ Node count: 13
 ```
 echo mntr | openssl s_client -connect localhost:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
 ```
+
+
+```
+export CLIENT_JVMFLAGS=" 
+  -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty 
+  -Dzookeeper.client.secure=true 
+  -Dzookeeper.ssl.keyStore.location=/etc/cert.d//javacert.keystore.jks 
+  -Dzookeeper.ssl.keyStore.password=changeit 
+  -Dzookeeper.ssl.trustStore.location=/etc/cert.d//javacert.truststore.jks 
+  -Dzookeeper.ssl.trustStore.password=changeit"
+
+./zkCli.sh -server node1.dw.felicity.net.bd:2281
+```
