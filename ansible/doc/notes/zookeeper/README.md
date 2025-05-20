@@ -39,3 +39,8 @@ export CLIENT_JVMFLAGS="
 
 ./zkCli.sh -server node1.dw.felicity.net.bd:2281
 ```
+
+### Check SSL protocol
+```
+openssl s_client -connect node1.dw.felicity.net.bd:2281 -quiet -CAfile /etc/cert.d/CA_cert.crt  -tls1_3
+```
