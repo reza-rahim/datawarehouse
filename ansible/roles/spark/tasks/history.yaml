@@ -1,9 +1,10 @@
 ---
 
 - name: copy  spark-history.service
-  template: src='{{ item.src }}' dest='{{ item.dest }}'
+  template: src='{{ item.src }}' dest='{{ item.dest }}' mode="0755"
   loop:
      - { src: 'spark-history.service.j2', dest: '/etc/systemd/system/spark-history.service'  }
+     - { src: 'run-spark-history.sh.j2', dest: '{{ spark_home}}/run-spark-history.sh'  }
   when: >
     inventory_hostname in groups['spark_master'] and
     (groups['spark_history'].index(inventory_hostname) == 0 or groups['spark_history'].index(inventory_hostname) == 1)
