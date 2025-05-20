@@ -7,7 +7,9 @@ export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS \
   -Dzookeeper.ssl.keyStore.location={{ cert_dir }}javacert.keystore.jks
   -Dzookeeper.ssl.keyStore.password=changeit
   -Dzookeeper.ssl.trustStore.location={{ cert_dir }}javacert.truststore.jks
-  -Dzookeeper.ssl.trustStore.password=changeit"
+  -Dzookeeper.ssl.trustStore.password=changeit
+  -Dspark.authenticate=true
+  -Dspark.authenticate.secret=$SPARK_AUTH_SECRET"
 
 {{ spark_home }}/bin/spark-class org.apache.spark.deploy.worker.Worker  \
 	spark://{% for host in groups['spark_master'] -%} {{ host }}.{{ fqdn }}:{{ spark_rpc_port }}{% if not loop.last %},{% endif %} {%- endfor %}

@@ -59,13 +59,15 @@ export FS_S3A_ACCESS_KEY=minioadmin
 export AWS_ACCESS_KEY_ID=minioadmin
 export AWS_SECRET_ACCESS_KEY=minioadmin
 
-#
-export JKS_PASSWORD=password
 
 #airflow
 export AIRFLOW_ADMIN_USERNAME=demo
 export AIRFLOW_ADMIN_PASSWORD=demo
 
+#
+export JKS_PASSWORD=password
+
 #spark
 export SPARK_UI_USER=demo
 export SPARK_UI_PASSWORD=demo
+export SPARK_AUTH_SECRET=supersecretkey123

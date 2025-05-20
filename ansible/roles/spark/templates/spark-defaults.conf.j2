@@ -69,5 +69,15 @@ spark.scheduler.mode                                            FAIR
 spark.history.ui.port						{{ spark_history_ui_port }}
 spark.history.fs.cleaner.enabled                                true
 
+spark.authenticate  						true
+spark.network.crypto.enabled 					true
+spark.network.crypto.authEngineVersion 				2
+Dspark.network.crypto.saslFallback 				false
+
 #spark.executor.extraJavaOptions                                 -Daws.java.v1.disableDeprecationAnnouncement=true
 #spark.driver.extraJavaOptions                                   -Daws.java.v1.disableDeprecationAnnouncement=true
+#
+# Authentication
+#spark.authenticate 						true
+#spark.authenticate.secretr                                      supersecretkey123
+
