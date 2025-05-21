@@ -65,7 +65,7 @@ export AIRFLOW_ADMIN_USERNAME=demo
 export AIRFLOW_ADMIN_PASSWORD=demo
 
 #
-export JKS_PASSWORD=password
+export JKS_PASSWORD=changeit
 
 #spark
 export SPARK_UI_USER=demo

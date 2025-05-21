@@ -31,6 +31,13 @@
     owner: '{{ spark_user }}'
     group: '{{ application_group }}'
     
+- name: copy workers files3yy
+  template: src='{{ item.src }}' dest='{{ item.dest }}' mode="0755"
+  loop:
+     - { src: 'spark-env.sh.j2', dest: '{{ spark_home }}/conf/spark-env.sh'  }
+     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_home }}/conf/spark-defaults.conf' }
+     - { src: 'hive-site.xml.j2', dest: '{{ spark_home }}/conf/hive-site.xml' }
+     - { src: 'run-spark-worker.sh.j2', dest: '{{ spark_home }}/run-spark-worker.sh' }  
 
 - name: get extra jar files 
   get_url:
@@ -42,6 +49,6 @@
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ hadoop_aws_file_name }}" 
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ aws_java_sdk_bundle_file_name }}"      
      - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ iceberg_spark_runtime_file_name }}" 
-     #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}" 
+     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}" 
      #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ awssdk_bundle_filename }}" 
      #- "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ url_connection_client_filename }}"       

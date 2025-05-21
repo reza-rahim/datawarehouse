@@ -4,9 +4,6 @@
   template: src='{{ item.src }}' dest='{{ item.dest }}' mode="0755"
   loop:
      - { src: 'spark-worker-1.service.j2', dest: '/etc/systemd/system/spark-worker-1.service'  }
-     - { src: 'spark-env.sh.j2', dest: '{{ spark_home }}/conf/spark-env.sh'  }
-     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_home }}/conf/spark-defaults.conf'  }
-     - { src: 'run-spark-worker.sh.j2', dest: '{{ spark_home }}/run-spark-worker.sh'  }
   when: >
     inventory_hostname in groups['spark_worker']
     and  number_of_spark_worker_per_node  == 1
@@ -14,14 +11,13 @@
      - restart start_worker_1
 
 
-- name: copy workers files
+- name: copy workers files3yy
   template: src='{{ item.src }}' dest='{{ item.dest }}' mode="0755"
   loop:
      - { src: 'spark-worker-1.service.j2', dest: '/etc/systemd/system/spark-worker-1.service'  }
      - { src: 'spark-worker-2.service.j2', dest: '/etc/systemd/system/spark-worker-2.service'  }
-     - { src: 'spark-env.sh.j2', dest: '{{ spark_home }}/conf/spark-env.sh'  }
-     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_home }}/conf/spark-defaults.conf'  }
-     - { src: 'run-spark-worker.sh.j2', dest: '{{ spark_home }}/run-spark-worker.sh'  }
+
+
   when: >
     inventory_hostname in groups['spark_worker']
     and  number_of_spark_worker_per_node  == 2
@@ -35,9 +31,6 @@
      - { src: 'spark-worker-1.service.j2', dest: '/etc/systemd/system/spark-worker-1.service'  }
      - { src: 'spark-worker-2.service.j2', dest: '/etc/systemd/system/spark-worker-2.service'  }
      - { src: 'spark-worker-3.service.j2', dest: '/etc/systemd/system/spark-worker-3.service'  }
-     - { src: 'spark-env.sh.j2', dest: '{{ spark_home }}/conf/spark-env.sh'  }
-     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_home }}/conf/spark-defaults.conf'  }
-     - { src: 'run-spark-worker.sh.j2', dest: '{{ spark_home }}/run-spark-worker.sh'  }
   when: >
     inventory_hostname in groups['spark_worker']
     and  number_of_spark_worker_per_node  == 3
@@ -53,9 +46,6 @@
      - { src: 'spark-worker-2.service.j2', dest: '/etc/systemd/system/spark-worker-2.service'  }
      - { src: 'spark-worker-3.service.j2', dest: '/etc/systemd/system/spark-worker-3.service'  }
      - { src: 'spark-worker-4.service.j2', dest: '/etc/systemd/system/spark-worker-4.service'  }
-     - { src: 'spark-env.sh.j2', dest: '{{ spark_home }}/conf/spark-env.sh'  }
-     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_home }}/conf/spark-defaults.conf'  }
-     - { src: 'run-spark-worker.sh.j2', dest: '{{ spark_home }}/run-spark-worker.sh'  }
   when: >
     inventory_hostname in groups['spark_worker']
     and  number_of_spark_worker_per_node  == 4

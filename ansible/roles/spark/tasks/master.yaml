@@ -9,9 +9,7 @@
   template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ spark_user }} group={{ spark_group }}  mode=0755
   loop:
      - { src: 'spark-master.service.j2', dest: '/etc/systemd/system/spark-master.service'  }
-     - { src: 'spark-ui-proxy.service.j2', dest: '/etc/systemd/system/spark-ui-proxy.service'  }
-     - { src: 'spark-env.sh.j2', dest: '{{ spark_mnaster_conf_dir }}/spark-env.sh'  }
-     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_mnaster_conf_dir }}/spark-defaults.conf'  }
+     #- { src: 'spark-ui-proxy.service.j2', dest: '/etc/systemd/system/spark-ui-proxy.service'  }
      - { src: 'ha.conf.j2', dest: '{{ spark_mnaster_conf_dir }}/ha.conf'  }
      - { src: 'run-spark-master.sh.j2', dest: '{{ spark_home }}/run-spark-master.sh'  }
   when: >

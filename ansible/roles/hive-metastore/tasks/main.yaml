@@ -40,11 +40,14 @@
   loop:
      - { src: 'schematool.sh.j2', dest: '{{ hive_metastore_home }}/schematool.sh', mode: '0740'  }
      - { src: 'hive-site.xml.j2', dest: '{{ hive_metastore_home }}/conf/hive-site.xml', mode: '0640'  }
+     - { src: 'run-hive-metastore.sh.j2', dest: '{{ hive_metastore_home }}/run-hive-metastore.sh', mode: '0755'  }
   notify: restart hive_metastore
 
 
 - name: initialize the hive-metastore
-  shell: '{{ hive_metastore_home }}/schematool.sh'
+  shell: | 
+    eval "$({{ secret_dir }}/{{ decrypt_file }})";
+    '{{ hive_metastore_home }}/schematool.sh'
   ignore_errors: yes
 
 - name: copy hive metstore service files
