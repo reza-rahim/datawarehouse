@@ -10,6 +10,9 @@
   loop:
      - { src: 'spark-master.service.j2', dest: '/etc/systemd/system/spark-master.service'  }
      #- { src: 'spark-ui-proxy.service.j2', dest: '/etc/systemd/system/spark-ui-proxy.service'  }
+     - { src: 'spark-env.sh.j2', dest: '{{ spark_home }}/conf/spark-env.sh'  }
+     - { src: 'spark-defaults.conf.j2', dest: '{{ spark_home }}/conf/spark-defaults.conf' }
+     - { src: 'hive-site.xml.j2', dest: '{{ spark_home }}/conf/hive-site.xml' }
      - { src: 'ha.conf.j2', dest: '{{ spark_mnaster_conf_dir }}/ha.conf'  }
      - { src: 'run-spark-master.sh.j2', dest: '{{ spark_home }}/run-spark-master.sh'  }
   when: >
@@ -17,7 +20,7 @@
     and ( groups['spark_master'].index(inventory_hostname) == 0 or groups['spark_master'].index(inventory_hostname) == 1 )
   notify: 
     - restart start_master
-    - restart start_proxy
+    #- restart start_proxy
 
 - name: Reload service files
   systemd:
