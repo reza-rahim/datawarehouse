@@ -63,6 +63,15 @@
     - { src: 'password-authenticator.properties.j2', dest: '{{ trino_home }}/etc/password-authenticator.properties' }
   notify: restart start_trino  # This triggers a handler to restart Trino if any of the files change
 
+
+- name: Copy run_trino.sh from template
+  template:
+    src: 'run_trino.sh.j2'
+    dest: '{{ trino_home }}/run_trino.sh'
+    mode: '0755'
+  notify: restart start_trino  # This triggers a handler to restart Trino if any of the files change
+
+
 # Download the Trino CLI to /usr/bin and make it executable
 - name: Download Trino CLI
   get_url:

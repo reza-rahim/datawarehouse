@@ -1,5 +1,15 @@
 connector.name=iceberg
-hive.metastore.uri=thrift://{{ virtual_ip }}:9083
+hive.metastore.uri=thrift://metastore.{{ fqdn }}:{{ hive_metastore_port }}
+
+# Enable SSL
+hive.metastore.thrift.client.ssl.enabled=true
+
+# Use PEM (recommended) or JKS converted to PEM
+hive.metastore.thrift.client.ssl.key={{ cert_dir }}javacert.keystore.jks
+hive.metastore.thrift.client.ssl.key-password=${ENV:JKS_PASSWORD}
+hive.metastore.thrift.client.ssl.trust-certificate={{ cert_dir }}javacert.truststore.jks
+hive.metastore.thrift.client.ssl.trust-certificate-password=${ENV:JKS_PASSWORD}
+
 s3.endpoint={{ s3_protocol }}://minio.{{ fqdn }}:9000
 s3.region=us-east-1
 fs.native-s3.enabled=true

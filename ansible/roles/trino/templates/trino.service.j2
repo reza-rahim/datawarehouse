@@ -8,9 +8,8 @@ Group={{ application_group }}
 
 Environment=JAVA_HOME={{ java_home }}
 
-ExecStart=/bin/bash -c "eval "$({{ lockbox_dir }}/decrypt_lockbox_eval.sh)";{{ trino_home }}/bin/launcher run"
+ExecStart={{ trino_home }}/run_trino.sh
 Restart=on-failure
-
 
 [Install]
 WantedBy=multi-user.target

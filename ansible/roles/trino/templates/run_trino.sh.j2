@@ -1,0 +1,3 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})"; 
+{{ trino_home }}/bin/launcher run

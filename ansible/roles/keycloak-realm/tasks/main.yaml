@@ -1,15 +1,18 @@
 ---
 
-- name: connect to kecloak
-  template: src='{{ item.src }}' dest='{{ item.dest }}' mode='0550'
+- name: Upload Keycloak realm script
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
   loop:
-     - { src: 'realm.sh.j2', dest: '{{ tmpfs_dir }}/kcadm/realm.sh'  }
-  become: yes
-  become_user: '{{ kcadm_user }}' 
+    - { src: "realm.sh.j2", dest: "/tmp/realm.sh", mode: "0755" }
 
-- name: run the srcipt
-  #
-  shell: '#{{ tmpfs_dir }}/{{ kcadm_user }}/realm.sh; rm -f {{ tmpfs_dir }}/{{ kcadm_user }}/realm.sh'
+- name: Run the Keycloak realm script
+  shell: |
+    eval "$(/etc/secret/decrypt_secret_eval.sh)"
+    /tmp/realm.sh
+    rm -f /tmp/realm.sh
   become: yes
-  become_user: '{{ kcadm_user }}' 
   ignore_errors: yes
+

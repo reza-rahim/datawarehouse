@@ -1,4 +1,6 @@
-source 00.evn.sh
+source 00.vip_fqdn.sh
+source 00.repo_version.sh
+source 00.secrets.sh
 ansible-playbook -i inventory.ini \
 -e keycloak_minio_id=$KEYCLOAK_MINIO_ID \
 -e keycloak_minio_client_id=$KEYCLOAK_MINIO_CLIENT_ID \
