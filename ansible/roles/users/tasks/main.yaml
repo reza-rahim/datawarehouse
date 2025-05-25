@@ -141,6 +141,14 @@
     name: '{{ jupyterhub_user }}'
     groups: '{{ jupyterhub_group }},{{ fuse_group }},{{ application_group }} , {{ jceks_group }}'  
 
+- name: Allow jupyterhub_user  user to run all commands via sudo
+  copy:
+    dest: "/etc/sudoers.d/{{ jupyterhub_user }}"
+    content: "{{ jupyterhub_user }} ALL=(ALL) NOPASSWD:ALL"
+    owner: root
+    group: root
+    mode: '0440'      
+
 
 - name: Create user airflow
   user:

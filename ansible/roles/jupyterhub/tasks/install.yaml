@@ -1,56 +1,52 @@
 ---
 
 - name: Create /etc/jupyterhub
-  file: 
-     path:  /etc/jupyterhub
-     state: directory
+  file:
+    path: /etc/jupyterhub
+    state: directory
+    mode: '0775'
+    group: jupyterhub
 
 - name: Create {{ jupyterhub_home }}
   file: 
      path:  '{{ jupyterhub_home }}'
      state: directory
 
-- name: Install nodejs and npm (and python3-pip)
-  apt:
-    name: "{{ item }}"
-    update_cache: yes
-    state: present
-  loop:
-    - nodejs
-    - python3-pip
-  when: ansible_facts.packages is not defined or ansible_facts.packages["nodejs"] is not defined
-
       
 - name: install jupyterhub and notebook
+  become: yes
+  become_user: '{{ jupyterhub_user }}'
   pip: 
     name: '{{ item }}'
   loop:
-    - jupyterhub=={{ jupyterhub }}      
-    - JupyterLab=={{ jupyterlab }}
-    - notebook=={{ notebook }}  
-    - oauthenticator=={{ oauthenticator }}
-    - plotly=={{ plotly }} 
-    - seaborn=={{ seaborn }}
-    - matplotlib=={{ matplotlib }} 
-    - numpy=={{ numpy }}
-    - pandas=={{ pandas }}
-    #- torch=={{ torch }}  
-    #- pyarrow==11.0.0 
-    - scikit-learn=={{ scikit_learn }} 
-    - scikit-image=={{ scikit_image }}
-    - statsmodels=={{ statsmodels }}  
-    - s3cmd==2.4.0
-    - ipython-sql==0.5.0
-    - sqlalchemy== {{ sqlalchemy }}
-    - sparksql-magic==0.0.3  
-    - sqlalchemy-trino==0.5.0
+    - jupyterhub=={{ lookup('env', 'JUPYTERHUB') }}
+    - Jupyterlab=={{ lookup('env', 'JUPYTERLAB') }}
+    - notebook=={{ lookup('env', 'NOTEBOOK') }}
+    - oauthenticator=={{ lookup('env', 'OAUTHENTICATOR') }}
+    - psycopg2-binary=={{ lookup('env', 'PSYCOPG2_BINARY') }} 
+    - jupyterlab-theme-solarized-dark  
+    - plotly=={{ lookup('env', 'PLOTLY') }}
+    - seaborn=={{ lookup('env', 'SEABORN') }}
+    - matplotlib=={{ lookup('env', 'MATPLOTLIB') }}
+    - numpy=={{ lookup('env', 'NUMPY') }}
+    - pandas=={{ lookup('env', 'PANDAS') }}
+    - scikit-learn=={{ lookup('env', 'SCIKIT_LEARN') }}
+    - scikit-image=={{ lookup('env', 'SCIKIT_IMAGE') }}
+    - statsmodels=={{ lookup('env', 'STATSMODELS') }}
+    - s3cmd=={{ lookup('env', 'S3CMD') }}
+    - ipython-sql=={{ lookup('env', 'IPYTHON_SQL') }}
+    - sparksql-magic=={{ lookup('env', 'SPARKSQL_MAGIC') }}
+    - sqlalchemy-trino=={{ lookup('env', 'SQLALCHEMY_TRINO') }}
     #- clickhouse-driver
     #- clickhouse-sqlalchemy
-    - tensorflow==2.12.0  
+    #- tensorflow=={{ lookup('env', 'HADOOP_VERSION') }}
+    #- torch=={{ torch }}  
+    #- pyarrow==11.0.0 
+  
+   
 
 - name: install configurable-http-proxy
   npm:
     name: configurable-http-proxy      
     global: yes
-
 

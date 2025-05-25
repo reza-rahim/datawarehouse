@@ -17,10 +17,10 @@ admin.serverPort={{ zookeeper_admin_serverPort }}
 
 # Server certificate and key
 ssl.keyStore.location={{ cert_dir }}javacert.keystore.jks
-ssl.keyStore.password={{ lookup('env', 'JKS_PASSWORD') }}
+ssl.keyStore.password=changeit
 # Truststore to validate clients
 ssl.trustStore.location={{ cert_dir }}javacert.truststore.jks
-ssl.trustStore.password={{ lookup('env', 'JKS_PASSWORD') }}
+ssl.trustStore.password=changeit
 
 #ssl.clientAuth=none
 

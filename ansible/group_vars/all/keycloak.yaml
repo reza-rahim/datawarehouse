@@ -19,3 +19,8 @@ kcadm_group: kcadm
 ## user uuidgen to generate uuid
 keycloak_realms_devel: devel
 keycloak_realms_bi: bi
+keycloak_minio_realm:  devel
+keycloak_jupyter_realm:  devel
+keycloak_airflow_realm:  devel
+keycloak_superset_realm: bi 
+keycloak_trino_realm: bi  

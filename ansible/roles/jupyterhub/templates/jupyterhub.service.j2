@@ -14,10 +14,9 @@ Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 Environment=OAUTH2_AUTHORIZE_URL=https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_devel_realm }}/protocol/openid-connect/auth
 WorkingDirectory={{ jupyterhub_home }}
 
-ExecStartPre={{ lockbox_dir }}/decrypt_lockbox.sh
 ExecStartPre={{ fuse_home }}/jupyterhub_fuse.sh
 
-ExecStart=/bin/bash -c "source {{ tmpfs_dir }}/{{ lockbox_env }};  /usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }}; jupyterhub -f /etc/jupyterhub/jupyterhub_config_simple.py"
+ExecStart={{ jupyterhub_home }}/run_jupyterhub.sh
 
 Restart=on-failure
 RestartSec=10

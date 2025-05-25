@@ -4,4 +4,4 @@ source  00.secrets.sh
 ansible-playbook -i inventory.ini \
 -e fqdn=$FQDN \
 -e virtual_ip=$VIRTUAL_IP \
-hive-mestastore.yaml;	
+hive-mestastore_1.yaml;	

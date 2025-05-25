@@ -61,6 +61,7 @@
     - build-essential
     - gnupg2 
     - lsb-release  
+    - nodejs  
 
 - name: Install psycopg2 using pip
   pip:

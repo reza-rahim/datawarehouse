@@ -44,10 +44,8 @@
 
 - name: Create db user
   postgresql_user:
-    #name: "{{ db_user }}"
-    #password: "{{ db_password }} "
-    name: postgres
-    password:  postgres
+    name: "{{ db_user }}"
+    password: "{{ db_password }} "
     state: present
   become: yes
   become_user: postgres
@@ -83,6 +81,13 @@
     state: present
   become: yes
   become_user: postgres
+
+- name: Create jupyterhub database
+  postgresql_db:
+    name: "{{ jupyterhub_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres    
 
 - name: Create airflow database
   postgresql_db:

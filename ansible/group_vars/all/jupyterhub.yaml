@@ -1,5 +1,5 @@
 jupyterhub_user: jupyterhub
-jupyterhub_home: /opt/jupyterhub
+jupyterhub_home: /opt/jupyterhub/
 jupyterhub_group: jupyterhub
 jupyterhub_fuse_group: jupyterhub-fuse
 jupyterhub_port: 9080
@@ -7,3 +7,7 @@ jupyterhub_hub_port: 9081
 JupyterHub_api_port: 9082
 jupyterhub_s3_bucket: jupyterhub
 jupyterhub_notebook_dir: /var/data/jupyterhub
+jupyterhub_venv_path: /opt/jupyterhub/jupyterhub-venv
+jupyterhub_db_name: jupyterhub  
+
+## version
