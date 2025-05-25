@@ -78,6 +78,7 @@
     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ trino_cli_file }}"
     dest: '/usr/bin/trino'
     mode: '0755'
+  ignore_errors: true     
 
 # Reload systemd to recognize the new Trino service definition
 - name: Reload systemd daemon

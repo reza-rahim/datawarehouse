@@ -3,58 +3,89 @@
 /opt/keycloak/bin/kcadm.sh config credentials  --server https://keyclock.{{ lookup('env', 'FQDN') }}:6443/ --realm master --user {{ Keycloak_admin }} --password $KEYCLOAK_ADMIN_PASSWORD
 
 ## create realms
-/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_devel }}  -s enabled=true
-/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_bi }} -s enabled=true
+#/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_devel }}  -s enabled=true
+#/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_bi }} -s enabled=true
 
-#### users
-/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_realms_devel }}  -s username={{ keycloak_devel_user }} -s enabled=true
-/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_realms_bi }}  -s username={{ keycloak_bi_user }} -s enabled=true
+##:
+## create realms
+/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_minio_realm }} -s enabled=true
+/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_trino_realm }} -s enabled=true
+/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_jupyterhub_realm }} -s enabled=true
+/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_superset_realm }} -s enabled=true
+/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_airflow_realm }} -s enabled=true
+
+## create user
+
+/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_airflow_realm }} \
+  -s username="$KEYCLOAK_DEMO_USER" \
+  -s enabled=true \
+  -s firstName="Demo" \
+  -s lastName="User" \
+  -s email="demo@net.bd"
+
+/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_trino_realm }} \
+  -s username="$KEYCLOAK_DEMO_USER" \
+  -s enabled=true \
+  -s firstName="Demo" \
+  -s lastName="User" \
+  -s email="demo@net.bd"
+
+/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_jupyterhub_realm }} \
+  -s username="$KEYCLOAK_DEMO_USER" \
+  -s enabled=true \
+  -s firstName="Demo" \
+  -s lastName="User" \
+  -s email="demo@net.bd"
+
+/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_superset_realm }} \
+  -s username="$KEYCLOAK_DEMO_USER" \
+  -s enabled=true \
+  -s firstName="Demo" \
+  -s lastName="User" \
+  -s email="demo@net.bd"
+
+/opt/keycloak/bin/kcadm.sh create users -r {{ keycloak_airflow_realm }} \
+  -s username="$KEYCLOAK_DEMO_USER" \
+  -s enabled=true \
+  -s firstName="Demo" \
+  -s lastName="User" \
+  -s email="demo@net.bd"
 
 
 ### create password
-/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_realms_devel }} --username {{ keycloak_devel_user }}  --new-password "$KEYCLOAK_BI_PASSWORD"
-/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_realms_bi }} --username {{ keycloak_devel_user }}   --new-password  "$KEYCLOAK_DEVEL_PASSWORD"
+/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_minio_realm }} --username "$KEYCLOAK_DEMO_USER" --new-password "$KEYCLOAK_DEMO_PASSWORD"
+/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_trino_realm }} --username "$KEYCLOAK_DEMO_USER" --new-password "$KEYCLOAK_DEMO_PASSWORD"
+/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_jupyterhub_realm }} --username "$KEYCLOAK_DEMO_USER" --new-password "$KEYCLOAK_DEMO_PASSWORD"
+/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_superset_realm }} --username "$KEYCLOAK_DEMO_USER" --new-password "$KEYCLOAK_DEMO_PASSWORD"
+/opt/keycloak/bin/kcadm.sh set-password -r  {{ keycloak_airflow_realm }} --username "$KEYCLOAK_DEMO_USER" --new-password "$KEYCLOAK_DEMO_PASSWORD"
 
-/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_realms_bi }} -f - << EOF
+##minio client id
+/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_minio_realm }} -f - << EOF
+{
+  "clientId": "{{ keycloak_minio_client_id  }}",
+  "id": "{{ keycloak_minio_id }}",
+  "secret": "{{ keycloak_minio_client_secret }}",
+  "enabled": true,
+  "clientAuthenticatorType": "client-secret",
+  "redirectUris": [ "https://minio.{{ lookup('env', 'FQDN') }}:9001/*" ],
+  "webOrigins": [ "*" ],
+  "standardFlowEnabled": true,
+  "directAccessGrantsEnabled": true,
+  "protocol": "openid-connect",
+  "access": { "view": true, "configure": true, "manage": true },
+  "defaultClientScopes": [ "web-origins", "acr", "roles", "profile", "email" ],
+  "optionalClientScopes": [ "address", "phone", "offline_access", "microprofile-jwt" ]
+}
+EOF
+
+
+## trino client id
+/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_trino_realm }} -f - << EOF
 {
   "clientId": "{{ keycloak_trino_client_id }}",
   "id": "{{ keycloak_trino_id }}",
   "secret": "{{ keycloak_trino_client_secret }}",
-  "enabled": true,
-  "clientAuthenticatorType": "client-secret",
-  "redirectUris": [ "https://trino.{{ lookup('env', 'FQDN') }}:{{ trino_tls_port }}/*" ],
-  "webOrigins": [ "*" ],
-  "standardFlowEnabled": true,
-  "directAccessGrantsEnabled": true,
-  "protocol": "openid-connect",
-  "access": { "view": true, "configure": true, "manage": true },
-  "defaultClientScopes": [ "web-origins", "acr", "roles", "profile", "email" ],
-  "optionalClientScopes": [ "address", "phone", "offline_access", "microprofile-jwt" ]
-}
-EOF
-
-/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_realms_bi }} -f - << EOF
-{
-  "clientId": "{{ keycloak_superset_client_id }}",
-  "id": "{{ keycloak_superset_id }}",
-  "secret": "{{ keycloak_superset_client_secret }}",
-  "enabled": true,
-  "clientAuthenticatorType": "client-secret",
-  "redirectUris": [ "https://superset.{{ lookup('env', 'FQDN') }}:{{ superset_port }}/*" ],
-  "webOrigins": [ "*" ],
-  "standardFlowEnabled": true,
-  "directAccessGrantsEnabled": true,
-  "protocol": "openid-connect",
-  "access": { "view": true, "configure": true, "manage": true },
-  "defaultClientScopes": [ "web-origins", "acr", "roles", "profile", "email" ],
-  "optionalClientScopes": [ "address", "phone", "offline_access", "microprofile-jwt" ]
-}
-EOF
-
-/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_realms_devel }} -f - << EOF
-{
-  "id" : "{{ keycloak_jupyter_id }}",
-  "clientId" : "{{ keycloak_jupyter_client_id }}",
+  "redirectUris": [ "https://trino.{{ lookup('env', 'FQDN') }}:{{ trino_tls_port }}/*" ], 
   "name" : "",
   "description" : "",
   "rootUrl" : "",
@@ -64,8 +95,6 @@ EOF
   "enabled" : true,
   "alwaysDisplayInConsole" : true,
   "clientAuthenticatorType" : "client-secret",
-  "secret" : "{{ keycloak_jupyter_client_secret }}",
-  "redirectUris" : [ "", "https://jupyterhub.{{ lookup('env', 'FQDN') }}:{{ jupyterhub_port }}/*" ],
   "webOrigins" : [ "" ],
   "notBefore" : 0,
   "bearerOnly" : false,
@@ -98,39 +127,142 @@ EOF
 }
 EOF
 
-/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_realms_devel }} -f - << EOF
+
+## jupyter client id
+/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_jupyterhub_realm }} -f - << EOF
 {
-  "clientId": "{{ keycloak_minio_client_id  }}",
-  "id": "{{ keycloak_minio_id }}",
-  "secret": "{{ keycloak_minio_client_secret }}",
-  "enabled": true,
-  "clientAuthenticatorType": "client-secret",
-  "redirectUris": [ "https://minio.{{ lookup('env', 'FQDN') }}:9001/*" ],
-  "webOrigins": [ "*" ],
-  "standardFlowEnabled": true,
-  "directAccessGrantsEnabled": true,
-  "protocol": "openid-connect",
-  "access": { "view": true, "configure": true, "manage": true },
-  "defaultClientScopes": [ "web-origins", "acr", "roles", "profile", "email" ],
-  "optionalClientScopes": [ "address", "phone", "offline_access", "microprofile-jwt" ]
+  'id" : "{{ keycloak_jupyter_id }}",
+  "clientId" : "{{ keycloak_jupyter_client_id }}",
+  "secret" : "{{ keycloak_jupyter_client_secret }}",
+  "redirectUris" : [ "", "https://jupyterhub.{{ lookup('env', 'FQDN') }}:{{ jupyterhub_port }}/*" ],
+  "name" : "",
+  "description" : "",
+  "rootUrl" : "",
+  "adminUrl" : "",
+  "baseUrl" : "",
+  "surrogateAuthRequired" : false,
+  "enabled" : true,
+  "alwaysDisplayInConsole" : true,
+  "clientAuthenticatorType" : "client-secret",
+  "webOrigins" : [ "" ],
+  "notBefore" : 0,
+  "bearerOnly" : false,
+  "consentRequired" : false,
+  "standardFlowEnabled" : true,
+  "implicitFlowEnabled" : false,
+  "directAccessGrantsEnabled" : true,
+  "serviceAccountsEnabled" : false,
+  "publicClient" : false,
+  "frontchannelLogout" : true,
+  "protocol" : "openid-connect",
+  "attributes" : {
+    "oidc.ciba.grant.enabled" : "false",
+    "client.secret.creation.time" : "1680128019",
+    "backchannel.logout.session.required" : "true",
+    "display.on.consent.screen" : "false",
+    "oauth2.device.authorization.grant.enabled" : "false",
+    "backchannel.logout.revoke.offline.tokens" : "false"
+  },
+  "authenticationFlowBindingOverrides" : { },
+  "fullScopeAllowed" : true,
+  "nodeReRegistrationTimeout" : -1,
+  "defaultClientScopes" : [ "web-origins", "acr", "roles", "profile", "email" ],
+  "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ],
+  "access" : {
+    "view" : true,
+    "configure" : true,
+    "manage" : true
+  }
 }
 EOF
 
-/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_realms_devel }} -f - << EOF
+## superset  client id
+/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_superset_realm }} -f - << EOF
+{
+  "clientId": "{{ keycloak_superset_client_id }}",
+  "id": "{{ keycloak_superset_id }}",
+  "secret": "{{ keycloak_superset_client_secret }}",
+  "redirectUris": [ "https://superset.{{ lookup('env', 'FQDN') }}:{{ superset_port }}/*" ],
+  "surrogateAuthRequired" : false,
+  "enabled" : true,
+  "alwaysDisplayInConsole" : true,
+  "clientAuthenticatorType" : "client-secret",
+  "webOrigins" : [ "" ],
+  "notBefore" : 0,
+  "bearerOnly" : false,
+  "consentRequired" : false,
+  "standardFlowEnabled" : true,
+  "implicitFlowEnabled" : false,
+  "directAccessGrantsEnabled" : true,
+  "serviceAccountsEnabled" : false,
+  "publicClient" : false,
+  "frontchannelLogout" : true,
+  "protocol" : "openid-connect",
+  "attributes" : {
+    "oidc.ciba.grant.enabled" : "false",
+    "backchannel.logout.session.required" : "true",
+    "display.on.consent.screen" : "false",
+    "oauth2.device.authorization.grant.enabled" : "false",
+    "backchannel.logout.revoke.offline.tokens" : "false"
+  },
+  "authenticationFlowBindingOverrides" : { },
+  "fullScopeAllowed" : true,
+  "nodeReRegistrationTimeout" : -1,
+  "defaultClientScopes" : [ "web-origins", "acr", "roles", "profile", "email" ],
+  "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ],
+  "access" : {
+    "view" : true,
+    "configure" : true,
+    "manage" : true
+  }
+}
+EOF
+
+/opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_airflow_realm }} -f - << EOF
 {
   "clientId": "{{ keycloak_airflow_client_id }}",
   "id": "{{ keycloak_airflow_id }}",
   "secret": "{{ keycloak_airflow_client_secret }}",
-  "enabled": true,
-  "clientAuthenticatorType": "client-secret",
   "redirectUris": [ "https://airflow.{{ lookup('env', 'FQDN') }}:{{ airflow_port }}/*" ],
-  "webOrigins": [ "*" ],
-  "standardFlowEnabled": true,
-  "directAccessGrantsEnabled": true,
-  "protocol": "openid-connect",
-  "access": { "view": true, "configure": true, "manage": true },
-  "defaultClientScopes": [ "web-origins", "acr", "roles", "profile", "email" ],
-  "optionalClientScopes": [ "address", "phone", "offline_access", "microprofile-jwt" ]
+  "name" : "",
+  "description" : "",
+  "rootUrl" : "",
+  "adminUrl" : "",
+  "baseUrl" : "",
+  "surrogateAuthRequired" : false,
+  "enabled" : true,
+  "alwaysDisplayInConsole" : true,
+  "clientAuthenticatorType" : "client-secret",
+  "webOrigins" : [ "" ],
+  "notBefore" : 0,
+  "bearerOnly" : false,
+  "consentRequired" : false,
+  "standardFlowEnabled" : true,
+  "implicitFlowEnabled" : false,
+  "directAccessGrantsEnabled" : true,
+  "serviceAccountsEnabled" : false,
+  "publicClient" : false,
+  "frontchannelLogout" : true,
+  "protocol" : "openid-connect",
+  "attributes" : {
+    "oidc.ciba.grant.enabled" : "false",
+    "client.secret.creation.time" : "1680128019",
+    "backchannel.logout.session.required" : "true",
+    "display.on.consent.screen" : "false",
+    "oauth2.device.authorization.grant.enabled" : "false",
+    "backchannel.logout.revoke.offline.tokens" : "false"
+  },
+  "authenticationFlowBindingOverrides" : { },
+  "fullScopeAllowed" : true,
+  "nodeReRegistrationTimeout" : -1,
+  "defaultClientScopes" : [ "web-origins", "acr", "roles", "profile", "email" ],
+  "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ],
+  "access" : {
+    "view" : true,
+    "configure" : true,
+    "manage" : true
+  }
 }
 EOF
+
 

@@ -12,7 +12,7 @@
   shell: |
     eval "$(/etc/secret/decrypt_secret_eval.sh)"
     /tmp/realm.sh
-    rm -f /tmp/realm.sh
+    #rm -f /tmp/realm.sh
   become: yes
   ignore_errors: yes
 
