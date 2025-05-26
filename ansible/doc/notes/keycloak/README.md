@@ -1,5 +1,6 @@
+### realms is trino
 ```
-https://keyclock.dw.felicity.net.bd:6443/realms/devel/.well-known/openid-configuration
+https://keyclock.dw.felicity.net.bd:6443/realms/trino/.well-known/openid-configuration
 ```
 ```
 {
