@@ -2,6 +2,8 @@
 ### Doc 
 ##### https://github.com/trinodb/trino-python-client/blob/master/README.md
 
+---
+
 ```
 
 trino --server=https://trino.dw.felicity.net.bd:7443 --user='' --external-authentication=true
