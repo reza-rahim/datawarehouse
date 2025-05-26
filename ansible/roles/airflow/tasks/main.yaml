@@ -1,2 +1,2 @@
-- include: venv.yaml
-- include: config.yaml
+- import_tasks: venv.yaml
+- import_tasks: config.yaml

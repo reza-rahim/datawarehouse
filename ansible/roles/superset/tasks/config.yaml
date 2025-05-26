@@ -19,7 +19,7 @@
         export SUPERSET_CONFIG_PATH={{ superset_home }}/superset_config.py
         export FLASK_APP=superset
         export PYTHONPATH={{ superset_home }}/pythonpath
-        eval "$({{ lockbox_dir }}/decrypt_lockbox_eval.sh)"
+        eval "$({{ secret_dir }}/{{ decrypt_file }})"
         {{ superset_venv_path }}/bin/superset db upgrade
         {{ superset_venv_path }}/bin/superset fab create-admin --username $SUPERSET_ADMIN_USER --firstname Superset --lastname Admin --email admin@superset.com --password $SUPERSET_ADMIN_PASSWORD
         {{ superset_venv_path }}/bin/superset init
