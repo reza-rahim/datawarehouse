@@ -1,7 +1,33 @@
 ```
 https://keyclock.dw.felicity.net.bd:6443/realms/devel/.well-known/openid-configuration
 ```
+```
+{
+  "issuer": "https://keyclock.dw.felicity.net.bd:6443/realms/trino",
+  "authorization_endpoint": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/auth",
+  "token_endpoint": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/token",
+  "introspection_endpoint": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/token/introspect",
+  "userinfo_endpoint": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/userinfo",
+  "end_session_endpoint": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/logout",
+  "frontchannel_logout_session_supported": true,
+  "frontchannel_logout_supported": true,
+  "jwks_uri": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/certs",
+  "check_session_iframe": "https://keyclock.dw.felicity.net.bd:6443/realms/trino/protocol/openid-connect/login-status-iframe.html",
+  "grant_types_supported": [
+    "authorization_code",
+    "client_credentials",
+    "implicit",
+    "password",
+    "refresh_token",
+    "urn:ietf:params:oauth:grant-type:device_code",
+    "urn:ietf:params:oauth:grant-type:token-exchange",
+    "urn:ietf:params:oauth:grant-type:uma-ticket",
+    "urn:openid:params:grant-type:ciba"
+  ],
+  ...
 
+```
+---
 ```
 CLIENT_ID=trino
 CLIENT_SECRET=55c5b0fa-a8a4-401c-932f-4a6d2eb572ef
