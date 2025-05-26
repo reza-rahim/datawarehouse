@@ -16,3 +16,7 @@ web-ui.authentication.type=oauth2
 http-server.authentication.oauth2.issuer=https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_trino_realm }}
 http-server.authentication.oauth2.client-id={{ keycloak_trino_client_id }}
 http-server.authentication.oauth2.client-secret=${ENV:KEYCLOAK_TRINO_CLIENT_SECRET}
+
+http-server.authentication.oauth2.jwks-url=https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_trino_realm }}/protocol/openid-connect/certs
+http-server.authentication.oauth2.principal-field=preferred_username
+
