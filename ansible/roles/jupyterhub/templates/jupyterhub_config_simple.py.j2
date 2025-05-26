@@ -1,9 +1,9 @@
 from oauthenticator.generic import GenericOAuthenticator
 import os
 
-os.environ['OAUTH2_TOKEN_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyter_realm }}/protocol/openid-connect/token'
-os.environ['OAUTH2_AUTHORIZE_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyter_realm }}/protocol/openid-connect/auth'
-os.environ['OAUTH2_USERDATA_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyter_realm }}/protocol/openid-connect/userinfo'
+os.environ['OAUTH2_TOKEN_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/token'
+os.environ['OAUTH2_AUTHORIZE_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/auth'
+os.environ['OAUTH2_USERDATA_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/userinfo'
 
 c = get_config()  #noqa
 
@@ -22,8 +22,8 @@ c.JupyterHub.authenticator_class = GenericOAuthenticator
 
 c.GenericOAuthenticator.client_id='{{ lookup('env', 'KEYCLOAK_JUPYTER_CLIENT_ID') }}'
 c.GenericOAuthenticator.client_secret=os.environ.get('KEYCLOAK_JUPYTER_CLIENT_SECRET')
-c.GenericOAuthenticator.token_url = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyter_realm }}/protocol/openid-connect/token'
-c.GenericOAuthenticator.userdata_url = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyter_realm }}/protocol/openid-connect/userinfo'
+c.GenericOAuthenticator.token_url = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/token'
+c.GenericOAuthenticator.userdata_url = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/userinfo'
 c.GenericOAuthenticator.userdata_params = {'state': 'state'}
 c.GenericOAuthenticator.username_key = 'preferred_username'
 c.GenericOAuthenticator.login_service = 'Keycloak'

@@ -18,7 +18,7 @@ kcadm_group: kcadm
 
 ## user uuidgen to generate uuid
 keycloak_minio_realm:  minio
-keycloak_trino_realm:  trino 
 keycloak_jupyterhub_realm: jupyterhub
+keycloak_trino_realm:  trino 
 keycloak_superset_realm:  superset
 keycloak_airflow_realm:  airflow

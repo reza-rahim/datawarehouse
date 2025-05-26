@@ -2,10 +2,6 @@
 
 /opt/keycloak/bin/kcadm.sh config credentials  --server https://keyclock.{{ lookup('env', 'FQDN') }}:6443/ --realm master --user {{ Keycloak_admin }} --password $KEYCLOAK_ADMIN_PASSWORD
 
-## create realms
-#/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_devel }}  -s enabled=true
-#/opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_realms_bi }} -s enabled=true
-
 ##:
 ## create realms
 /opt/keycloak/bin/kcadm.sh  create realms -s realm={{ keycloak_minio_realm }} -s enabled=true
@@ -131,7 +127,7 @@ EOF
 ## jupyter client id
 /opt/keycloak/bin/kcadm.sh create clients -r {{ keycloak_jupyterhub_realm }} -f - << EOF
 {
-  'id" : "{{ keycloak_jupyter_id }}",
+  "id" : "{{ keycloak_jupyter_id }}",
   "clientId" : "{{ keycloak_jupyter_client_id }}",
   "secret" : "{{ keycloak_jupyter_client_secret }}",
   "redirectUris" : [ "", "https://jupyterhub.{{ lookup('env', 'FQDN') }}:{{ jupyterhub_port }}/*" ],
