@@ -4,3 +4,4 @@ superset_group: "superset"
 superset_db_name: "superset"
 superset_venv_path: "{{ superset_home }}/superset-venv"
 superset_port: 8088  
+superset_port_keycloak: 8089 

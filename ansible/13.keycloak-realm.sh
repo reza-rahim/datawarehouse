@@ -13,7 +13,7 @@ ansible-playbook -i inventory.ini \
 -e keycloak_trino_client_secret=$KEYCLOAK_TRINO_CLIENT_SECRET \
 -e keycloak_superset_id=$KEYCLOAK_SUPERSET_ID \
 -e keycloak_superset_client_id=$KEYCLOAK_SUPERSET_CLIENT_ID \
--e keycloak_superset_client_secret=$KEYCLOAK_SUPERSET_CLIENT_SECREt \
+-e keycloak_superset_client_secret=$KEYCLOAK_SUPERSET_CLIENT_SECRET \
 -e keycloak_airflow_id=$KEYCLOAK_AIRFLOW_ID \
 -e keycloak_airflow_client_id=$KEYCLOAK_AIRFLOW_CLIENT_ID \
 -e keycloak_airflow_client_secret=$KEYCLOAK_AIRFLOW_CLIENT_SECRET \

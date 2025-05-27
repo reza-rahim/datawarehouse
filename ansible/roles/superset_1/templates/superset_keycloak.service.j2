@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache  superset
+After=network.target trino.service
+
+[Service]
+User={{ superset_user }}
+Group={{ application_group }}
+WorkingDirectory={{ superset_home }}/keycloak
+Environment=FLASK_APP=superset
+
+ExecStart={{ superset_home }}/keycloak/run_superset_keycloak.sh
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

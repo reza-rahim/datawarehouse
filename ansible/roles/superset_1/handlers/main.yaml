@@ -1,0 +1,5 @@
+- name: restart superset
+  service: name=superset.service  state=restarted enabled=yes
+
+- name: restart superset_keycloak
+  service: name=superset_keycloak.service  state=restarted enabled=yes

@@ -5,12 +5,11 @@ After=network.target trino.service
 [Service]
 User={{ superset_user }}
 Group={{ application_group }}
-WorkingDirectory={{ superset_home }}
+WorkingDirectory={{ superset_home }}/non-keycloak
 Environment=FLASK_APP=superset
 Environment=PYTHONPATH={{ superset_home }}/pythonpath
 
-
-ExecStart={{ superset_home }}/run_superset.sh
+ExecStart={{ superset_home }}/non-keycloak/run_superset.sh
 Restart=on-failure
 RestartSec=5s
 

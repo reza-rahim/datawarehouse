@@ -1,0 +1,12 @@
+#!/bin/bash
+source {{ superset_venv_path }}/bin/activate
+export SUPERSET_CONFIG_PATH={{ superset_home }}/keycloak/superset_config.py
+export FLASK_APP=superset
+export PYTHONPATH={{ superset_home }}/pythonpath
+eval "$({{ secret_dir }}/{{ decrypt_file }})"
+
+{{ superset_venv_path }}/bin/gunicorn -w 8 -k gevent --timeout 120 \
+      --certfile={{ cert_dir }}/{{ server_cert_file_name }} --keyfile={{ cert_dir }}/{{ server_key_file_name }} \
+      -b 0.0.0.0:{{ superset_port_keycloak }} --limit-request-line 0 --limit-request-field_size 0 \
+      'superset.app:create_app()' 
+

@@ -178,7 +178,7 @@ EOF
   "clientId": "{{ keycloak_superset_client_id }}",
   "id": "{{ keycloak_superset_id }}",
   "secret": "{{ keycloak_superset_client_secret }}",
-  "redirectUris": [ "https://superset.{{ lookup('env', 'FQDN') }}:{{ superset_port }}/*" ],
+  "redirectUris": [ "https://superset.{{ lookup('env', 'FQDN') }}:{{ superset_port_keycloak }}/*" ],
   "surrogateAuthRequired" : false,
   "enabled" : true,
   "alwaysDisplayInConsole" : true,

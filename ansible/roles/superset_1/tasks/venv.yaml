@@ -22,6 +22,21 @@
     - { src: "requirements.txt.j2", dest: "{{ superset_home }}/requirements.txt" }
   notify: restart superset
 
+- name: Create {{ superset_home }}/non-keycloak
+  file:
+    path: "{{ superset_home }}/non-keycloak"
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+
+
+- name: Create {{ superset_home }}/keycloak
+  file:
+    path: "{{ superset_home }}/keycloak"
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"      
+
 
 - name: Create Python virtual environment
   become: true

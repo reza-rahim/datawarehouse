@@ -41,7 +41,25 @@ MAPBOX_API_KEY = ''
 WTF_CSRF_ENABLED = False 
 
 AUTH_TYPE = AUTH_OID
-OIDC_CLIENT_SECRETS = '/opt/superset/client_secret.json'
+
+KEYCLOAK_SUPERSET_CLIENT_SECRET = os.environ.get("KEYCLOAK_SUPERSET_CLIENT_SECRET")
+
+
+OIDC_CLIENT_SECRETS = {
+    "web": {
+        "issuer": "https://keyclock.{{ fqdn }}:6443/realms/{{ keycloak_superset_realm }}",
+        "auth_uri": "https://keyclock..com:6443/realms/{{ keycloak_superset_realm }}/protocol/openid-connect/auth",
+        "client_id": "{{ keycloak_superset_client_id }}",
+        "client_secret":  KEYCLOAK_SUPERSET_CLIENT_SECRET,
+        "redirect_uris": [
+            "https://keyclock.{{ fqdn }}:6443/*"
+        ],
+        "userinfo_uri": "'https://keyclock.{{ fqdn }}:6443/realms/{{ keycloak_superset_realm }}/protocol/openid-connect/userinfo",
+        "token_uri": "https://keyclock.{{ fqdn }}:6443/realms/{{ keycloak_superset_realm }}/protocol/openid-connect/token",
+        "token_introspection_uri": "https://keyclock.{{ fqdn }}:6443/realms/{{ keycloak_superset_realm }}/protocol/openid-connect/token/introspect"
+    }
+}
+
 OIDC_COOKIE_SECURE = False
 OIDC_CALLBACK_ROUTE = '/oauth2callback'
 OIDC_SCOPES = ['openid', 'email', 'profile']
@@ -50,3 +68,4 @@ OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
 CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
 
 ENABLE_PROXY_FIX = True
+

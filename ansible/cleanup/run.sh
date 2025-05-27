@@ -16,3 +16,6 @@ ansible-playbook -i  ../inventory.ini common_install.yaml
 ##zoo cleanup
 #pip install kazoo;
 #python zookeep_clean.py spark
+
+
+sudo -u postgres psql

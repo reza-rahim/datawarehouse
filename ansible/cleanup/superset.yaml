@@ -1,6 +1,6 @@
 ---
 - name: Stop supserset, remove service, unmount and wipe disks (all in one shell)
-  hosts:  superset
+  hosts:  superset*
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3   
@@ -10,7 +10,9 @@
       shell: |
         systemctl stop superset
         systemctl disable superset
-        rm -f /etc/systemd/system/superset.service
+        systemctl stop superset_keycloak
+        systemctl disable superset_keycloak
+        rm -f /etc/systemd/system/superset*.service
         rm -rf /opt/superset/
         systemctl daemon-reload
         systemctl reset-failed
