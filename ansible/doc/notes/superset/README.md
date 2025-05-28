@@ -18,7 +18,7 @@ trino://demo:demo@trino.dw.felicity.net.bd:7443/iceberg/default
 
 
 ```
-{"connect_args":{"http_scheme":"https","verify":"/usr/local/share/ca-certificates/rootCA.crt"}}
+{"connect_args":{"http_scheme":"https","verify":"/usr/local/share/ca-certificates/CA_cert.crt"}}
 # OR
 {"connect_args":{"http_scheme":"https","verify":"False"}}
 ```
