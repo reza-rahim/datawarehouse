@@ -16,7 +16,7 @@
   shell: |
      #source {{ airflow_venv_path }}/bin/activate
      export AIRFLOW_HOME={{ airflow_home }}
-     eval "$({{ secret_dir }}/decrypt_lockbox_eval.sh)"
+     eval "$({{ secret_dir }}/decrypt_secret_eval.sh)"
      {{ airflow_venv_path }}/bin/airflow db migrate
      {{ airflow_venv_path }}/bin/airflow users  create --role Admin --username $AIRFLOW_ADMIN_USERNAME --email admin --firstname admin --lastname admin --password $AIRFLOW_ADMIN_PASSWORD
 

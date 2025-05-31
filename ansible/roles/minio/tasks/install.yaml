@@ -11,19 +11,19 @@
 
 - name: download the minio binary
   get_url:
-     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ minio_url_file }}" 
+     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/minio_{{ lookup('env', 'MINIO') }}_amd64.deb" 
      dest: /opt 
   register: minio_download
   notify: restart minio     
 
 - name: Install the MinIO package
   become: yes
-  command: "dpkg -i /opt/{{ minio_url_file }}"
+  command: "dpkg -i /opt/minio_{{ lookup('env', 'MINIO') }}_amd64.deb"
   when: minio_download.changed    
 
-- name: Delete a  /opt/{{ minio_url_file }} on the remote host
+- name: Delete a  /opt/minio_{{ lookup('env', 'MINIO') }}_amd64.deb on the remote host
   ansible.builtin.file:
-    path: /opt/{{ minio_url_file }}
+    path: /opt/minio_{{ lookup('env', 'MINIO') }}_amd64.deb
     state: absent    
 
 - name: copy  minio env files

@@ -12,6 +12,10 @@
     owner: "{{ superset_user }}"
     group: "{{ superset_group }}"
 
+- name : Change the file permission  /tmp/ansible-tmp      
+  shell: |
+    chmod 777  /tmp/ansible-tmp
+
 - name: Copy Superset template files
   template:
     src: "{{ item.src }}"

@@ -1,6 +1,6 @@
 ---
 - name: Stop airflow, remove service, unmount and wipe disks (all in one shell)
-  hosts:  airflow
+  hosts:  airflow*
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3   

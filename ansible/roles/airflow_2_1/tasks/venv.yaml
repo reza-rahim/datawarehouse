@@ -12,6 +12,9 @@
     owner: "{{ airflow_user }}"
     group: "{{ airflow_group }}"
 
+- name : Change the file permission  /tmp/ansible-tmp
+  shell: |
+    chmod 777  /tmp/ansible-tmp      
 
 - name: Create Python virtual environment
   become: true

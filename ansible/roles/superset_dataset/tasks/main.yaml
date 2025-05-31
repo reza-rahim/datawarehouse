@@ -1,0 +1,16 @@
+- name: Upload Keycloak realm script
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - { src: "create_database.py.j2", dest: "/tmp/create_database.py", mode: "0755" }
+
+- name: Run the Keycloak realm script
+  shell: |
+    eval "$(/etc/secret/decrypt_secret_eval.sh)"
+    #python /tmp/create_database.py.j2
+    #rm -f /tmp/realm.sh
+  become: yes
+  ignore_errors: yes
+
