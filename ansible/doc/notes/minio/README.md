@@ -15,3 +15,10 @@ mc rm --recursive --force s3/spark
 ## Remove the Empty Bucket
 mc rb  s3/spark 
 ```
+
+### user creation
+
+```
+mc admin user list s3
+
+```
