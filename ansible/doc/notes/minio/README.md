@@ -9,6 +9,9 @@ eval "$({{ secret_dir }}/decrypt_secret_eval.sh)"
 mc alias set s3 https://minio.dw.felicity.net.bd:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
 
 mc ls  s3
-mc rm  s3/jupyterhub
-mc rm --recursive --force s3/var
+## Remove All Objects in the Bucket (Recursive Delete)
+mc rm --recursive --force s3/spark
+
+## Remove the Empty Bucket
+mc rb  s3/spark 
 ```
