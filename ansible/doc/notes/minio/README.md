@@ -16,7 +16,7 @@ mc rm --recursive --force s3/spark
 mc rb  s3/spark 
 ```
 
-### user creation
+### Group and User creation
 
 ```
 mc admin user list s3
