@@ -1,6 +1,8 @@
 
 ### erasure-coding
-https://min.io/docs/minio/linux/operations/concepts/erasure-coding.html
+#### https://min.io/docs/minio/linux/operations/concepts/erasure-coding.html
+
+### https://min.io/docs/minio/linux/reference/minio-mc.html
 
 ```
 eval "$({{ secret_dir }}/decrypt_secret_eval.sh)"
