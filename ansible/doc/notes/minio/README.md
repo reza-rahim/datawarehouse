@@ -16,9 +16,16 @@ mc rm --recursive --force s3/spark
 mc rb  s3/spark 
 ```
 
-### user creation
+### Group and User creation
+#### MinIO Identity and Access Management:
+#### https://www.youtube.com/watch?v=Iz8ChZ7FRrw&t=215s
+#### https://www.youtube.com/watch?v=Iz8ChZ7FRrw
 
 ```
 mc admin user list s3
 
 ```
+
+### MinIO Object Management: Replication 
+#### https://www.youtube.com/watch?v=G4wQZEsIxcU
+
