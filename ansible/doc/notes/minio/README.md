@@ -25,3 +25,7 @@ mc rb  s3/spark
 mc admin user list s3
 
 ```
+
+### MinIO Object Management: Replication 
+#### https://www.youtube.com/watch?v=G4wQZEsIxcU
+
