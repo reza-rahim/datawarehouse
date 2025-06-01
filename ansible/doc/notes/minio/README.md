@@ -3,5 +3,6 @@
 https://min.io/docs/minio/linux/operations/concepts/erasure-coding.html
 
 ```
+eval "$({{ secret_dir }}/decrypt_secret_eval.sh)"
 mc alias set s3 https://minio.dw.felicity.net.bd:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
 ```
