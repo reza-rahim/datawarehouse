@@ -6,8 +6,8 @@ airflow_db_name: airflow
 airflow_home: /opt/airflow
 airflow_venv_path: /opt/airflow/airflow-venv  
 airflow_port: 5080
-airflow_dag_dir: /var/data/airflow_dag
-airflow_s3_bucket_dag: airflow_dag
-airflow_log_dir: /var/data/airflow_log
-airflow_s3_bucket_log: airflow_log
+airflow_dag_dir: /var/data/airflow-dag
+airflow_s3_bucket_dag: airflow-dag
+airflow_log_dir: /var/data/airflow-log
+airflow_s3_bucket_log: airflow-log
 log_retention_days: 30

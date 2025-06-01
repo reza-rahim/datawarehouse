@@ -3,3 +3,5 @@ hive_group: hive
 hive_db_name: hive
 hive_metastore_home: /opt/apache-hive
 hive_metastore_port: 9083
+metastore_warehouse_bucket: warehouse   
+metastore_warehouse_dir: /var/data/warehouse  
