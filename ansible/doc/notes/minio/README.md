@@ -10,4 +10,5 @@ mc alias set s3 https://minio.dw.felicity.net.bd:9000 "$MINIO_ROOT_USER" "$MINIO
 
 mc ls  s3
 mc rm  s3/jupyterhub
+mc rm --recursive --force s3/var
 ```
