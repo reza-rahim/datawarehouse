@@ -9,4 +9,4 @@ minio_home_cert: /home/minio/.minio/certs
 fs_s3a_endpoint: minio.dw.felicity.net.bd:9000
 metastore_warehouse_dir: s3a://warehouse/
 s3_protocol: https
-
+expiration_days: 30

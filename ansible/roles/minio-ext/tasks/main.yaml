@@ -5,12 +5,13 @@
   loop:
     - { src: 'simple_iceberg_demo.ipynb', dest: '/tmp/simple_iceberg_demo.ipynb' }
     - { src: 'hello_world_dag.py', dest: '/tmp/hello_world_dag.py' }
-    - { src: 'hello_world_dag.py', dest: '/tmp/hello_world_dag.py' }
+    - { src: 'object_retention.json.j2', dest: '/tmp/object_retention.json' }
 
 - name: Create S3 buckets and upload files
   shell: |
     eval "$({{ secret_dir }}/decrypt_secret_eval.sh)"
     mc alias set s3 https://minio.{{ fqdn }}:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
+    echo "creating  buckets...\n"
     mc mb s3/{{ spark_s3_bucket_logs }}
     mc mb s3/{{ spark_s3_application_bucket }}
     mc mb s3/{{ spark_s3_data_bucket }}
@@ -18,8 +19,23 @@
     mc mb s3/{{ airflow_s3_bucket_dag }}
     mc mb s3/{{ airflow_s3_bucket_log }}
     mc mb s3/{{ jupyterhub_s3_bucket }}
+    echo "Creating expire policy\n"
+    mc ilm import s3/{{ spark_s3_bucket_logs }} < /tmp/object_retention.json
+    mc ilm import s3/{{ airflow_s3_bucket_log  }} < /tmp/object_retention.json
+
+    echo "creating groups and users...\n"
+    mc admin user add s3 "$MINIO_RW_USER" "$MINIO_RW_PASSWORD"
+    mc admin group add s3  rw-group  "$MINIO_RW_USER"
+    mc admin policy attach s3 readwrite -g rw-group
+
+    mc admin user add s3 "$MINIO_RO_USER" "$MINIO_RO_PASSWORD"
+    mc admin group add s3  ro-group  "$MINIO_RO_USER"
+    mc admin policy attach s3 readonly -g ro-group
+
+    echo "moving files  ...\n"
     mc cp /tmp/simple_iceberg_demo.ipynb s3/{{ jupyterhub_s3_bucket }}/simple_iceberg_demo.ipynb
     mc cp /tmp/hello_world_dag.py s3/{{ airflow_s3_bucket_dag }}/hello_world_dag.py
-    mc cp /tmp/log_cleanup.py s3/{{ airflow_s3_bucket_dag }}/log_cleanup.py
+    #mc cp /tmp/log_cleanup.py s3/{{ airflow_s3_bucket_dag }}/log_cleanup.py
+   
   when: inventory_hostname == groups['minio'][0] 
-  ignore_errors: true  
+  register: init_output  

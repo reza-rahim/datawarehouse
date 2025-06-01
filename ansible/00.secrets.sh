@@ -51,8 +51,11 @@ export KEYCLOAK_DEMO_PASSWORD=demo
 export MINIO_ROOT_USER=minioadmin
 export MINIO_ROOT_PASSWORD=minioadmin
 
-export MINIO_APP_USER=miniouser
-export MINIO_APP_PASSWORD=miniouser
+export MINIO_RW_USER=miniorwuser
+export MINIO_RW_PASSWORD=miniorwuser
+
+export MINIO_RO_USER=miniorouser
+export MINIO_RO_PASSWORD=miniorouser
 
 #export FS_S3A_SECRET_KEY=minioadmin
 #export FS_S3A_ACCESS_KEY=minioadmin
