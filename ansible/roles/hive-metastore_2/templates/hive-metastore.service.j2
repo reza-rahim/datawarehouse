@@ -1,0 +1,20 @@
+[Unit]
+Description=Apache Hive Metastore 
+After=network.target postgresql@14-main.service  
+
+[Service]
+User={{ hive_user }}
+Group={{ application_group }}
+
+Environment=JAVA_HOME={{ java_home_17 }}
+Environment=HADOOP_HOME={{ hadoop_home }}
+Environment=HIVE_HOME={{ hive_metastore_home }}
+Environment=HIVE_CONF_DIR={{ hive_metastore_home }}/conf
+Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
+
+
+ExecStart={{ hive_metastore_home }}/run-hive-metastore.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

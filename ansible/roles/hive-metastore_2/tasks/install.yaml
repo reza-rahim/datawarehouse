@@ -1,0 +1,54 @@
+---
+- name: Check that the hive home exists
+  stat:
+      path: '{{ hive_metastore_home }}'
+  register: hive_metastore_stat_result
+
+
+- name : extract hive-metastore  zip
+  unarchive:
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ hive_metastore_url_file_name }}"
+     dest: /opt
+     remote_src: true
+     owner: '{{ hive_user}}'
+     group: '{{ application_group }}'
+  when: not hive_metastore_stat_result.stat.exists
+
+- name: get extra jar files
+  get_url:
+     url: '{{ item }}'
+     dest: '/opt/{{ hive_metastore_file_name }}/lib'
+     owner: '{{ hive_user}}'
+     group: '{{ application_group }}'
+  loop:
+     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ hadoop_aws_file_name }}"
+     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ aws_java_sdk_bundle_file_name }}"    
+     - "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ postgresql_connector_file_name }}"
+  when: not hive_metastore_stat_result.stat.exists
+
+- name: create soft link to /opt/hive
+  file:
+    src: '/opt/{{ hive_metastore_file_name }}'
+    dest: '{{ hive_metastore_home }}'
+    state: link
+    owner: '{{ hive_user}}'
+    group: '{{ application_group }}'
+  when: not hive_metastore_stat_result.stat.exists
+
+- name: copy hive metastore config files
+  template: src='{{ item.src }}' dest='{{ item.dest }}'  mode='{{ item.mode }}' owner='{{ hive_user }}' group='{{ application_group }}'
+  loop:
+     - { src: 'schematool.sh.j2', dest: '{{ hive_metastore_home }}/schematool.sh', mode: '0740'  }
+     - { src: 'hive-site.xml.j2', dest: '{{ hive_metastore_home }}/conf/hive-site.xml', mode: '0640'  }
+     - { src: 'run-hive-metastore.sh.j2', dest: '{{ hive_metastore_home }}/run-hive-metastore.sh', mode: '0755'  }
+  notify: restart hive_metastore
+
+- name: copy hive metstore service files
+  template: src='{{ item.src }}' dest='{{ item.dest }}'  
+  loop:
+     - { src: 'hive-metastore.service.j2', dest: '/etc/systemd/system/hive-metastore.service' }
+  notify: restart hive_metastore
+
+- name: Reload service files
+  systemd:
+    daemon_reload: true

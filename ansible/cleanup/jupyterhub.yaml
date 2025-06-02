@@ -1,6 +1,6 @@
 ---
 - name: Stop jupyterhub, remove service, unmount and wipe disks (all in one shell)
-  hosts:  jupyterhub
+  hosts:  jupyterhu*
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3   
@@ -15,3 +15,5 @@
         systemctl daemon-reload
         systemctl reset-failed
         sudo su jupyterhub -s /bin/bash -c " pip  uninstall -y  jupyterhub JupyterLab notebook oauthenticator plotly seaborn numpy pandas matplotlib scikit-learn scikit-image statsmodels s3cmd ipython-sql sqlalchemy sparksql-magic sqlalchemy-trino"
+        sudo -u postgres psql -c "DROP DATABASE IF EXISTS jupyterhub;"
+        sudo -u postgres psql -c "CREATE DATABASE jupyterhub;"

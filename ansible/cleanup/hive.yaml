@@ -1,6 +1,6 @@
 ---
 - name: clean spark
-  hosts: hive_metastore
+  hosts: hive_metastore*
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3   
@@ -14,3 +14,5 @@
         rm -fr /etc/systemd/system/hive*
         systemctl daemon-reload
         systemctl reset-failed
+        sudo -u postgres psql -c "DROP DATABASE IF EXISTS hive;"
+        sudo -u postgres psql -c "CREATE DATABASE hive;"

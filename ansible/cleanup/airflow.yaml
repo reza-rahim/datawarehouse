@@ -17,5 +17,7 @@
         rm -rf /var/data/airflow/*
         systemctl daemon-reload
         systemctl reset-failed
+        sudo -u postgres psql -c "DROP DATABASE IF EXISTS airflow;"
+        sudo -u postgres psql -c "CREATE DATABASE airflow;"
 
 

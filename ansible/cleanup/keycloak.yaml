@@ -14,5 +14,7 @@
         rm -rf /opt/keycloak*
         systemctl daemon-reload
         systemctl reset-failed
+        sudo -u postgres psql -c "DROP DATABASE IF EXISTS keycloak;"
+        sudo -u postgres psql -c "CREATE DATABASE keycloak;"
 
 

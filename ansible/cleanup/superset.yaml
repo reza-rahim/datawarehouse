@@ -16,5 +16,7 @@
         rm -rf /opt/superset/
         systemctl daemon-reload
         systemctl reset-failed
+        sudo -u postgres psql -c "DROP DATABASE IF EXISTS superset;"
+        sudo -u postgres psql -c "CREATE DATABASE superset;"
 
 

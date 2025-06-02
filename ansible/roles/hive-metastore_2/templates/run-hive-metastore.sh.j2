@@ -1,0 +1,4 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})";
+export JAVA_TOOL_OPTIONS="-Djdk.tls.client.protocols=TLSv1.2 -Djdk.tls.server.protocols=TLSv1.2 -Dhttps.protocols=TLSv1.2" && \
+{{ hive_metastore_home }}/bin/hive --service metastore

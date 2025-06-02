@@ -1,0 +1,7 @@
+#!/bin/bash
+{{ lockbox_dir }}/decrypt_lockbox.sh
+source {{ tmpfs_dir }}/{{ lockbox_env }};  
+/usr/bin/rm -f  {{ tmpfs_dir }}/*{{ lockbox_env }} 
+export HADOOP_HOME={{ hadoop_home }}; 
+export JAVA_HOME={{ java_home }};
+{{ hive_metastore_home }}/bin/schematool -initSchema -dbType postgres

@@ -96,6 +96,27 @@
   become: yes
   become_user: postgres    
 
+- name: Create airflow database
+  postgresql_db:
+    name: "{{ airflow_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Create airflow database
+  postgresql_db:
+    name: "{{ airflow_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Create superset database
+  postgresql_db:
+    name: "{{ superset_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
 - name: disabled (Grant db user access to app db)
   postgresql_privs:
     type: database

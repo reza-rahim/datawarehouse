@@ -1,7 +1,7 @@
 ---
-- hosts: hive_metastore_1
+- hosts: hive_metastore_2
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
   roles:
-     - hive-metastore_1
+     - hive-metastore_2
