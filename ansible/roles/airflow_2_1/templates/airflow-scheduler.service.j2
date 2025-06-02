@@ -10,7 +10,6 @@ User={{ airflow_user }}
 Group={{ application_group }}
 Environment="PATH=$PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin;$SPARK_HOME/bin"
 
-ExecStartPre={{ fuse_home }}/airflow_fuse.sh
 
 ExecStart={{ airflow_home }}/run-airflow-scheduler.sh
 Restart=on-failure

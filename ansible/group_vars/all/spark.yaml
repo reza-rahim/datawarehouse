@@ -27,8 +27,8 @@ spark_executor_cores: 2
 
 spark_s3_bucket_logs: spark-logs
 spark_history_location: s3a://{{ spark_s3_bucket_logs }}
-spark_s3_logs_dir: /var/data/spark-logs
+spark_s3_logs_dir: /var/fuse/spark-logs
 spark_s3_application_bucket: spark-app
-spark_s3_application_dir: /var/data/spark-app
+spark_s3_application_dir: /var/fuse/spark-app
 spark_s3_data_bucket: spark-data
-spark_s3_data_dir: /var/data/spark-data
+spark_s3_data_dir: /var/fuse/spark-data

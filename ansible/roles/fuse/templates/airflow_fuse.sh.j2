@@ -4,6 +4,7 @@ eval "$({{ secret_dir }}/{{ decrypt_file }})";
 AWSACCESSKEYID=$AWS_ACCESS_KEY_ID
 AWSSECRETACCESSKEY=$AWS_SECRET_ACCESS_KEY
 
+id="$(/usr/bin/id -u {{fuse_user }})"
 group="$(/usr/bin/getent group {{ fuse_group }}  | /usr/bin/cut -d: -f3)"
 
 ## check the mount mount, if exists then exit
@@ -14,8 +15,7 @@ then
   /usr/bin/echo " {{ airflow_dag_dir }} already mounted"	
 else
   /usr/bin/echo "Mounting ... {{ airflow_dag_dir }}"	
-  mkdir -p {{ airflow_dag_dir }} 
-  /usr/bin/s3fs {{ airflow_s3_bucket_dag }} {{ airflow_dag_dir }} -o umask=002,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
+  /usr/bin/s3fs {{ airflow_s3_bucket_dag }} {{ airflow_dag_dir }} -o umask=002,uid=$id,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
   	
 fi
 
@@ -27,8 +27,7 @@ then
   /usr/bin/echo " {{ airflow_log_dir }} already mounted"        
 else
   /usr/bin/echo "Mounting ... {{ airflow_log_dir }}"    
-  mkdir -p {{ airflow_log_dir }}
-  /usr/bin/s3fs {{ airflow_s3_bucket_log }} {{ airflow_log_dir }} -o umask=002,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
+  /usr/bin/s3fs {{ airflow_s3_bucket_log }} {{ airflow_log_dir }} -o umask=002,uid=$id,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
 fi
 
 

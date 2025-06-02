@@ -10,7 +10,6 @@ Environment=JAVA_HOME={{ java_home_17 }}
 Environment=HADOOP_HOME={{ hadoop_home }}
 Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
-ExecStartPre={{ fuse_home }}/spark_fuse.sh
 
 
 ExecStart={{ spark_home }}/run-spark-master.sh 

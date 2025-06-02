@@ -5,6 +5,7 @@ ansible-playbook -i  ../inventory.ini jupyterhub.yaml
 ansible-playbook -i  ../inventory.ini hive.yaml 
 ansible-playbook -i  ../inventory.ini spark.yaml 
 ansible-playbook -i  ../inventory.ini keycloak.yaml 
+ansible-playbook -i  ../inventory.ini fuse.yaml 
 ansible-playbook -i  ../inventory.ini minio.yaml 
 ansible-playbook -i  ../inventory.ini hadoop.yaml 
 ansible-playbook -i  ../inventory.ini zookeeper.yaml 

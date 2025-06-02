@@ -5,6 +5,7 @@ eval "$({{ secret_dir }}/{{ decrypt_file }})";
 AWSACCESSKEYID=$AWS_ACCESS_KEY_ID
 AWSSECRETACCESSKEY=$AWS_SECRET_ACCESS_KEY
 
+id="$(/usr/bin/id -u {{fuse_user }})"
 group="$(/usr/bin/getent group {{ fuse_group }}  | /usr/bin/cut -d: -f3)"
 
 
@@ -13,10 +14,34 @@ group="$(/usr/bin/getent group {{ fuse_group }}  | /usr/bin/cut -d: -f3)"
 
 if [ $? -eq 0 ]
 then
-  /usr/bin/echo " {{ airflow_dag_dir }} already mounted"        
+  /usr/bin/echo " {{ spark_s3_logs_dir }} already mounted"        
 else
   /usr/bin/echo "Mounting ... {{ airflow_dag_dir }}"    
-  mkdir -p {{ spark_s3_logs_dir }}
-  /usr/bin/s3fs {{ airflow_s3_bucket_dag }} {{ airflow_dag_dir }} -o umask=002,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
+  /usr/bin/s3fs {{ spark_s3_bucket_logs }} {{ spark_s3_logs_dir }} -o umask=002,uid=$id,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
 
 fi
+
+
+/usr/bin/df {{ spark_s3_application_dir }} |/usr/bin/grep s3fs | grep {{ spark_s3_logs_dir }}
+
+if [ $? -eq 0 ]
+then
+  /usr/bin/echo " {{ spark_s3_application_dir }} already mounted"
+else
+  /usr/bin/echo "Mounting ... {{ airflow_dag_dir }}"
+  /usr/bin/s3fs {{ spark_s3_application_bucket }} {{ spark_s3_application_dir }} -o umask=002,uid=$id,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
+
+fi
+
+
+/usr/bin/df {{ spark_s3_data_dir }} |/usr/bin/grep s3fs | grep {{ spark_s3_logs_dir }}
+
+if [ $? -eq 0 ]
+then
+  /usr/bin/echo " {{ spark_s3_data_bucket }} already mounted"
+else
+  /usr/bin/echo "Mounting ... {{ airflow_dag_dir }}"
+  mkdir -p {{ spark_s3_logs_dir }}
+  /usr/bin/s3fs {{ spark_s3_data_bucket }} {{ spark_s3_data_dir }} -o umask=002,uid=$id,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
+fi
+

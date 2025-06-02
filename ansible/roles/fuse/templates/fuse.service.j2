@@ -1,0 +1,14 @@
+[Unit]
+Description= fuse service
+After=network.target minio.service
+
+[Service]
+
+Type=oneshot
+
+ExecStart=bash -c "/opt/fuse/airflow_fuse.sh;/opt/fuse/spark_fuse.sh"
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+

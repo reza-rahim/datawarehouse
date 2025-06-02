@@ -1,6 +1,6 @@
 ---
 - name: clean fuse
-  hosts: fuse
+  hosts: all
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3   
@@ -8,3 +8,15 @@
   tasks:
     - name: Full cleanup in one shell block
       shell: |
+        systemctl stop fuse
+        systemctl disable fuse
+        umount /var/fuse/airflow-dag
+        umount /var/fuse/airflow-log
+        umount /var/fuse/spark-logs
+        umount /var/fuse/spark-app
+        umount /var/fuse/spark-data
+        rm -rf /opt/fuse
+        rm -fr /etc/systemd/system/fuse*
+        systemctl daemon-reload
+        systemctl reset-failed
+
