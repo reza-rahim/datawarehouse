@@ -11,7 +11,7 @@ export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)
 
 --- 
 ```
-eval "$(/etc/secret/decrypt_secret_eval.sh)"; 
+eval "$(/etc/secret/min_decrypt_secret_eval.sh)"; 
 export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
 SPARK_HOME=/opt/spark
 ${SPARK_HOME}/bin/spark-submit \
