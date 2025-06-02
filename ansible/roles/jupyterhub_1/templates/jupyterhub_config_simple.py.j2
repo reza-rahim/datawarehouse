@@ -42,8 +42,8 @@ local_share = '/home/jupyterhub/.local/share/jupyter'
 path = f"{local_bin}:{os.environ.get('PATH', '')}"
 
 c.Spawner.environment = {
-    'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID','-'),
-    'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY','-'),
+    'AWS_ACCESS_KEY_ID': os.environ.get('MINIO_RW_USER','-'),
+    'AWS_SECRET_ACCESS_KEY': os.environ.get('MINIO_RW_PASSWORD','-'),
     'JKS_PASSWORD': os.environ.get('JKS_PASSWORD','-'),
     'SPARK_AUTH_SECRET': os.environ.get('SPARK_AUTH_SECRET','-'),
     'SPARK_HOME': '{{ spark_home }}',

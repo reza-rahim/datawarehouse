@@ -1,0 +1,24 @@
+[Unit]
+Description=Jupyterhub service
+After=network.target keycloak.service spark-master.service
+
+[Service]
+#User={{ jupyterhub_user }}
+#Group={{ application_group }}
+
+Environment=JAVA_HOME={{ java_home }}
+Environment=HADOOP_HOME={{ hadoop_home }}
+Environment=SPARK_HOME={{ spark_home }}
+Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
+
+Environment=OAUTH2_AUTHORIZE_URL=https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_devel_realm }}/protocol/openid-connect/auth
+WorkingDirectory={{ jupyterhub_home }}
+
+
+ExecStart={{ jupyterhub_home }}/run_jupyterhub.sh
+
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

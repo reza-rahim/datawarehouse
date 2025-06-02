@@ -1,5 +1,18 @@
 ---
 - import_tasks:  config.yaml
 - import_tasks:  master.yaml
-- import_tasks: worker.yaml
 - import_tasks:  history.yaml
+
+- name: Restart Spark master service
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  loop:
+    - spark-master
+    - spark-history  
+  when: inventory_hostname in groups['spark_master']
+
+- pause:
+    seconds: 30      
+- import_tasks: worker.yaml

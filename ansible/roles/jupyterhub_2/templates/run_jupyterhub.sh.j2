@@ -1,0 +1,4 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})"; 
+export PYTHONPATH=/home/{{ jupyterhub_user }}/.local/lib/python3.10/site-packages:$PYTHONPATH
+/home/{{ jupyterhub_user }}/.local/bin/jupyterhub -f /opt/jupyterhub/jupyterhub_config_simple.py

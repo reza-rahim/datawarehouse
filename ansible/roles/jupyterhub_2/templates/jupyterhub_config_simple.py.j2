@@ -1,0 +1,58 @@
+from oauthenticator.generic import GenericOAuthenticator
+import os
+
+os.environ['OAUTH2_TOKEN_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/token'
+os.environ['OAUTH2_AUTHORIZE_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/auth'
+os.environ['OAUTH2_USERDATA_URL'] = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/userinfo'
+
+c = get_config()  #noqa
+
+c.JupyterHub.port = {{ jupyterhub_port }}
+c.JupyterHub.proxy_api_ip = "{{ inventory_hostname }}.{{ fqdn }}"
+c.JupyterHub.hub_port = {{ jupyterhub_hub_port }}
+c.JupyterHub.proxy_api_port = {{ JupyterHub_api_port }}
+c.OAuthenticator.tls_verify = False
+
+c.JupyterHub.ssl_cert = '{{ cert_dir }}/{{ server_cert_file_name }}'
+c.JupyterHub.ssl_key = '{{ cert_dir }}/{{ server_key_file_name }}'
+
+c.Authenticator.allow_all = True
+
+c.JupyterHub.authenticator_class = GenericOAuthenticator
+
+c.GenericOAuthenticator.client_id='{{ lookup('env', 'KEYCLOAK_JUPYTER_CLIENT_ID') }}'
+c.GenericOAuthenticator.client_secret=os.environ.get('KEYCLOAK_JUPYTER_CLIENT_SECRET')
+c.GenericOAuthenticator.token_url = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/token'
+c.GenericOAuthenticator.userdata_url = 'https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_jupyterhub_realm }}/protocol/openid-connect/userinfo'
+c.GenericOAuthenticator.userdata_params = {'state': 'state'}
+c.GenericOAuthenticator.username_key = 'preferred_username'
+c.GenericOAuthenticator.login_service = 'Keycloak'
+c.GenericOAuthenticator.scope = ['openid', 'profile']
+
+c.JupyterHub.db_url = "postgresql+psycopg2://postgres.{{ lookup('env', 'FQDN') }}:{{ postgresql_port }}/jupyterhub"
+
+# Optional: shutdown idle notebooks automatically (if using culling)
+c.MappingKernelManager.cull_idle_timeout = 1800 # Seconds of idle time before shutdown
+c.MappingKernelManager.cull_interval = 300       # Check every 10 minutes
+
+local_bin = '/home/jupyterhub/.local/bin'
+local_share = '/home/jupyterhub/.local/share/jupyter'
+
+# Prepend local bin to PATH
+path = f"{local_bin}:{os.environ.get('PATH', '')}"
+
+c.Spawner.environment = {
+    'AWS_ACCESS_KEY_ID': os.environ.get('MINIO_RW_USER','-'),
+    'AWS_SECRET_ACCESS_KEY': os.environ.get('MINIO_RW_PASSWORD','-'),
+    'JKS_PASSWORD': os.environ.get('JKS_PASSWORD','-'),
+    'SPARK_AUTH_SECRET': os.environ.get('SPARK_AUTH_SECRET','-'),
+    'SPARK_HOME': '{{ spark_home }}',
+    'JAVA_HOME': '{{ java_home_17 }}', 
+    'PATH': path,
+    'JUPYTER_PATH': local_share,
+    'JUPYTERLAB_DIR': local_share + '/lab',   # explicit lab app directory
+    # Any other needed env vars
+}
+
+c.Spawner.cmd = ['jupyter-labhub']
+c.Spawner.default_url = '/lab'

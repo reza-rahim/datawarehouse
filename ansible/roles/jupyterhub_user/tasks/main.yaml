@@ -1,0 +1,10 @@
+- name: Create users and add to group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "{{ fuse_group }}"
+    append: yes
+    shell: /bin/bash
+    password: "*"  # disables password (equivalent to 'passwd -d')
+  loop:
+    - demo
+

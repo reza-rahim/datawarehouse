@@ -14,8 +14,6 @@ Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 Environment=OAUTH2_AUTHORIZE_URL=https://keyclock.{{ fqdn }}:{{ keycloak_https_port }}/realms/{{ keycloak_devel_realm }}/protocol/openid-connect/auth
 WorkingDirectory={{ jupyterhub_home }}
 
-ExecStartPre={{ fuse_home }}/jupyterhub_fuse.sh
-
 ExecStart={{ jupyterhub_home }}/run_jupyterhub.sh
 
 Restart=on-failure
