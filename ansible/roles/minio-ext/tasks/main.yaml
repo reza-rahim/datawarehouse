@@ -6,6 +6,7 @@
     - { src: 'simple_iceberg_demo.ipynb', dest: '/tmp/simple_iceberg_demo.ipynb' }
     - { src: 'hello_world_dag.py', dest: '/tmp/hello_world_dag.py' }
     - { src: 'object_retention.json.j2', dest: '/tmp/object_retention.json' }
+    - { src: 'list_policy.json.j2', dest: '/tmp/list_policy.json' }
 
 - name: Create S3 buckets and upload files
   shell: |
@@ -31,6 +32,10 @@
     mc admin user add s3 "$MINIO_RO_USER" "$MINIO_RO_PASSWORD"
     mc admin group add s3  ro-group  "$MINIO_RO_USER"
     mc admin policy attach s3 readonly -g ro-group
+
+    mc admin policy create  s3 listpolicy /tmp/list_policy.json:
+    mc admin policy attach s3 listpolicy -g ro-group
+
 
     echo "moving files  ...\n"
     mc cp /tmp/simple_iceberg_demo.ipynb s3/{{ jupyterhub_s3_bucket }}/simple_iceberg_demo.ipynb

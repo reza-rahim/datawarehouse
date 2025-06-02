@@ -8,4 +8,3 @@
   tasks:
     - name: Full cleanup in one shell block
       shell: |
-        rm -fr /opt/hadoop*
