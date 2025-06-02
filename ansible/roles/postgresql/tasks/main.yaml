@@ -128,3 +128,9 @@
   become_user: "{{ db_user }}"
   when: false  #  disables the task    
 
+- name: Add {{ db_user }} 'hive' to group {{ fuse_group }}
+  user:
+    name: {{ db_user }}
+    groups: {{ fuse_group }}
+    append: yes
+    

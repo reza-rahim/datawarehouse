@@ -106,24 +106,24 @@
 - name: Create user zookeeper
   user:
     name: '{{ zookeeper_user }}'
-    groups: '{{ zookeeper_group }},{{ application_group }}'
+    groups: '{{ zookeeper_group }},{{ application_group }},{{ fuse_group }}'
 
 
 - name: Create user minio
   user:
     name: '{{ minio_user }}'
-    groups: '{{ application_group }},{{ minio_group }}'
+    groups: '{{ application_group }},{{ minio_group }}, {{ fuse_group }}'
 
 
 - name: Create user {{ keycloak_user }}
   user:
     name: '{{ keycloak_user }}'
-    groups: '{{ keycloak_group }},{{ application_group }}'
+    groups: '{{ keycloak_group }},{{ application_group }}, {{ fuse_group }}'
 
 - name: Create user hive
   user:
     name: '{{ hive_user }}'
-    groups: '{{ hive_group }},{{ application_group }}, {{ jceks_group }}'
+    groups: '{{ hive_group }},{{ application_group }}, {{ jceks_group }}, {{ fuse_group }}'
 
 - name: Create user spark
   user:

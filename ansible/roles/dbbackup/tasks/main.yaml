@@ -1,0 +1,19 @@
+- name: Ensure dump directory exists
+  file:
+    path: "/var/fuse/dbbackup/{{ inventory_hostname }}"
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: '0755'
+
+- name: Dump 'keycloak' database to node-specific directory with timestamp
+  shell: |
+    pg_dump -d {{ item }} > /{{ pg_backup_dir }}/{{ inventory_hostname }}/{{ item }}_dump_$(date +%Y%m%d_%H%M).sql
+  become: yes
+  become_user: postgres
+  loop:
+    - keycloak
+    - hive
+    - superset
+    - airflow  
+
