@@ -7,12 +7,25 @@
 ```
 ```
 echo stat | openssl s_client -connect 127.0.0.1:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+
+echo stat | openssl s_client -connect node1.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+echo stat | openssl s_client -connect node2.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+echo stat | openssl s_client -connect node3.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
 ```
 
 ```
-echo stat | openssl s_client -connect node1.dw.felicity.net.bd:2281 -quiet -CAfile /etc/cert.d/CA_cert.crt
+for node in node1 node2 node3; do
+  echo "Checking $node..."
+  echo stat | openssl s_client \
+    -connect ${node}.dw.felicity.net.bd:2281 \
+    -quiet \
+    -cert /etc/cert.d/server.crt \
+    -key /etc/cert.d/server.key
+  echo "------"
+done
 ```
 
+   
 ```
 Received: 160
 Sent: 161
@@ -37,7 +50,7 @@ export CLIENT_JVMFLAGS="
   -Dzookeeper.ssl.trustStore.location=/etc/cert.d//javacert.truststore.jks 
   -Dzookeeper.ssl.trustStore.password=changeit"
 
-./zkCli.sh -server node1.dw.felicity.net.bd:2281
+ /opt/zookeeper/bin/zkCli.sh  -server node1.dw.felicity.net.bd:2281
 ```
 
 ### Check SSL protocol
