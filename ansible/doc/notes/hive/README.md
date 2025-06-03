@@ -41,6 +41,10 @@ select * from table1;
 ```
 
 ```
+ mc ls s3/warehouse
+```
+
+```
 CREATE TABLE table10 ( order_id BIGINT ) USING iceberg;
 CREATE TABLE table11 ( order_id BIGINT ) USING iceberg;
 
