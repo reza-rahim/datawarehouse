@@ -35,10 +35,7 @@ select * from table1;
 ```
 
 ```
-CREATE TABLE table10 (
-    order_id BIGINT
-)
-USING iceberg;
-
+CREATE TABLE table10 ( order_id BIGINT ) USING iceberg;
+CREATE TABLE table11 ( order_id BIGINT ) USING iceberg;
 
 ```
