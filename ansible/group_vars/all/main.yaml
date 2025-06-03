@@ -4,6 +4,5 @@
 
 ######
 application_group: application
-
-airbyte: airbyte
+run_condition: false
 

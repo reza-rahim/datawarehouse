@@ -8,8 +8,8 @@ Group={{ application_group }}
 Environment=JAVA_HOME={{ java_home_17 }}
 Environment="JAVA_OPTS=-Dssl.keyStore.password=${JKS_PASSWORD} -Dssl.trustStore.password=${JKS_PASSWORD}"
 ExecStart={{ zookeeper_home }}/run_zookeeper.sh 
-Restart=on-failure
-RestartSec=10
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

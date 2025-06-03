@@ -12,8 +12,8 @@ Environment="PATH=$PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin;$
 
 
 ExecStart={{ airflow_home }}/run-airflow-scheduler.sh
-Restart=on-failure
-RestartSec=5s
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

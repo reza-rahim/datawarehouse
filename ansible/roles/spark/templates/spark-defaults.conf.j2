@@ -35,7 +35,7 @@ spark.hadoop.fs.s3a.aws.credentials.provider                    org.apache.hadoo
 spark.sql.extensions 						org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions 
 spark.sql.catalog.spark_catalog 				org.apache.iceberg.spark.SparkSessionCatalog 
 spark.sql.catalog.spark_catalog.type 				hive 
-spark.hadoop.hive.metastore.uris				thrift://node1.{{ fqdn }}:{{ hive_metastore_port }}
+spark.hadoop.hive.metastore.uris				thrift://metastore.{{ fqdn }}:{{ hive_metastore_port }}
 spark.hadoop.hive.metastore.warehouse.dir                       {{ metastore_warehouse_dir }}
 park.hadoop.hive.metastore.client.ssl.enabled true
 

@@ -112,6 +112,31 @@
     <name>hive.metastore.ssl.need.client.auth</name>
     <value>true</value>
   </property>
+  <property>
+    <name>hive.support.concurrency</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.metastore.try.direct.sql</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hive.metastore.dml.events</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.txn.manager</name>
+    <value>org.apache.hadoop.hive.ql.lockmgr.DbTxnManager</value>
+  </property>
+  <property>
+    <name>hive.compactor.initiator.on</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.compactor.worker.threads</name>
+    <value>1</value>
+  </property>
+
 
 </configuration>
 

@@ -10,8 +10,9 @@ Environment=FLASK_APP=superset
 Environment=PYTHONPATH={{ superset_home }}/pythonpath
 
 ExecStart={{ superset_home }}/non-keycloak/run_superset.sh
-Restart=on-failure
-RestartSec=5s
+
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

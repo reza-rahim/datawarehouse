@@ -13,7 +13,7 @@ Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
 ExecStart={{ spark_home }}/run-spark-worker.sh
 
-Restart=on-failure
+Restart=always
 RestartSec=5s
 
 [Install]

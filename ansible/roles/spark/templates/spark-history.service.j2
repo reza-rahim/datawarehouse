@@ -11,7 +11,8 @@ Environment=HADOOP_HOME={{ hadoop_home }}
 Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
 ExecStart={{ spark_home }}/run-spark-history.sh
-Restart=on-failure
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

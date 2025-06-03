@@ -7,7 +7,7 @@ After=network.target postgresql@14-main.service
 User={{ keycloak_user }}
 Group={{ application_group }}
 ExecStart={{ keycloak_home }}/run-keycloak.sh
-Restart=on-failure
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

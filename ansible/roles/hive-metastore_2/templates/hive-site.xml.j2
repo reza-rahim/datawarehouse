@@ -3,7 +3,7 @@
   <!-- PostgreSQL Metastore connection -->
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:postgresql://postgres.{{ fqdn }}:{{ postgresql_port }}/{{ hive_db_name }}</value> <!-- Added port 5432 (default Postgres port) -->
+    <value>jdbc:postgresql://{{ ansible_host }}:{{ postgresql_port }}/{{ hive_db_name }}</value> <!-- Added port 5432 (default Postgres port) -->
   </property>
 
   <property>
@@ -112,6 +112,7 @@
     <name>hive.metastore.ssl.need.client.auth</name>
     <value>true</value>
   </property>
+
 
 </configuration>
 

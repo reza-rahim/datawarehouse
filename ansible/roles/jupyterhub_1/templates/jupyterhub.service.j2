@@ -17,8 +17,8 @@ WorkingDirectory={{ jupyterhub_home }}
 
 ExecStart={{ jupyterhub_home }}/run_jupyterhub.sh
 
-Restart=on-failure
-RestartSec=10
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

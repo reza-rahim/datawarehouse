@@ -1,6 +1,7 @@
 ---
 - name: clean spark
   hosts: hive_metastore*
+  #hosts: hive_metastore_2
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3   
@@ -14,5 +15,15 @@
         rm -fr /etc/systemd/system/hive*
         systemctl daemon-reload
         systemctl reset-failed
+        sudo -u postgres psql -d postgres -c " SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'hive' AND pid <> pg_backend_pid(); "
+        sudo -u  postgres psql -d hive -tAc "DROP PUBLICATION IF EXISTS pub_hive_1;"
+        sudo -u  postgres psql -d hive -tAc "DROP PUBLICATION IF EXISTS pub_hive_2;"
+        sudo -u postgres psql -d hive -tAc "SELECT subname FROM pg_subscription;" | while read -r sub; do
+          if [ -n "$sub" ]; then
+            sudo -u postgres psql -d hive -c "ALTER SUBSCRIPTION \"$sub\" DISABLE;"
+            sudo -u postgres psql -d hive -c "ALTER SUBSCRIPTION \"$sub\" SET (slot_name = NONE);"
+            sudo -u postgres psql -d hive -c "DROP SUBSCRIPTION \"$sub\";"
+          fi
+        done
         sudo -u postgres psql -c "DROP DATABASE IF EXISTS hive;"
         sudo -u postgres psql -c "CREATE DATABASE hive;"

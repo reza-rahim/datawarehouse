@@ -14,7 +14,8 @@ Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
 
 ExecStart={{ hive_metastore_home }}/run-hive-metastore.sh
-Restart=on-failure
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

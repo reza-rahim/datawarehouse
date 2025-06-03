@@ -9,7 +9,8 @@ Group={{ application_group }}
 Environment=JAVA_HOME={{ java_home }}
 
 ExecStart={{ trino_home }}/run_trino.sh
-Restart=on-failure
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
