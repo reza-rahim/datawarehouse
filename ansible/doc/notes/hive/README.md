@@ -39,6 +39,25 @@ INSERT INTO table1 VALUES (
 
 select * from table1;
 ```
+```
+CREATE TABLE table2 (
+    order_id BIGINT,
+    customer_id BIGINT,
+    order_amount DECIMAL(10, 2),
+    order_ts TIMESTAMP
+)
+USING iceberg
+PARTITIONED BY ( hours(order_ts) );
+
+INSERT INTO table2 VALUES (
+    125,
+    456,
+    36.17,
+    TIMESTAMP('2021-01-26 08:10:23')
+);
+
+select * from table2;
+```
 
 ```
  mc ls s3/warehouse
