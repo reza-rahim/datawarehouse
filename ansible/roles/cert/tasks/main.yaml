@@ -71,7 +71,7 @@
      openssl pkcs12 -export -in {{ cert_dir }}/server.crt -inkey {{ cert_dir }}/server.key   -out {{ cert_dir }}/javacert.p12 -name javacert  -CAfile CA_cert.crt -caname root   -password pass:{{ lookup('env', 'JKS_PASSWORD') }}
      {{ java_home_17 }}/bin/keytool -importkeystore -destkeystore {{ cert_dir }}/javacert.keystore.jks   -srckeystore {{ cert_dir }}/javacert.p12 -srcstoretype PKCS12   -alias javacert -deststorepass {{ lookup('env', 'JKS_PASSWORD') }} -srcstorepass {{ lookup('env', 'JKS_PASSWORD') }}
      {{ java_home_17 }}/bin/keytool -importcert -file {{ cert_dir }}/{{ ca_cert_file_name }}   -alias rootCA -keystore {{ cert_dir }}/javacert.truststore.jks -storepass {{ lookup('env', 'JKS_PASSWORD') }} -noprompt
-     chmod 640 {{ cert_dir }}/javacert.*
+     chmod 644 {{ cert_dir }}/javacert.*
      chgrp application /etc/cert.d/javacert.*
   ignore_errors: yes
 

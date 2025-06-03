@@ -13,7 +13,6 @@ Environment=HADOOP_CLASSPATH=$($HADOOP_HOME/bin/hadoop classpath)
 
 
 ExecStart={{ spark_home }}/run-spark-master.sh 
-ExecStop={{ spark_home }}/sbin/stop-master.sh
 Restart=on-failure
 RestartSec=5s
 
