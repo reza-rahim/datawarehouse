@@ -1,5 +1,11 @@
 ```
-SELECT * FROM "TBLS"; 
+SELECT * FROM "TBLS";
+SEELCT * FROM "DBS";
+
+```
+
+```
+select * 
 ```
 
 ```
