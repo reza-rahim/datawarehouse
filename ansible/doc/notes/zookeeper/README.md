@@ -10,6 +10,7 @@ echo stat | openssl s_client -connect 127.0.0.1:2281 -quiet  -cert  /etc/cert.d/
 ```
 
 ```
+##bad 
 echo stat | openssl s_client -connect node1.dw.felicity.net.bd:2281 -quiet -CAfile /etc/cert.d/CA_cert.crt
 ```
 
