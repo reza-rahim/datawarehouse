@@ -7,8 +7,12 @@
 ```
 ```
 echo stat | openssl s_client -connect 127.0.0.1:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
-```
 
+echo stat | openssl s_client -connect node1.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+echo stat | openssl s_client -connect node2.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+echo stat | openssl s_client -connect node3.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
+```
+   
 ```
 Received: 160
 Sent: 161
