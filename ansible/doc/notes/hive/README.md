@@ -31,6 +31,6 @@ INSERT INTO table1 VALUES (
     TIMESTAMP('2021-01-26 08:10:23')
 );
 
-select * from table1
+select * from table1;
 ```
 
