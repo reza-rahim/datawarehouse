@@ -14,6 +14,8 @@
         rm -rf /opt/keycloak*
         systemctl daemon-reload
         systemctl reset-failed
+        sudo -u  postgres psql -d keycloak -tAc "DROP PUBLICATION IF EXISTS pub_keycloak_1;"
+        sudo -u  postgres psql -d keycloak -tAc "DROP PUBLICATION IF EXISTS pub_keycloak_2;"
         sudo -u postgres psql -d keycloak -tAc "SELECT subname FROM pg_subscription;" | while read -r sub; do
           if [ -n "$sub" ]; then
             sudo -u postgres psql -d keycloak -c "ALTER SUBSCRIPTION \"$sub\" DISABLE;"
