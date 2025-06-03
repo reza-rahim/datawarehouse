@@ -12,6 +12,19 @@ echo stat | openssl s_client -connect node1.dw.felicity.net.bd:2281 -quiet  -cer
 echo stat | openssl s_client -connect node2.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
 echo stat | openssl s_client -connect node3.dw.felicity.net.bd:2281 -quiet  -cert  /etc/cert.d/server.crt -key /etc/cert.d/server.key
 ```
+
+```
+for node in node1 node2 node3; do
+  echo "Checking $node..."
+  echo stat | openssl s_client \
+    -connect ${node}.dw.felicity.net.bd:2281 \
+    -quiet \
+    -cert /etc/cert.d/server.crt \
+    -key /etc/cert.d/server.key
+  echo "------"
+done
+```
+
    
 ```
 Received: 160
