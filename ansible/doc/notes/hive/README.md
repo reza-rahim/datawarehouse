@@ -34,3 +34,11 @@ INSERT INTO table1 VALUES (
 select * from table1;
 ```
 
+```
+CREATE TABLE table10 (
+    order_id BIGINT
+)
+USING iceberg;
+
+
+```
