@@ -2,3 +2,4 @@ postgresql_port: 5432
 pg_version: 16
 pg_conf_path: "/etc/postgresql/{{ pg_version }}/main"
 pg_backup_dir: /var/fuse/dbbackup
+pg_backup_bucket: dbbackup

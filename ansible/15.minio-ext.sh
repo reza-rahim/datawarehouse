@@ -11,6 +11,8 @@ echo "exiry policy for airflow-log"
 mc ilm export  s3/airflow-log
 echo "exiry policy for spark-log"
 mc ilm export  s3/spark-logs
+echo "exiry policy for dbbackup"
+mc ilm export  s3/dbbackup
 echo "list users"
 mc admin user list s3
 echo "group"

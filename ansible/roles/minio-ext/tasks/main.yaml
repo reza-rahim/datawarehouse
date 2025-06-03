@@ -20,12 +20,15 @@
     mc mb s3/{{ airflow_s3_bucket_dag }}
     mc mb s3/{{ airflow_s3_bucket_log }}
     mc mb s3/{{ jupyterhub_s3_bucket }}
+    mc mb s3/{{ pg_backup_bucket }}
     #
     touch /tmp/init
     mc cp  /tmp/init s3/{{ spark_s3_bucket_logs }}/{{ spark_s3_events }}/init
+
     echo "Creating expire policy\n"
     mc ilm import s3/{{ spark_s3_bucket_logs }} < /tmp/object_retention.json
     mc ilm import s3/{{ airflow_s3_bucket_log  }} < /tmp/object_retention.json
+    mc ilm import s3/{{ pg_backup_bucket  }} < /tmp/object_retention.json
 
     echo "creating groups and users...\n"
     mc admin user add s3 "$MINIO_RW_USER" "$MINIO_RW_PASSWORD"
@@ -36,7 +39,7 @@
     mc admin group add s3  ro-group  "$MINIO_RO_USER"
     mc admin policy attach s3 readonly -g ro-group
 
-    mc admin policy create  s3 listpolicy /tmp/list_policy.json:
+    mc admin policy create  s3 listpolicy /tmp/list_policy.json
     mc admin policy attach s3 listpolicy -g ro-group
 
 
