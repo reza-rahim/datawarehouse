@@ -37,7 +37,7 @@ export CLIENT_JVMFLAGS="
   -Dzookeeper.ssl.trustStore.location=/etc/cert.d//javacert.truststore.jks 
   -Dzookeeper.ssl.trustStore.password=changeit"
 
-./zkCli.sh -server node1.dw.felicity.net.bd:2281
+ /opt/zookeeper/bin/zkCli.sh  -server node1.dw.felicity.net.bd:2281
 ```
 
 ### Check SSL protocol
