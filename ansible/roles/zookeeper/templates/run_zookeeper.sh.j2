@@ -1,0 +1,6 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})"; 
+export JVMFLAGS="
+  -Dzookeeper.ssl.keyStore.password=${JKS_PASSWORD}
+  -Dzookeeper.ssl.trustStore.password=${JKS_PASSWORD}"
+/opt/zookeeper/bin/zkServer.sh start-foreground
