@@ -15,6 +15,7 @@
         umount /var/fuse/spark-logs
         umount /var/fuse/spark-app
         umount /var/fuse/spark-data
+        umount /var/fuse/dbbackup
         rm -rf /opt/fuse
         rm -fr /etc/systemd/system/fuse*
         systemctl daemon-reload

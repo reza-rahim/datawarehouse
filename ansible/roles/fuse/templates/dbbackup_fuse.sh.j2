@@ -1,0 +1,24 @@
+#!/bin/bash
+
+eval "$({{ secret_dir }}/{{ decrypt_file }})";
+AWSACCESSKEYID=$AWS_ACCESS_KEY_ID
+AWSSECRETACCESSKEY=$AWS_SECRET_ACCESS_KEY
+
+id="$(/usr/bin/id -u {{fuse_user }})"
+group="$(/usr/bin/getent group {{ fuse_group }}  | /usr/bin/cut -d: -f3)"
+
+## check the mount mount, if exists then exit
+/usr/bin/df {{ pg_backup_dir }} |/usr/bin/grep s3fs | grep {{ pg_backup_dir }}
+
+if [ $? -eq 0 ] 
+then 
+  /usr/bin/echo " {{ airflow_dag_dir }} already mounted"	
+else
+  /usr/bin/echo "Mounting ... {{ airflow_dag_dir }}"	
+  /usr/bin/s3fs {{ pg_backup_bucket }} {{ pg_backup_dir }} -o umask=002,uid=$id,gid=$group,use_path_request_style,allow_other,url={{ s3_protocol }}://minio.{{ fqdn }}:9000
+  	
+fi
+
+
+
+

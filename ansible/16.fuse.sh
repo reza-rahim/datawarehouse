@@ -5,3 +5,5 @@ ansible-playbook -i inventory.ini  \
 -e fqdn=$FQDN \
 -e virtual_ip=$VIRTUAL_IP \
 fuse.yaml
+sleep 5
+/usr/bin/df /var/fuse/* |/usr/bin/grep s3fs

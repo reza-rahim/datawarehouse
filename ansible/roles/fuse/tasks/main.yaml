@@ -24,6 +24,7 @@
   loop:
      - { src: 'airflow_fuse.sh.j2', dest: '{{ fuse_home }}/airflow_fuse.sh'  }
      - { src: 'spark_fuse.sh.j2', dest: '{{ fuse_home }}/spark_fuse.sh'  }
+     - { src: 'dbbackup_fuse.sh.j2', dest: '{{ fuse_home }}/dbbackup_fuse.sh'  }
      - { src: 'fuse.service.j2', dest: '/etc/systemd/system/fuse.service'  }
   notify:  restart start_fuse
 
@@ -40,3 +41,4 @@
     - "{{ spark_s3_data_dir }}"
     - "{{ airflow_dag_dir }}"
     - "{{ airflow_log_dir }}"
+    - '{{ pg_backup_dir }}'  

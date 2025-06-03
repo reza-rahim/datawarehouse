@@ -6,7 +6,7 @@ After=network.target minio.service
 
 Type=oneshot
 
-ExecStart=bash -c "/opt/fuse/airflow_fuse.sh;/opt/fuse/spark_fuse.sh"
+ExecStart=bash -c "{{ fuse_home }}/airflow_fuse.sh;{{ fuse_home }}/spark_fuse.sh;{{ fuse_home }}/dbbackup_fuse.sh"
 RemainAfterExit=true
 
 [Install]
