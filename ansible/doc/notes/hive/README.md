@@ -1,5 +1,11 @@
 
 ```
+sudo -u postgres psql -d hive  -c \
+"SELECT tablename FROM pg_tables WHERE schemaname = 'public';" \
+-t -A > hive_table_names.txt
+
+```
+```
 openssl s_client -connect node1.dw.felicity.net.bd:9083
 ```
 ---
@@ -31,6 +37,15 @@ INSERT INTO table1 VALUES (
     TIMESTAMP('2021-01-26 08:10:23')
 );
 
-select * from table1
+select * from table1;
 ```
 
+```
+ mc ls s3/warehouse
+```
+
+```
+CREATE TABLE table10 ( order_id BIGINT ) USING iceberg;
+CREATE TABLE table11 ( order_id BIGINT ) USING iceberg;
+
+```
