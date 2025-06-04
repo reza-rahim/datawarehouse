@@ -1,10 +1,8 @@
 
 ```
-sudo -u postgres psql -d hive  -c \
-"SELECT tablename FROM pg_tables WHERE schemaname = 'public';" \
--t -A > hive_table_names.txt
-
+ mc rm  --recursive --force s3/warehouse/
 ```
+
 ```
 openssl s_client -connect node1.dw.felicity.net.bd:9083
 ```
