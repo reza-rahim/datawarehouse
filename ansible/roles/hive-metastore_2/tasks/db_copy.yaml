@@ -1,27 +1,10 @@
-- name: Check if any tables exist in the database hive
-  community.postgresql.postgresql_query:
-     db: hive
-     login_user: "{{ db_user }}"
-     query: "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';"
-  register: table_check
-  become: yes
-  become_user: "{{ db_user }}"
-
-- name: Direct copy from source to target PostgreSQL database
-  shell: >
-    PGPASSWORD={{ db_password }} pg_dump -U {{ db_user }} -h {{ hostvars['node1']['ansible_host'] }} -d hive |
-    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node2']['ansible_host'] }} -d  hive
-  delegate_to: localhost
-  when: table_check.query_result[0].count | int == 0   
-
 
 - name:  create PUBLICATION
   shell: >
-    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node1']['ansible_host'] }} -d hive -c 'CREATE PUBLICATION pub_hive_1 FOR TABLE "GLOBAL_PRIVS", "NUCLEUS_TABLES", "PARTITION_EVENTS", "SEQUENCE_TABLE", "MASTER_KEYS", "DELEGATION_TOKENS", "VERSION", "NOTIFICATION_LOG", "NOTIFICATION_SEQUENCE", "KEY_CONSTRAINTS", "METASTORE_DB_PROPERTIES", "SKEWED_STRING_LIST", "SKEWED_STRING_LIST_VALUES", "SDS", "SKEWED_COL_NAMES", "SKEWED_COL_VALUE_LOC_MAP", "SKEWED_VALUES", "BUCKETING_COLS", "CDS", "COLUMNS_V2", "DBS", "DATABASE_PARAMS", "DB_PRIVS", "TBLS", "IDXS", "INDEX_PARAMS", "PARTITIONS", "PARTITION_KEYS", "PARTITION_KEY_VALS", "PARTITION_PARAMS", "PART_COL_PRIVS", "PART_PRIVS", "ROLES", "ROLE_MAP", "SERDES", "SD_PARAMS", "SERDE_PARAMS", "SORT_COLS", "TABLE_PARAMS", "TBL_COL_PRIVS", "TBL_PRIVS", "TYPES", "TYPE_FIELDS", "TAB_COL_STATS", "PART_COL_STATS", "CTLGS", "FUNCS", "FUNC_RU", "WM_RESOURCEPLAN", "WM_POOL", "WM_TRIGGER", "WM_POOL_TO_TRIGGER", "WM_MAPPING", "MV_CREATION_METADATA", "MV_TABLES_USED", "I_SCHEMA", "SCHEMA_VERSION";' ;
-    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node2']['ansible_host'] }} -d hive -c 'CREATE PUBLICATION pub_hive_2 FOR TABLE "GLOBAL_PRIVS", "NUCLEUS_TABLES", "PARTITION_EVENTS", "SEQUENCE_TABLE", "MASTER_KEYS", "DELEGATION_TOKENS", "VERSION", "NOTIFICATION_LOG", "NOTIFICATION_SEQUENCE", "KEY_CONSTRAINTS", "METASTORE_DB_PROPERTIES", "SKEWED_STRING_LIST", "SKEWED_STRING_LIST_VALUES", "SDS", "SKEWED_COL_NAMES", "SKEWED_COL_VALUE_LOC_MAP", "SKEWED_VALUES", "BUCKETING_COLS", "CDS", "COLUMNS_V2", "DBS", "DATABASE_PARAMS", "DB_PRIVS", "TBLS", "IDXS", "INDEX_PARAMS", "PARTITIONS", "PARTITION_KEYS", "PARTITION_KEY_VALS", "PARTITION_PARAMS", "PART_COL_PRIVS", "PART_PRIVS", "ROLES", "ROLE_MAP", "SERDES", "SD_PARAMS", "SERDE_PARAMS", "SORT_COLS", "TABLE_PARAMS", "TBL_COL_PRIVS", "TBL_PRIVS", "TYPES", "TYPE_FIELDS", "TAB_COL_STATS", "PART_COL_STATS", "CTLGS", "FUNCS", "FUNC_RU", "WM_RESOURCEPLAN", "WM_POOL", "WM_TRIGGER", "WM_POOL_TO_TRIGGER", "WM_MAPPING", "MV_CREATION_METADATA", "MV_TABLES_USED", "I_SCHEMA", "SCHEMA_VERSION";' ;
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node1']['ansible_host'] }} -d hive -c 'CREATE PUBLICATION pub_hive_1 FOR TABLE "ROLES","CTLGS","SERDES","GLOBAL_PRIVS","COLUMNS_V2","VERSION","TBLS","CDS","TABLE_PARAMS","SDS","DBS","SEQUENCE_TABLE","NOTIFICATION_SEQUENCE";';
+    PGPASSWORD={{ db_password }} psql -U {{ db_user }} -h {{ hostvars['node2']['ansible_host'] }} -d hive -c 'CREATE PUBLICATION pub_hive_2 FOR TABLE "ROLES","CTLGS","SERDES","GLOBAL_PRIVS","COLUMNS_V2","VERSION","TBLS","CDS","TABLE_PARAMS","SDS","DBS","SEQUENCE_TABLE","NOTIFICATION_SEQUENCE";';
   delegate_to: localhost
   ignore_errors: yes  
-  when: run_condition ==  true 
 
 
 - name: Create SUBSCRIPTION sub_hive_1 and sub_hive_2
@@ -37,5 +20,4 @@
     PUBLICATION pub_hive_1 WITH (copy_data = false, origin = 'none');"
   delegate_to: localhost
   ignore_errors: yes
-  when: run_condition ==  true 
     
