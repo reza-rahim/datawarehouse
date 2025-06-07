@@ -9,4 +9,5 @@ curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/ord
 
 ```
 CREATE DATABASE IF NOT EXISTS dw;
+use dw;
 ```
