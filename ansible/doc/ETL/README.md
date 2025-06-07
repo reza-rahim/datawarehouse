@@ -5,3 +5,8 @@ curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/pro
 curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/sales_order.csv > /var/fuse/spark-data/sales_order.csv
 curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/order_item.csv > /var/fuse/spark-data/order_item.csv 
 ```
+
+
+```
+CREATE DATABASE IF NOT EXISTS dw;
+```
