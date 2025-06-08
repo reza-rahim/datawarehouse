@@ -39,3 +39,52 @@ OPTIONS (
 );
 ```
 
+```
+CREATE OR REPLACE TEMPORARY VIEW product_csv (
+    product_id INT,
+    product_name STRING,
+    description STRING,
+    category STRING,
+    price DECIMAL(10,2),
+    in_stock BOOLEAN,
+    created_at TIMESTAMP
+)
+USING csv
+OPTIONS (
+  path 's3a://spark-data/landing/product.csv',
+  header 'true'
+);
+```
+
+```
+CREATE OR REPLACE TEMPORARY VIEW sales_order_csv (
+    order_id INT,
+    customer_id INT,
+    order_date TIMESTAMP,
+    total_amount DECIMAL(12,2),
+    status STRING,
+    updated_at TIMESTAMP
+)
+USING csv
+OPTIONS (
+  path 's3a://spark-data/landing/sales_order.csv',
+  header 'true'
+);
+```
+
+```
+CREATE OR REPLACE TEMPORARY VIEW order_item_csv (
+    order_item_id INT,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(12,2)
+)
+USING csv
+OPTIONS (
+  path 's3a://spark-data/landing/order_item.csv',
+  header 'true'
+);
+```
+
