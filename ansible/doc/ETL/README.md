@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS sales_order (
 )
 USING iceberg;
 
-CREATE TABLE IF NOT EXISTS order_item_csv (
+CREATE TABLE IF NOT EXISTS order_item (
     order_item_id INT,
     order_id INT,
     product_id INT,
