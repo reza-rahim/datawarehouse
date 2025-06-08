@@ -22,8 +22,7 @@ OPTIONS (
   header 'true'
 );
 
-```
-```
+
 CREATE OR REPLACE TEMPORARY VIEW customer_csv (
     customer_id INT,
     full_name STRING,
@@ -37,9 +36,7 @@ OPTIONS (
   path 's3a://spark-data/landing/customer.csv',
   header 'true'
 );
-```
 
-```
 CREATE OR REPLACE TEMPORARY VIEW product_csv (
     product_id INT,
     product_name STRING,
@@ -54,9 +51,7 @@ OPTIONS (
   path 's3a://spark-data/landing/product.csv',
   header 'true'
 );
-```
 
-```
 CREATE OR REPLACE TEMPORARY VIEW sales_order_csv (
     order_id INT,
     customer_id INT,
@@ -70,9 +65,7 @@ OPTIONS (
   path 's3a://spark-data/landing/sales_order.csv',
   header 'true'
 );
-```
 
-```
 CREATE OR REPLACE TEMPORARY VIEW order_item_csv (
     order_item_id INT,
     order_id INT,
