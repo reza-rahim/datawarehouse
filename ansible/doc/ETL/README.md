@@ -142,5 +142,6 @@ USING iceberg;
 
 ```
 DROP DATABASE bronze CASCADE;
+TRUNCATE TABLE bronze.geo_location;
 ```
 
