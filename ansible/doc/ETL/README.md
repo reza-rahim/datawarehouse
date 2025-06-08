@@ -81,3 +81,62 @@ OPTIONS (
 );
 ```
 
+```
+create database bronze;
+
+CREATE TABLE IF NOT EXISTS geo_location (
+    location_id BIGINT,
+    country STRING,
+    state STRING,
+    city STRING,
+    postal_code STRING,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE TABLE IF NOT EXISTS customer (
+    customer_id INT,
+    full_name STRING,
+    email STRING,
+    phone_number STRING,
+    location_id INT,
+    created_at TIMESTAMP,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE TABLE IF NOT EXISTS product (
+    product_id INT,
+    product_name STRING,
+    description STRING,
+    category STRING,
+    price DECIMAL(10,2),
+    in_stock BOOLEAN,
+    created_at TIMESTAMP,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE OR REPLACE TEMPORARY VIEW sales_order (
+    order_id INT,
+    customer_id INT,
+    order_date TIMESTAMP,
+    total_amount DECIMAL(12,2),
+    status STRING,
+    updated_at TIMESTAMP,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE OR REPLACE TEMPORARY VIEW order_item_csv (
+    order_item_id INT,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(12,2),
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+```
+
