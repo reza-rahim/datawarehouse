@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS product (
 )
 USING iceberg;
 
-CREATE OR REPLACE TEMPORARY VIEW sales_order (
+CREATE TABLE IF NOT EXISTS sales_order (
     order_id INT,
     customer_id INT,
     order_date TIMESTAMP,
@@ -128,7 +128,7 @@ CREATE OR REPLACE TEMPORARY VIEW sales_order (
 )
 USING iceberg;
 
-CREATE OR REPLACE TEMPORARY VIEW order_item_csv (
+CREATE TABLE IF NOT EXISTS order_item_csv (
     order_item_id INT,
     order_id INT,
     product_id INT,
