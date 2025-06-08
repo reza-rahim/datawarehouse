@@ -58,7 +58,7 @@ CREATE OR REPLACE TEMPORARY VIEW sales_order_csv (
     order_date TIMESTAMP,
     total_amount DECIMAL(12,2),
     status STRING,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP
 )
 USING csv
 OPTIONS (
