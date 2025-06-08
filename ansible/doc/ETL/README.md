@@ -140,3 +140,7 @@ CREATE TABLE IF NOT EXISTS order_item (
 USING iceberg;
 ```
 
+```
+DROP DATABASE bronze CASCADE;
+```
+
