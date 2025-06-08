@@ -12,8 +12,14 @@ CREATE DATABASE IF NOT EXISTS dw;
 use dw;
 ```
 
-```
 
-USING ICEBERG
-LOCATION 's3a://spark-logs/path/to/existing/table'
+```
+CREATE OR REPLACE TEMPORARY VIEW geo_location_csv
+(location_id BIGINT, country STRING, state STRING, city STRING, postal_code STRING)
+USING csv
+OPTIONS (
+  path 's3a://spark-data/landing/geo_location.csv',
+  header 'true'
+);
+
 ```
