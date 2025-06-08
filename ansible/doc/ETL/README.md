@@ -8,8 +8,8 @@ curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/ord
 
 
 ```
-CREATE DATABASE IF NOT EXISTS dw;
-use dw;
+CREATE DATABASE IF NOT EXISTS bronze;
+use bronze;
 ```
 
 
@@ -84,7 +84,7 @@ OPTIONS (
 ```
 create database bronze;
 use bronze;
-CREATE TABLE IF NOT EXISTS geo_location (
+CREATE TABLE IF NOT EXISTS bronze.geo_location (
     location_id BIGINT,
     country STRING,
     state STRING,
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS geo_location (
 )
 USING iceberg;
 
-CREATE TABLE IF NOT EXISTS customer (
+CREATE TABLE IF NOT EXISTS bronze.customer (
     customer_id INT,
     full_name STRING,
     email STRING,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS customer (
 )
 USING iceberg;
 
-CREATE TABLE IF NOT EXISTS product (
+CREATE TABLE IF NOT EXISTS bronze.product (
     product_id INT,
     product_name STRING,
     description STRING,
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS product (
 )
 USING iceberg;
 
-CREATE TABLE IF NOT EXISTS sales_order (
+CREATE TABLE IF NOT EXISTS bronze.sales_order (
     order_id INT,
     customer_id INT,
     order_date TIMESTAMP,
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS sales_order (
 )
 USING iceberg;
 
-CREATE TABLE IF NOT EXISTS order_item (
+CREATE TABLE IF NOT EXISTS bronze.order_item (
     order_item_id INT,
     order_id INT,
     product_id INT,
