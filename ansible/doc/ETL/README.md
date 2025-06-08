@@ -23,3 +23,19 @@ OPTIONS (
 );
 
 ```
+```
+CREATE OR REPLACE TEMPORARY VIEW customer_csv (
+    customer_id INT,
+    full_name STRING,
+    email STRING,
+    phone_number STRING,
+    location_id INT,
+    created_at TIMESTAMP
+)
+USING csv
+OPTIONS (
+  path 's3a://spark-data/landing/customer.csv',
+  header 'true'
+);
+```
+
