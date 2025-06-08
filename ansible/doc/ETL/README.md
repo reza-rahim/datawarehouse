@@ -83,7 +83,7 @@ OPTIONS (
 
 ```
 create database bronze;
-use bronze;
+
 CREATE TABLE IF NOT EXISTS bronze.geo_location (
     location_id BIGINT,
     country STRING,
