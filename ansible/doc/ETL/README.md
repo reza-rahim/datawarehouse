@@ -145,3 +145,67 @@ DROP DATABASE bronze CASCADE;
 TRUNCATE TABLE bronze.geo_location;
 ```
 
+```
+create database silver;
+
+CREATE TABLE IF NOT EXISTS silver.dim_date (
+    date_key DATE,
+    day INT,
+    month INT,
+    year INT,
+    quarter INT,
+    weekday_name STRING
+)
+USING iceberg;
+
+CREATE TABLE IF NOT EXISTS silver.dim_location (
+    location_id INT,
+    country STRING,
+    state STRING,
+    city STRING,
+    postal_code STRING,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE TABLE IF NOT EXISTS silver.dim_product (
+    product_id INT,
+    product_name STRING,
+    description STRING,
+    category STRING,
+    price DECIMAL(10,2),
+    in_stock BOOLEAN,
+    created_at TIMESTAMP,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE TABLE IF NOT EXISTS silver.dim_customer (
+    customer_id INT,
+    full_name STRING,
+    email STRING,
+    phone_number STRING,
+    location_id INT,
+    created_at TIMESTAMP,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+CREATE TABLE IF NOT EXISTS silver.fact_sales (
+    order_item_id INT,
+    order_id INT,
+    customer_id INT,
+    product_id INT,
+    location_id INT,
+    order_date DATE,
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(12,2),
+    status STRING,
+    updated_at TIMESTAMP,
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
+
+
+```
