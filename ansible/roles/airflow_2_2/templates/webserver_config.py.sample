@@ -1,0 +1,26 @@
+from flask_appbuilder.security.manager import AUTH_OAUTH
+from airflow.www.security import AirflowSecurityManager
+
+AUTH_TYPE = AUTH_OAUTH
+AUTH_ROLE_ADMIN = 'Admin'
+AUTH_USER_REGISTRATION = True
+AUTH_USER_REGISTRATION_ROLE = "Viewer"
+
+OAUTH_PROVIDERS = [
+    {
+        'name': 'keycloak',
+        'token_key': 'access_token',  # Name of the token in the response
+        'icon': 'fa-circle',  # Icon for login button
+        'remote_app': {
+            'client_id': 'airflow',
+            'client_secret': 'KEYCLOAK_CLIENT_SECRET',
+            'api_base_url': 'https://<keycloak-domain>/realms/<realm-name>/protocol/openid-connect',
+            'client_kwargs': {
+                'scope': 'openid email profile'
+            },
+            'access_token_url': 'https://<keycloak-domain>/realms/<realm-name>/protocol/openid-connect/token',
+            'authorize_url': 'https://<keycloak-domain>/realms/<realm-name>/protocol/openid-connect/auth',
+        }
+    }
+]
+
