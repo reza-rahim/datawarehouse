@@ -216,7 +216,7 @@ USING iceberg;
 ```
 ---
 ```
-DROP DATABASE bronze CASCADE;
+DROP DATABASE gold CASCADE;
 ```
 ```
 CREATE TABLE IF NOT EXISTS gold.fact_sales_enriched (
