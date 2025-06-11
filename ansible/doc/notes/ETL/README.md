@@ -79,8 +79,10 @@ OPTIONS (
   path 's3a://spark-data/landing/order_item.csv',
   header 'true'
 );
+---
 ```
-
+DROP DATABASE bronze CASCADE;
+TRUNCATE TABLE bronze.geo_location;
 ```
 create database bronze;
 
@@ -139,9 +141,10 @@ CREATE TABLE IF NOT EXISTS bronze.order_item (
 )
 USING iceberg;
 ```
+---
 
 ```
-DROP DATABASE bronze CASCADE;
+DROP DATABASE silver CASCADE;
 TRUNCATE TABLE bronze.geo_location;
 ```
 
