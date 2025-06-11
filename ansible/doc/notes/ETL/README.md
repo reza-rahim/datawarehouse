@@ -6,11 +6,7 @@ curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/sal
 curl https://raw.githubusercontent.com/reza-rahim/ai_data/refs/heads/main/dw/order_item.csv > /var/fuse/spark-data/landing/order_item.csv 
 ```
 
-
-```
-CREATE DATABASE IF NOT EXISTS bronze;
-use bronze;
-```
+---
 
 
 ```
@@ -83,11 +79,15 @@ OPTIONS (
 ```
 ---
 ```
-DROP DATABASE bronze CASCADE;
-
+#DROP DATABASE bronze CASCADE;
+truncate table bronze.geo_location;
+truncate table bronze.customer;
+truncate table bronze.product;
+truncate table bronze.sales_order;
+truncate table bronze.order_item;
 ```
 ```
-create database bronze;
+create database IF NOT EXISTS bronze;
 
 CREATE TABLE IF NOT EXISTS bronze.geo_location (
     location_id BIGINT,
@@ -147,12 +147,15 @@ USING iceberg;
 ---
 
 ```
-DROP DATABASE silver CASCADE;
-
+#DROP DATABASE silver CASCADE;
+truncate table silver.dim_location;
+truncate table silver.dim_product;
+truncate table silver.dim_customer;
+truncate table silver.fact_sales;
 ```
 
 ```
-create database silver;
+create database IF NOT EXISTS  silver;
 
 CREATE TABLE IF NOT EXISTS silver.dim_date (
     date_key DATE,
@@ -217,7 +220,9 @@ USING iceberg;
 ---
 ```
 DROP DATABASE gold CASCADE;
+truncate table gold.fact_sales_enriched ;
 ```
+
 ```
 create database gold;
 CREATE TABLE IF NOT EXISTS gold.fact_sales_enriched (
