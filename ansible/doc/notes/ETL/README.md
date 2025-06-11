@@ -79,10 +79,13 @@ OPTIONS (
   path 's3a://spark-data/landing/order_item.csv',
   header 'true'
 );
+
+```
 ---
 ```
 DROP DATABASE bronze CASCADE;
 TRUNCATE TABLE bronze.geo_location;
+```
 ```
 create database bronze;
 
