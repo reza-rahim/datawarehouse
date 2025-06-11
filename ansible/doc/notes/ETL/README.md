@@ -219,6 +219,7 @@ USING iceberg;
 DROP DATABASE gold CASCADE;
 ```
 ```
+create database gold;
 CREATE TABLE IF NOT EXISTS gold.fact_sales_enriched (
     order_item_id INT,
     order_id INT,
