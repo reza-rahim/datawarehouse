@@ -84,7 +84,7 @@ OPTIONS (
 ---
 ```
 DROP DATABASE bronze CASCADE;
-TRUNCATE TABLE bronze.geo_location;
+
 ```
 ```
 create database bronze;
@@ -148,7 +148,7 @@ USING iceberg;
 
 ```
 DROP DATABASE silver CASCADE;
-TRUNCATE TABLE bronze.geo_location;
+
 ```
 
 ```
@@ -213,5 +213,50 @@ CREATE TABLE IF NOT EXISTS silver.fact_sales (
 )
 USING iceberg;
 
+```
+---
+```
+DROP DATABASE bronze CASCADE;
+```
+```
+CREATE TABLE IF NOT EXISTS gold.fact_sales_enriched (
+    order_item_id INT,
+    order_id INT,
+    
+    customer_id INT,
+    full_name STRING,
+    email STRING,
+    phone_number STRING,
+    location_id INT,
+    
+    country STRING,
+    state STRING,
+    city STRING,
+    postal_code STRING,
+    
+    product_id INT,
+    product_name STRING,
+    category STRING,
+    description STRING,
+    price DECIMAL(10,2),
+    in_stock BOOLEAN,
+    
+    order_date DATE,
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(12,2),
+    status STRING,
+    updated_at TIMESTAMP,
+    
+    customer_created_at TIMESTAMP,
+    customer_load_timestamp TIMESTAMP,
+    product_created_at TIMESTAMP,
+    product_load_timestamp TIMESTAMP,
+    location_load_timestamp TIMESTAMP,
+    
+    load_timestamp TIMESTAMP
+)
+USING iceberg;
 
 ```
+
