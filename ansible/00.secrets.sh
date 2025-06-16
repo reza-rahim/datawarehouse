@@ -7,6 +7,9 @@ export ANSIBLE_CONFIG=./ansible.cfg
 export PGUSER=postgres
 export PGPASSWORD=postgres
 
+export PGUSER_RO=postgres_ro_1
+export PGPASSWORD_RO=postgres
+
 #keycloak
 export KEYCLOAK_ADMIN=admin
 export KEYCLOAK_ADMIN_PASSWORD=admin
