@@ -1,0 +1,48 @@
+---
+
+- name: Install required packages
+  apt:
+    name:
+      - lsb-release
+      - ca-certificates
+      - curl
+      - gnupg2
+    state: present
+
+- name: Download OpenSearch GPG key and convert to keyring format
+  ansible.builtin.shell: |
+    curl -o- https://artifacts.opensearch.org/publickeys/opensearch-release.pgp | \
+    gpg --dearmor --batch --yes -o /usr/share/keyrings/opensearch-release-keyring
+  args:
+    creates: /usr/share/keyrings/opensearch-release-keyring
+
+- name: Create OpenSearch config dir (if not created yet)
+  file:
+    path: /etc/opensearch
+    state: directory
+    mode: '0755'
+
+- name: Disable OpenSearch demo configuration (prevents postinstall crash)
+  file:
+    path: /etc/opensearch/install_demo_configuration.sh
+    state: touch
+
+- name: Add OpenSearch APT repository
+  copy:
+    dest: /etc/apt/sources.list.d/opensearch-3.x.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/opensearch-release-keyring] https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/apt stable main
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Update apt cache after adding OpenSearch repo
+  apt:
+    update_cache: yes
+
+- name: Install OpenSearch version {{ lookup('env', 'OPENSEARCH') }} with admin password
+  ansible.builtin.shell: |
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y opensearch={{ lookup('env', 'OPENSEARCH') }}
+  environment:
+    OPENSEARCH_INITIAL_ADMIN_PASSWORD: "{{ lookup('env', 'OPENSEARCH_INITIAL_ADMIN_PASSWORD') }}"

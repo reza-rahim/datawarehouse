@@ -78,3 +78,6 @@ export JKS_PASSWORD=changeit
 export SPARK_UI_USER=demo
 export SPARK_UI_PASSWORD=demo
 export SPARK_AUTH_SECRET=supersecretkey123
+
+#opensearch
+export OPENSEARCH_INITIAL_ADMIN_PASSWORD=Opensource^1

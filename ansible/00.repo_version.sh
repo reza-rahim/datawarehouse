@@ -60,5 +60,6 @@ export SQLALCHEMY_TRINO=0.5.0
 
 export APACHE_AIRFLOW=2.10.4
 
+export OPENSEARCH=3.0.0
 
 ###########################

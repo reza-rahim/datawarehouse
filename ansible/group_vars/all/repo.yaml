@@ -52,6 +52,8 @@ keycloak_url: https://github.com/keycloak/keycloak/releases/download/26.2.0/keyc
 keycloak_url_file_name: keycloak-{{ lookup('env', 'KEYCLOAK') }}.tar.gz
 keycloak_file_name: keycloak-{{ lookup('env', 'KEYCLOAK') }}
 
+
+
 ######  
 prometheus_url: https://github.com/prometheus/prometheus/releases/download/v{{ lookup('env', 'PROMETHEUS') }}/prometheus-{{ lookup('env', 'PROMETHEUS') }}.darwin-amd64.tar.gz
 prometheus_url_filanme: prometheus-{{ lookup('env', 'PROMETHEUS') }}.linux-amd64.tar.gz
