@@ -97,6 +97,16 @@
     name: '{{ fuse_group }}'
     state: present
 
+- name: create group '{{ opensearch_user }}'
+  group:
+    name: '{{ opensearch_group }}'
+    state: present
+
+- name: create group '{{ ranger_group }}'
+  group:
+    name: '{{ ranger_group }}'
+    state: present
+
  #### users
 - name: Create user hadoop-user
   user:
@@ -189,3 +199,14 @@
     group: '{{ application_group }}'
     shell: /bin/bash    
     home: '{{ tmpfs_dir }}/kcadm'
+
+
+- name: Create user '{{ opensearch_user }}'
+  user:
+    name: '{{ opensearch_user }}'
+    groups: '{{ opensearch_group }}, {{ fuse_group }},{{ application_group }}'
+
+- name: Create user '{{ ranger_user }}'
+  user:
+    name: '{{ ranger_user }}'
+    groups: '{{ranger_group}}, {{ fuse_group }},{{ application_group }}'

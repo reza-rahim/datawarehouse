@@ -1,0 +1,13 @@
+---
+- name: clean opensearch
+  hosts: opensearch
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3   
+
+  tasks:
+    - name: Full cleanup in one shell block
+      shell: |
+        apt remove opensearch -y 
+        systemctl daemon-reload
+        systemctl reset-failed

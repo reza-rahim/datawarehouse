@@ -1,0 +1,11 @@
+cluster.name: "{{ cluster_name }}"
+node.name: "{{ inventory_hostname }}"
+network.host: 0.0.0.0
+
+discovery.seed_hosts: [{% for host in groups['opensearch'] %}"{{ host }}.{{ fqdn }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+
+cluster.initial_cluster_manager_nodes: [{% for host in groups['opensearch'] %}"{{ host }}.{{ fqdn }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+
+bootstrap.memory_lock: true
+plugins.security.disabled: false
+

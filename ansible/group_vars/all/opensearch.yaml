@@ -1,0 +1,5 @@
+opensearch_dir: /opt/opensearch
+opensearch_user: opensearch
+opensearch_group: opensearch
+opensearch_home: /home/opensearch
+opensearch_home_cert: /home/opensearch/.opensearch/certs  

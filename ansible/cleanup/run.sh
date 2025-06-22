@@ -1,3 +1,4 @@
+ansible-playbook -i  ../inventory.ini opensearch.yaml 
 ansible-playbook -i  ../inventory.ini airflow.yaml 
 ansible-playbook -i  ../inventory.ini superset.yaml 
 ansible-playbook -i  ../inventory.ini trino.yaml 

@@ -1,0 +1,2 @@
+- name: restart opensearch
+  service: name=opensearch.service  state=restarted enabled=yes

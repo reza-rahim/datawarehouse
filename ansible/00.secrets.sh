@@ -80,4 +80,4 @@ export SPARK_UI_PASSWORD=demo
 export SPARK_AUTH_SECRET=supersecretkey123
 
 #opensearch
-export OPENSEARCH_INITIAL_ADMIN_PASSWORD=Opensource^1
+export OPENSEARCH_INITIAL_ADMIN_PASSWORD=Opensearch^1
