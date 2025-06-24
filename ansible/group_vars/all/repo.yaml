@@ -54,8 +54,12 @@ keycloak_file_name: keycloak-{{ lookup('env', 'KEYCLOAK') }}
 
 
 #####
-opensource_url: https://artifacts.opensearch.org/releases/bundle/opensearch/{{ lookup('env', 'OPENSEARCH') }}/opensearch-{{ lookup('env', 'OPENSEARCH') }}-linux-x64.deb 
-opensource_file_name: opensearch-{{ lookup('env', 'OPENSEARCH') }}-linux-x64.deb  
+
+opensource_url: https://artifacts.opensearch.org/releases/bundle/opensearch/{{ lookup('env', 'OPENSEARCH') }}/opensearch-{{ lookup('env', 'OPENSEARCH') }}-linux-x64.tar.gz
+opensource_url_filename: opensearch-{{ lookup('env', 'OPENSEARCH') }}-linux-x64.tar.gz 
+opensource_filename: opensearch-{{ lookup('env', 'OPENSEARCH') }}
+
+  
 
 
 ######  

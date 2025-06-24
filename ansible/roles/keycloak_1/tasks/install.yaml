@@ -23,6 +23,3 @@
      owner: '{{ keycloak_user }}'
      group: '{{ application_group }}'
   when: not stat_result.stat.exists
- 
-  
-

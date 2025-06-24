@@ -1,19 +1,52 @@
 ---
 
-- name: create {{ opensearch_dir }}
-  file:
-     path: '{{ opensearch_dir }}'
-     state: directory
-     owner: '{{ opensearch_user }}'
-     group: '{{ opensearch_group }}'
+- name: Create OpenSearch directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ opensearch_user }}'
+    group: '{{ application_group }}'
+    mode: '0755'
+  loop:
+    - '{{ opensearch_config }}'
+    - '{{ opensearch_data }}'
+    - '{{ opensearch_log }}'
 
-- name: download the opensearch binary
-  get_url:
-     url: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/ opensearch-{{ lookup('env', 'OPENSEARCH') }}-linux-x64.deb"
+
+
+- name: Check that the {{ opensearch_dir }} exists
+  stat:
+      path: '{{ opensearch_dir }}'
+  register: stat_result
+
+- name : extract {{ opensource_url_filename }} zip
+  unarchive:
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ opensource_url_filename }}"
      dest: /opt
-  register: opensearch_download
-  # notify: restart opensearch
+     remote_src: true
+     owner: '{{ opensearch_user }}'
+     group: '{{ application_group }}'
+  when: not stat_result.stat.exists
+  #notify: opensearch
 
+- name: create soft link to {{ keycloak_home }}
+  file:
+     src: '/opt/{{ opensource_filename }}'
+     dest: '{{ opensearch_dir }}'
+     state: link
+     owner: '{{ opensearch_user }}'
+     group: '{{ application_group }}'
+  when: not stat_result.stat.exists    
+
+- name: copy  opensearch.service opensearch.yml
+  template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ spark_user }} group={{ spark_group }}  mode=0755
+  loop:
+     - { src: 'opensearch.service.j2', dest: '/etc/systemd/system/opensearch.service'  }
+     - { src: 'opensearch.yml.j2', dest: '/etc/opensearch/opensearch.yml'  }
+     - { src: 'jvm.options.j2', dest: '/etc/opensearch/jvm.options'  }
+     - { src: 'log4j2.properties.j2', dest: '/etc/opensearch/log4j2.properties'  }
+     - { src: 'opensearch.log.j2', dest: '/etc/logrotate.d/opensearch'  }
+       #- { src: '', dest: '/etc/opensearch/opensearch.yml'  }
 
 - name: Reload service files
   systemd:

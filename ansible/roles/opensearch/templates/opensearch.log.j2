@@ -1,0 +1,12 @@
+/var/log/opensearch/*.log {
+    daily
+    rotate 7
+    compress
+    missingok
+    notifempty
+    copytruncate
+    delaycompress
+    dateext
+    maxage 10
+}
+
