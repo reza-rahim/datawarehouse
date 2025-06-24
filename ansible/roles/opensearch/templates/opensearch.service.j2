@@ -12,7 +12,6 @@ WorkingDirectory={{ opensearch_home  }}
 User={{ opensearch_user }}
 Group={{ opensearch_group }}
 
-
 ExecStart=/bin/bash -c " export OPENSEARCH_PATH_CONF=/etc/opensearch/;{{ opensearch_dir }}/bin/opensearch -p {{ opensearch_home }}/opensearch.pid -q"
 
 StandardOutput=journal

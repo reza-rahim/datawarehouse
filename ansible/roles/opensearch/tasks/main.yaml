@@ -27,7 +27,6 @@
      owner: '{{ opensearch_user }}'
      group: '{{ application_group }}'
   when: not stat_result.stat.exists
-  #notify: opensearch
 
 - name: create soft link to {{ keycloak_home }}
   file:
@@ -46,7 +45,8 @@
      - { src: 'jvm.options.j2', dest: '/etc/opensearch/jvm.options'  }
      - { src: 'log4j2.properties.j2', dest: '/etc/opensearch/log4j2.properties'  }
      - { src: 'opensearch.log.j2', dest: '/etc/logrotate.d/opensearch'  }
-       #- { src: '', dest: '/etc/opensearch/opensearch.yml'  }
+     #- { src: '', dest: '/etc/opensearch/opensearch.yml'  }
+  notify: restart opensearch
 
 - name: Reload service files
   systemd:
