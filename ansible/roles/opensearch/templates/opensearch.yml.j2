@@ -1,10 +1,14 @@
 cluster.name: "{{ cluster_name }}"
 node.name: "{{ inventory_hostname }}"
-network.host: 0.0.0.0
 
-discovery.seed_hosts: [{% for host in groups['opensearch'] %}"{{ host }}.{{ fqdn }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+network.host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
+transport.host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
 
-cluster.initial_cluster_manager_nodes: [{% for host in groups['opensearch'] %}"{{ host }}.{{ fqdn }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+discovery.seed_hosts: [{% for host in groups['opensearch'] %}"{{ hostvars[host]['ansible_host'] }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+
+cluster.initial_cluster_manager_nodes: ["{{ groups['opensearch'][0] }}"]
+
+node.roles: [{{ hostvars[inventory_hostname]['role'] }}]
 
 
 # Path to directory where to store the data (separate multiple locations by comma):

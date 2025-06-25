@@ -9,11 +9,7 @@
     - name: Full cleanup in one shell block
       shell: |
         systemctl stop opensearch
-        systemctl disable opensearch
-        apt remove --purge -y opensearch
-        apt autoremove --purge -y
         rm -rf /etc/opensearch
-        rm -rf /usr/share/opensearch
         rm -rf /var/lib/opensearch
         rm -rf /var/log/opensearch
         rm -rf /opt/opensearch
