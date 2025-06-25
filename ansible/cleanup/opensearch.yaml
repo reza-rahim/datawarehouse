@@ -12,7 +12,7 @@
         rm -rf /etc/opensearch
         rm -rf /var/lib/opensearch
         rm -rf /var/log/opensearch
-        rm -rf /opt/opensearch
+        #rm -rf /opt/opensearch
         rm -rf /etc/systemd/system/opensearch.service
         rm -rf /var/run/opensearch
         systemctl daemon-reload

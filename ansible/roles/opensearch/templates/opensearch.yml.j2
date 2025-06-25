@@ -10,17 +10,16 @@ cluster.initial_cluster_manager_nodes: ["{{ groups['opensearch'][0] }}"]
 
 node.roles: [{{ hostvars[inventory_hostname]['role'] }}]
 
-
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-path.data: /var/lib/opensearch
+path.data: {{ opensearch_data }}
 #
 # Path to log files:
 #
-path.logs: /var/log/opensearch
+path.logs:  {{ opensearch_log }}
 
 #bootstrap.memory_lock: true
-plugins.security.disabled: true
+#plugins.security.disabled: true
 
 plugins.security.ssl.transport.enabled: true
 plugins.security.ssl.transport.pemcert_filepath: {{ cert_dir }}{{ server_cert_file_name }}
@@ -32,4 +31,7 @@ plugins.security.ssl.http.enabled: true
 plugins.security.ssl.http.pemcert_filepath: {{ cert_dir }}{{ server_cert_file_name }}
 plugins.security.ssl.http.pemkey_filepath: {{ cert_dir }}{{ server_key_file_name }} 
 plugins.security.ssl.http.pemtrustedcas_filepath: {{ cert_dir }}/{{ ca_cert_file_name }}
+
+plugins.security.authcz.admin_dn:
+  - "CN=example.com,OU=Unit,O=Organization,L=City,ST=State,C=US"
 

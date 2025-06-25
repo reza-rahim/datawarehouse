@@ -41,13 +41,44 @@
   template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ spark_user }} group={{ spark_group }}  mode=0755
   loop:
      - { src: 'opensearch.service.j2', dest: '/etc/systemd/system/opensearch.service'  }
-     - { src: 'opensearch.yml.j2', dest: '/etc/opensearch/opensearch.yml'  }
-     - { src: 'jvm.options.j2', dest: '/etc/opensearch/jvm.options'  }
-     - { src: 'log4j2.properties.j2', dest: '/etc/opensearch/log4j2.properties'  }
+     - { src: 'opensearch.yml.j2', dest: '{{ opensearch_config }}/opensearch.yml'  }
+     - { src: 'jvm.options.j2', dest: '{{ opensearch_config }}/jvm.options'  }
+     - { src: 'log4j2.properties.j2', dest: '{{ opensearch_config }}/log4j2.properties'  }
      - { src: 'opensearch.log.j2', dest: '/etc/logrotate.d/opensearch'  }
+     - { src: 'nodes_dn.yml.j2', dest: '{{ opensearch_config }}/nodes_dn.yml'  }
+     - { src: 'action_groups.yml.j2', dest: '{{ opensearch_config }}/action_groups.yml'  }
+     - { src: 'allowlist.yml.j2', dest: '{{ opensearch_config }}/allowlist.yml'  }
+     - { src: 'audit.yml.j2', dest: '{{ opensearch_config }}/audit.yml'  }
+     - { src: 'config.yml.j2', dest: '{{ opensearch_config }}/config.yml'  }
+     - { src: 'internal_users.yml.j2', dest: '{{ opensearch_config }}/internal_users.yml'  }
+     - { src: 'roles_mapping.yml.j2', dest: '{{ opensearch_config }}/roles_mapping.yml'  }
+     - { src: 'roles.yml.j2', dest: '{{ opensearch_config }}/roles.yml'  }
+     - { src: 'tenants.yml.j2', dest: '{{ opensearch_config }}/tenants.yml'  }
      #- { src: '', dest: '/etc/opensearch/opensearch.yml'  }
   notify: restart opensearch
 
-- name: Reload service files
-  systemd:
-    daemon_reload: true       
+
+- name: Force handler to run now
+  meta: flush_handlers    
+
+- name: Wait for opensearch to startup
+  ansible.builtin.wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
+    port: 9200
+    delay: 5
+    connect_timeout: 1
+    timeout: 120
+  when: inventory_hostname == groups['opensearch'][0]    
+
+- name: Security Plugin configuration | Initialize the opensearch security index in opensearch with custom configs
+  ansible.builtin.shell: >
+    bash {{ opensearch_dir }}/plugins/opensearch-security/tools/securityadmin.sh
+    -cacert {{ cert_dir }}/CA_cert.crt
+    -cert {{ cert_dir }}/server.crt
+    -key {{ cert_dir }}/server.key
+    -cd {{ opensearch_config }}
+    -nhnv -icl
+    -h {{ hostvars[inventory_hostname]['ansible_host'] }}
+  environment:
+    JAVA_HOME: "{{ java_home }}"  
+  when: inventory_hostname == groups['opensearch'][0]    
