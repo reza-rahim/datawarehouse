@@ -68,7 +68,7 @@
     delay: 5
     connect_timeout: 1
     timeout: 120
-  when: inventory_hostname == groups['opensearch'][0]    
+      #when: inventory_hostname == groups['opensearch'][0]    
 
 - name: Security Plugin configuration | Initialize the opensearch security index in opensearch with custom configs
   ansible.builtin.shell: >
@@ -81,4 +81,4 @@
     -h {{ hostvars[inventory_hostname]['ansible_host'] }}
   environment:
     JAVA_HOME: "{{ java_home }}"  
-  when: inventory_hostname == groups['opensearch'][0]    
+      #when: inventory_hostname == groups['opensearch'][0]    
