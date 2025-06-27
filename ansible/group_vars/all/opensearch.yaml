@@ -1,6 +1,8 @@
 cluster_name: opensearch
 opensearch_dir: /opt/opensearch
+opensearch_port: 9200
 opensearch_dashboard_dir: /opt/opensearch-dashboard
+opensearch_dashboard_port: 5601
 opensearch_user: opensearch
 opensearch_group: opensearch
 opensearch_home: /home/opensearch

@@ -1,10 +1,17 @@
-server.port: 5601
+server.port: {{ opensearch_dashboard_port }}
 server.host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
+
+
+# Enable HTTPS
+server.ssl.enabled: true
+server.ssl.certificate: "{{ cert_dir }}{{ server_cert_file_name }}"
+server.ssl.key: "{{ cert_dir }}{{ server_key_file_name }}"
+
 
 opensearch.hosts:
 {% for host in groups['opensearch'] %}
 {%   if 'master' in hostvars[host]['role'] %}
-  - https://{{ host }}.{{ fqdn }}:9200
+  - https://{{ host }}.{{ fqdn }}:{{ opensearch_port }}
 {%   endif %}
 {% endfor %}
 
@@ -12,4 +19,3 @@ opensearch.ssl.verificationMode: none
 opensearch.username: "kibanaserver"
 opensearch.password: "admin"
 opensearch.requestHeadersWhitelist: [ authorization,securitytenant ]
-
