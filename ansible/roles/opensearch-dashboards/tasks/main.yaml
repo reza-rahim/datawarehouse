@@ -37,5 +37,10 @@
 - name: copy  opensearch.service opensearch.yml
   template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ opensearch_user }} group={{ opensearch_group }}  mode=0755
   loop:
-     - { src: 'dashboards-dashboards.yml.j2', dest: '{{ opensearch_dashboard_config }}/dashboards-dashboards.yml'  }    
+     - { src: 'opensearch-dashboards.yml.j2', dest: '{{ opensearch_dashboard_config }}/opensearch-dashboards.yml'  }    
+     - { src: 'opensearch-dashboards.service.j2', dest: '/etc/systemd/system/opensearch-dashboards.service'  }  
+  notify: restart opensearch-dashboards     
 
+- name: Reload service files
+  systemd:
+    daemon_reload: true       

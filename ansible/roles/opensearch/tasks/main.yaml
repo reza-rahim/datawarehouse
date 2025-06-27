@@ -62,6 +62,9 @@
   register: security_files_result     
      #- { src: '', dest: '/etc/opensearch/opensearch.yml'  }
 
+- name: Reload service files
+  systemd:
+    daemon_reload: true    
 
 - name: Force handler to run now
   meta: flush_handlers    
