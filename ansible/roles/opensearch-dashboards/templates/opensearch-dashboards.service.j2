@@ -12,7 +12,7 @@ WorkingDirectory={{ opensearch_home  }}
 User={{ opensearch_user }}
 Group={{ opensearch_group }}
 
-ExecStart={{ opensearch_dashboard_dir }}/bin/opensearch-dashboards --config {{ opensearch_dashboard_config }}/opensearch-dashboards.yml 
+ExecStart={{ opensearch_dashboard_config }}/run_opensearch-dashboards.sh
 
 StandardOutput=journal
 StandardError=inherit

@@ -38,6 +38,7 @@
   template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ opensearch_user }} group={{ opensearch_group }}  mode=0755
   loop:
      - { src: 'opensearch-dashboards.yml.j2', dest: '{{ opensearch_dashboard_config }}/opensearch-dashboards.yml'  }    
+     - { src: 'run_opensearch-dashboards.sh.j2', dest: '{{ opensearch_dashboard_config }}/run_opensearch-dashboards.sh'  }    
      - { src: 'opensearch-dashboards.service.j2', dest: '/etc/systemd/system/opensearch-dashboards.service'  }  
   notify: restart opensearch-dashboards     
 

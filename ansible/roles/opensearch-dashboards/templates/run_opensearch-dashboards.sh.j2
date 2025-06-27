@@ -1,0 +1,3 @@
+#!/bin/bash
+eval "$({{ secret_dir }}/{{ decrypt_file }})"; 
+{{ opensearch_dashboard_dir }}/bin/opensearch-dashboards --config {{ opensearch_dashboard_config }}/opensearch-dashboards.yml

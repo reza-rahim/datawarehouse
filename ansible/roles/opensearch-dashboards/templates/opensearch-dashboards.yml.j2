@@ -17,5 +17,5 @@ opensearch.hosts:
 
 opensearch.ssl.verificationMode: none
 opensearch.username: "kibanaserver"
-opensearch.password: "admin"
+opensearch.password: ${OPENSEARCH_KIBANA_PASSWORD}
 opensearch.requestHeadersWhitelist: [ authorization,securitytenant ]
