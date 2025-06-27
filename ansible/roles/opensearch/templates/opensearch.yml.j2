@@ -33,7 +33,7 @@ plugins.security.ssl.http.pemkey_filepath: {{ cert_dir }}{{ server_key_file_name
 plugins.security.ssl.http.pemtrustedcas_filepath: {{ cert_dir }}/{{ ca_cert_file_name }}
 
 plugins.security.authcz.admin_dn:
-  - "CN=example.com,OU=Unit,O=Organization,L=City,ST=State,C=US"
+  - "{{ opensearch_subject }}"
 
 plugins.security.nodes_dn:
-  - "CN=example.com,OU=Unit,O=Organization,L=City,ST=State,C=US"
+  - "{{ opensearch_subject }}"
