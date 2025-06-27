@@ -1,0 +1,41 @@
+---
+
+- name: Create OpenSearch directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ opensearch_user }}'
+    group: '{{ application_group }}'
+    mode: '0755'
+  loop:
+    - '{{ opensearch_dashboard_config }}'
+
+- name: Check that the {{ opensearch_dashboard_dir }} exists
+  stat:
+      path: '{{ opensearch_dashboard_dir }}'
+  register: stat_result
+
+- name : extract {{ opensource_dashboards_url_filename }} zip
+  unarchive:
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ opensource_dashboards_url_filename }}"
+     dest: /opt
+     remote_src: true
+     owner: '{{ opensearch_user }}'
+     group: '{{ application_group }}'
+  when: not stat_result.stat.exists
+
+
+- name: create soft link to {{ opensource_dashboards_filename }}
+  file:
+     src: '/opt/{{ opensource_dashboards_filename }}'
+     dest: '{{ opensearch_dashboard_dir }}'
+     state: link
+     owner: '{{ opensearch_user }}'
+     group: '{{ application_group }}'
+  when: not stat_result.stat.exists        
+
+- name: copy  opensearch.service opensearch.yml
+  template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ opensearch_user }} group={{ opensearch_group }}  mode=0755
+  loop:
+     - { src: 'dashboards-dashboards.yml.j2', dest: '{{ opensearch_dashboard_config }}/dashboards-dashboards.yml'  }    
+

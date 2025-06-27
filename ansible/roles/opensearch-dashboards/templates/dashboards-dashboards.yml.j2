@@ -1,0 +1,8 @@
+server.port: 5601
+server.host: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
+opensearch.hosts: opensearch.{{ fqdn }}
+opensearch.ssl.verificationMode: none
+opensearch.username: "kibanaserver"
+opensearch.password: "admin"
+opensearch.requestHeadersWhitelist: [ authorization,securitytenant ]
+

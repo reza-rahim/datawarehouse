@@ -1,10 +1,11 @@
 cluster_name: opensearch
 opensearch_dir: /opt/opensearch
+opensearch_dashboard_dir: /opt/opensearch-dashboard
 opensearch_user: opensearch
 opensearch_group: opensearch
 opensearch_home: /home/opensearch
-opensearch_home_cert: /home/opensearch/.opensearch/certs  
 opensearch_config: /etc/opensearch  
+opensearch_dashboard_config: /etc/opensearch-dashboard  
 opensearch_data: /var/lib/opensearch  
 opensearch_log:  /var/log/opensearch
 opensearch_xms_value: 1

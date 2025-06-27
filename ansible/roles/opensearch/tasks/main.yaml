@@ -38,13 +38,18 @@
   when: not stat_result.stat.exists    
 
 - name: copy  opensearch.service opensearch.yml
-  template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ spark_user }} group={{ spark_group }}  mode=0755
+  template: src='{{ item.src }}' dest='{{ item.dest }}'  owner={{ opensearch_user }} group={{ opensearch_group }}  mode=0755
   loop:
      - { src: 'opensearch.service.j2', dest: '/etc/systemd/system/opensearch.service'  }
      - { src: 'opensearch.yml.j2', dest: '{{ opensearch_config }}/opensearch.yml'  }
      - { src: 'jvm.options.j2', dest: '{{ opensearch_config }}/jvm.options'  }
      - { src: 'log4j2.properties.j2', dest: '{{ opensearch_config }}/log4j2.properties'  }
      - { src: 'opensearch.log.j2', dest: '/etc/logrotate.d/opensearch'  }
+  notify: restart opensearch
+
+- name: copy security files 
+  template: src='{{ item.src }}' dest='{{ item.dest }}'  owner={{ opensearch_user }} group={{ opensearch_group }}  mode=0755
+  loop:
      - { src: 'nodes_dn.yml.j2', dest: '{{ opensearch_config }}/nodes_dn.yml'  }
      - { src: 'action_groups.yml.j2', dest: '{{ opensearch_config }}/action_groups.yml'  }
      - { src: 'allowlist.yml.j2', dest: '{{ opensearch_config }}/allowlist.yml'  }
@@ -54,8 +59,8 @@
      - { src: 'roles_mapping.yml.j2', dest: '{{ opensearch_config }}/roles_mapping.yml'  }
      - { src: 'roles.yml.j2', dest: '{{ opensearch_config }}/roles.yml'  }
      - { src: 'tenants.yml.j2', dest: '{{ opensearch_config }}/tenants.yml'  }
+  register: security_files_result     
      #- { src: '', dest: '/etc/opensearch/opensearch.yml'  }
-  notify: restart opensearch
 
 
 - name: Force handler to run now
@@ -81,4 +86,5 @@
     -h {{ hostvars[inventory_hostname]['ansible_host'] }}
   environment:
     JAVA_HOME: "{{ java_home }}"  
+  when: security_files_result.changed    
       #when: inventory_hostname == groups['opensearch'][0]    

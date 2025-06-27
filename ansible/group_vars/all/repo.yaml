@@ -59,7 +59,9 @@ opensource_url: https://artifacts.opensearch.org/releases/bundle/opensearch/{{ l
 opensource_url_filename: opensearch-{{ lookup('env', 'OPENSEARCH') }}-linux-x64.tar.gz 
 opensource_filename: opensearch-{{ lookup('env', 'OPENSEARCH') }}
 
-  
+opensource_dashboards_url: https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/{{ lookup('env', 'OPENSEARCH_DASHBOARD') }}/opensearch-dashboards-{{ lookup('env', 'OPENSEARCH_DASHBOARD') }}-linux-x64.tar.gz  
+opensource_dashboards_url_filename: opensearch-dashboards-{{ lookup('env', 'OPENSEARCH_DASHBOARD') }}-linux-x64.tar.gz
+opensource_dashboards_filename: opensearch-dashboards-{{ lookup('env', 'OPENSEARCH_DASHBOARD') }}
 
 
 ######  

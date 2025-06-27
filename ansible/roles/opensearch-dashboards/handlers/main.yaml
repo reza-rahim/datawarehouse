@@ -1,0 +1,2 @@
+- name: restart opensearch-dashboards
+  service: name=opensearch-dashboards.service  state=restarted enabled=yes
