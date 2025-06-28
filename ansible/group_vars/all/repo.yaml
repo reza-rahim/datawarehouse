@@ -63,6 +63,10 @@ opensource_dashboards_url: https://artifacts.opensearch.org/releases/bundle/open
 opensource_dashboards_url_filename: opensearch-dashboards-{{ lookup('env', 'OPENSEARCH_DASHBOARD') }}-linux-x64.tar.gz
 opensource_dashboards_filename: opensearch-dashboards-{{ lookup('env', 'OPENSEARCH_DASHBOARD') }}
 
+ranger_url: https://downloads.apache.org/ranger/{{ lookup('env', 'RANGER') }}/apache-ranger-{{ lookup('env', 'RANGER') }}.tar.gz  
+ranger_url_filename: apache-ranger-{{ lookup('env', 'RANGER') }}.tar.gz
+ranger_filename: apache-ranger-{{ lookup('env', 'RANGER') }}
+
 
 ######  
 prometheus_url: https://github.com/prometheus/prometheus/releases/download/v{{ lookup('env', 'PROMETHEUS') }}/prometheus-{{ lookup('env', 'PROMETHEUS') }}.darwin-amd64.tar.gz

@@ -1,3 +1,8 @@
+- name: Ensure /tmp/ansible-tmp is writable by all users
+  file:
+     path: /tmp/ansible-tmp
+     state: directory
+     mode: '1777'
 # Copy the journald configuration template to the target system
 - name: Copy journal template files
   template:

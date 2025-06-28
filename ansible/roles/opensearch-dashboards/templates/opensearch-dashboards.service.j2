@@ -13,6 +13,8 @@ User={{ opensearch_user }}
 Group={{ opensearch_group }}
 
 ExecStart={{ opensearch_dashboard_config }}/run_opensearch-dashboards.sh
+Restart=always
+RestartSec=5s
 
 StandardOutput=journal
 StandardError=inherit

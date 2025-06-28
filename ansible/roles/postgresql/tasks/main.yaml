@@ -1,3 +1,204 @@
+- name: Add postgres user to ssl-cert group (required for SSL access)
+  user:
+    name: postgres
+    groups: ssl-cert
+    append: yes
+
+- name: Add PostgreSQL APT key
+  get_url:
+      url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+      dest: /tmp/pg.asc
+
+- name: Import PostgreSQL key
+  shell: |
+      gpg --dearmor < /tmp/pg.asc > /etc/apt/trusted.gpg.d/postgresql.gpg
+  args:
+      creates: /etc/apt/trusted.gpg.d/postgresql.gpg
+
+- name: Add PostgreSQL APT repository
+  apt_repository:
+     repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+     filename: 'pgdg'
+     state: present
+
+- name: Update apt cache
+  apt:
+     update_cache: yes
+
+- name: Install postgresql
+  apt:
+     name:
+        - postgresql-{{ pg_version }}
+        - postgresql-client-16
+- name: Ensure PostgreSQL 16 service is enabled and started
+  systemd:
+    name: postgresql@16-main
+    state: started
+    enabled: yes          
+
+- name: Wait for PostgreSQL to be ready
+  wait_for:
+    port: 5432
+    host: 127.0.0.1
+    delay: 2
+    timeout: 30
+
+- name: Set password for PostgreSQL 'postgres' user (hardcoded)
+  shell: |
+    psql -v ON_ERROR_STOP=1 -c "ALTER USER postgres WITH PASSWORD '{{ db_password }}';"
+  become: yes
+  become_user: postgres
+      
+
+- name: Allow remote access - postgresql.conf
+  template:
+      src: postgresql.conf.j2
+      dest: "{{ pg_conf_path }}/postgresql.conf"
+      owner: postgres
+      group: postgres
+      mode: '0644'
+  notify: Restart PostgreSQL
+
+- name: Allow remote access - pg_hba.conf
+  template:
+     src: pg_hba.conf.j2
+     dest: "{{ pg_conf_path }}/pg_hba.conf"
+     owner: postgres
+     group: postgres
+     mode: '0640'
+  notify: Restart PostgreSQL    
+
+- name: Create hive database
+  postgresql_db:
+    name: "{{ hive_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres    
+
+- name: Create keycloak database
+  postgresql_db:
+    name: "{{ keycloak_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Create jupyterhub database
+  postgresql_db:
+    name: "{{ jupyterhub_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres    
+
+- name: Create airflow database
+  postgresql_db:
+    name: "{{ airflow_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres    
+
+
+- name: Create {{ ranger_db_name }} database
+  postgresql_db:
+    name: "{{ ranger_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: Create superset database
+  postgresql_db:
+    name: "{{ superset_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
+- name: disabled (Grant db user access to app db)
+  postgresql_privs:
+    type: database
+    database: "{{ hive_db_name }}"
+    roles: "{{ db_user }}"
+    grant_option: no
+    privs: all
+  become: yes
+  become_user: "{{ db_user }}"
+  when: false  #  disables the task    
+
+- name: Add {{ db_user }} 'hive' to group {{ fuse_group }}
+  user:
+    name: '{{ db_user }}'
+    groups: '{{ fuse_group }}'
+    append: yes
+    
+
+      #
+##### 
+
+
+
+##### 
+- name: Create read-only user if not exists
+  shell: >
+    psql -U postgres -d postgres -c "DO \$\$ BEGIN
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '{{ db_user_ro }}')
+    THEN CREATE USER {{ db_user_ro }} WITH PASSWORD '{{ db_password_ro }}';
+    END IF; END \$\$;"
+  become: yes
+  become_user: "{{ db_user }}"
+
+- name: Grant USAGE on all schemas for each database
+  shell: >
+    psql -U postgres -d {{ item }} -c "
+    DO \$\$
+    DECLARE
+        schema_name text;
+    BEGIN
+        FOR schema_name IN 
+            SELECT nspname FROM pg_namespace 
+            WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+        LOOP
+            EXECUTE format('GRANT USAGE ON SCHEMA %I TO {{ db_user_ro }}', schema_name);
+        END LOOP;
+    END
+    \$\$;"
+  become: yes
+  become_user: "{{ db_user }}"
+  loop: 
+    - airflow
+    - hive
+    - keycloak   
+    - superset  
+    - ranger  
+
+- name: Grant SELECT on all tables and views to readonly user
+  shell: >
+    psql -U postgres -d {{ item }} -c "
+    DO \$\$
+    DECLARE
+        obj record;
+    BEGIN
+        FOR obj IN
+            SELECT schemaname, tablename FROM pg_tables 
+            WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
+        LOOP
+            EXECUTE format('GRANT SELECT ON TABLE %I.%I TO {{ db_user_ro }}', obj.schemaname, obj.tablename);
+        END LOOP;
+
+        FOR obj IN
+            SELECT schemaname, viewname FROM pg_views 
+            WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
+        LOOP
+            EXECUTE format('GRANT SELECT ON TABLE %I.%I TO {{ db_user_ro }}', obj.schemaname, obj.viewname);
+        END LOOP;
+    END
+    \$\$;"
+  become: yes
+  become_user: "{{ db_user }}"
+  loop: 
+    - airflow
+    - hive
+    - keycloak   
+    - superset  
+
+
 ##### 
 - name: Create read-only user if not exists
   shell: >

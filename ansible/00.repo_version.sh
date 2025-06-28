@@ -63,4 +63,6 @@ export APACHE_AIRFLOW=2.10.4
 export OPENSEARCH=3.0.0
 export OPENSEARCH_DASHBOARD=3.0.0
 
+export RANGER=2.6.0
+
 ###########################

@@ -49,6 +49,7 @@
     - { url: "{{ grafana_url }}" }
     - { url: "{{ opensource_url }}" }
     - { url: "{{ opensource_dashboards_url }}" }
+    - { url: "{{ ranger_url }}" }
 
 # Check if MinIO CLI binary already exists
 - name: Check if MinIO CLI exists

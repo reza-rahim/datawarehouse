@@ -14,6 +14,9 @@ Group={{ opensearch_group }}
 
 ExecStart=/bin/bash -c " export OPENSEARCH_PATH_CONF=/etc/opensearch/;{{ opensearch_dir }}/bin/opensearch -p {{ opensearch_home }}/opensearch.pid -q"
 
+Restart=always
+RestartSec=5s
+
 StandardOutput=journal
 StandardError=inherit
 
