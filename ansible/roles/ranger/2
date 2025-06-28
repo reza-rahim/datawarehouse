@@ -1,0 +1,45 @@
+---
+
+- name: Create ranger directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ ranger_user }}'
+    group: '{{ ranger_group }}'
+    mode: '0755'
+  loop:
+    - '{{ ranger_config_dir }}'
+
+- name: Check that the {{ ranger_dir }} exists
+  stat:
+      path: '{{ ranger_dir }}'
+  register: stat_result
+
+- name : extract {{ ranger_url_filename }} zip
+  unarchive:
+     src: "http://{{ hostvars[groups['repo'][0]]['ansible_host'] }}/download/{{ ranger_url_filename }}"
+     dest: /opt
+     remote_src: true
+     owner: '{{ ranger_user }}'
+     group: '{{ ranger_group }}'
+  when: not stat_result.stat.exists
+
+
+- name: create soft link to {{ ranger_dir   }}
+  file:
+     src: '/opt/{{ ranger_filename }}'
+     dest: '{{ ranger_dir }}'
+     state: link
+     owner: '{{ ranger_user }}'
+     group: '{{ ranger_group }}'
+  when: not stat_result.stat.exists        
+
+- name: copy  opensearch.service opensearch.yml
+  template: src='{{ item.src }}' dest='{{ item.dest }}' owner={{ ranger_user }} group={{ ranger_group }}  mode=0755
+  loop:
+     - { src: 'ranger.service.j2', dest: '/etc/systemd/system/ranger.service'  }  
+  #notify: restart ranger     
+
+- name: Reload service files
+  systemd:
+    daemon_reload: true       
