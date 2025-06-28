@@ -72,3 +72,31 @@
   pip:
     name: psycopg2-binary
     state: present      
+
+## install podman
+- name: Add libcontainers repository key
+  apt_key:
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_22.04/Release.key
+    state: present
+
+- name: Enable libcontainers (podman/buildah) repository
+  apt_repository:
+    repo: "deb {{ podman_repo }} /"
+    state: present
+    filename: libcontainers
+    update_cache: yes
+
+- name: Ensure buildah and podman versions are defined
+  assert:
+    that:
+      - buildah_version is defined
+      - podman_version is defined
+    fail_msg: "Please define buildah_version and podman_version."
+
+- name: Install buildah and podman
+  apt:
+    name:
+      - "buildah={{ buildah_version }}"
+      - "podman={{ podman_version }}"
+    update_cache: yes
+      
