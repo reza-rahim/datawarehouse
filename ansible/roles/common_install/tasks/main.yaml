@@ -98,5 +98,6 @@
     name:
       - "buildah={{ buildah_version }}"
       - "podman={{ podman_version }}"
+      - "qemu-user-static={{ qemu_version }}"  
     update_cache: yes
       

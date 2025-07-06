@@ -5,6 +5,5 @@
     append: yes
     shell: /bin/bash
     password: "*"  # disables password (equivalent to 'passwd -d')
-  loop:
-    - demo
-
+  loop: "{{ users }}"
+     

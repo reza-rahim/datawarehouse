@@ -104,6 +104,13 @@
   become: yes
   become_user: postgres
 
+- name: Create {{ ranger_audit_db_name }} database
+  postgresql_db:
+    name: "{{ ranger_audit_db_name }}"
+    state: present
+  become: yes
+  become_user: postgres
+
 - name: Create superset database
   postgresql_db:
     name: "{{ superset_db_name }}"

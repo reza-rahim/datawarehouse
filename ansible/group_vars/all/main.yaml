@@ -10,3 +10,4 @@ podman_repo: https://download.opensuse.org/repositories/devel:/kubic:/libcontain
 
 buildah_version: "1.23.1+ds1-2"
 podman_version: "3.4.4+ds1-1ubuntu1.22.04.3"
+qemu_version: "1:6.2+dfsg-2ubuntu6.26"
