@@ -8,3 +8,11 @@ chmod 777 /tmp/ranger
 podman run -it -v /tmp/ranger:/tmp/ranger --entrypoint /bin/bash apache/ranger:2.6.0 
 
 ```
+
+```
+## inside docker
+cd
+tar cvf /tmp/ranger/ranger.2.6.0.tar /opt/ranger/
+cp -r scripts /tmp/ranger/
+
+```
