@@ -6,7 +6,7 @@
 
 ```
 
-trino --server=https://trino.dw.felicity.net.bd:7443 --user='' --external-authentication=true
+trino --server=https://trino.dw.felicity.net.bd:7443 --user='' --external-authentication=true --catalog=iceberg
 
 trino --server=https://trino.dw.felicity.net.bd:7443 --user='admin' --password
 trino --server=https://trino.dw.felicity.net.bd:7443 --user='demo' --password
