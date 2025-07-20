@@ -83,3 +83,7 @@ export SPARK_AUTH_SECRET=supersecretkey123
 #export OPENSEARCH_INITIAL_ADMIN_PASSWORD=Opensearch^1
 export OPENSEARCH_ADMIN_PASSWORD=admin
 export OPENSEARCH_KIBANA_PASSWORD=admin
+
+export RANGER_USER=admin
+export RANGER_PASSWORD=rangerR0cks!
+

@@ -24,8 +24,6 @@
     creates: "{{ airflow_venv_path }}/bin/activate"
 
 - name: Install Airflow via pip
-  become: yes
-  become_user: '{{ airflow_user }}'
   pip:
     virtualenv: "{{ airflow_venv_path }}" 
     name: apache-airflow[celery,postgres,redis,auth]=={{ airflow_version }}

@@ -10,7 +10,13 @@ eval "$(/etc/secret/decrypt_secret_eval.sh)";
 journalctl --disk-usage
 journalctl --vacuum-time=1h
 
+
+## SQL
 sudo -u postgres psql
+
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'ranger';
 
 
 lsof -i :9081

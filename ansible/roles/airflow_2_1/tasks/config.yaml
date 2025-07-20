@@ -20,6 +20,12 @@
      {{ airflow_venv_path }}/bin/airflow db migrate
      {{ airflow_venv_path }}/bin/airflow users  create --role Admin --username $AIRFLOW_ADMIN_USERNAME --email admin --firstname admin --lastname admin --password $AIRFLOW_ADMIN_PASSWORD
 
+- name: Install module via pip
+  pip:
+    virtualenv: "{{ airflow_venv_path }}"
+    name:
+      - "pymssql==2.2.7"  
+
 - name: copy  airflowfi dag iles
   template: src='{{ item.src }}' dest='{{ item.dest }}' owner='{{ airflow_user }}'  group='{{ application_group }}' mode=0755
   loop:
