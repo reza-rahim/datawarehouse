@@ -18,7 +18,6 @@ cp -r scripts /tmp/ranger/
 
 ```
 
-```
 #### Trino audit index
 
 ```
