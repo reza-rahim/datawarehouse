@@ -18,22 +18,4 @@ cp -r scripts /tmp/ranger/
 
 ```
 
-#### Trino audit index
 
-```
-curl -X PUT "http://opensearch.dw.felicity.net.bd:9200/ranger_audits_trino" -H 'Content-Type: application/json' -d '{
-  "settings": {
-    "number_of_shards": 1
-  },
-  "mappings": {
-    "properties": {
-      "repo": { "type": "keyword" },
-      "eventTime": { "type": "date" },
-      "access": { "type": "keyword" },
-      "resource": { "type": "text" },
-      "result": { "type": "integer" },
-      "user": { "type": "keyword" }
-    }
-  }
-}'
-```
