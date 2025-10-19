@@ -4,6 +4,8 @@
 <img src="images/component.png" width="800">
 <br>
 
+A DIY Databricks setup using virtual machines in your own data center or Cloud environment.
+
 ## Introduction
 
 In today’s data-centric world, enterprises are increasingly reliant on robust and scalable data infrastructure to derive actionable insights from massive and diverse datasets. This modern data warehouse architecture leverages a powerful combination of open-source technologies to deliver a cloud-native, cost-efficient, and highly performant analytics platform. The components include MinIO (S3), Apache Iceberg, Apache Spark, Hive Metastore, Apache Airflow, Trino, Apache Superset, and Keycloak.
