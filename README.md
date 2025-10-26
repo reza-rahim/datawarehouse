@@ -1,7 +1,7 @@
 # Modern Data Warehouse Architecture Using Open-Source Technologies
 
 <br>
-<img src="images/component.png" width="800">
+<img src="images/component_v1.png" width="800">
 <br>
 
 A DIY Databricks setup using virtual machines in your own data center or Cloud environment.
